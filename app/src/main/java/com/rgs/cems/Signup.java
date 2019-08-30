@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -56,7 +57,7 @@ public class Signup extends AppCompatActivity {
                                         "SignUp unsuccessful: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(Signup.this, Details_choice.class));
+                                startActivity(new Intent(Signup.this, MainActivity.class));
                             }
                         }
                     });
@@ -68,7 +69,7 @@ public class Signup extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent I = new Intent(Signup.this, login.class);
+                Intent I = new Intent(Signup.this, Login.class);
                 startActivity(I);
             }
         });

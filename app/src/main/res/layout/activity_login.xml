@@ -17,6 +17,7 @@
         android:text="CEMS"
         android:textStyle="bold"
         android:textSize="80sp"/>
+
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"

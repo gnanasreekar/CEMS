@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     public EditText login_username, login_password;
     Button button_login;
@@ -40,18 +40,18 @@ public class login extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Toast.makeText(login.this, "User logged in ", Toast.LENGTH_SHORT).show();
-                    Intent I = new Intent(login.this, Details_choice.class);
+                    Toast.makeText(Login.this, "User logged in ", Toast.LENGTH_SHORT).show();
+                    Intent I = new Intent(Login.this, MainActivity.class);
                     startActivity(I);
                 } else {
-                    Toast.makeText(login.this, "Login to continue", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Login to continue", Toast.LENGTH_SHORT).show();
                 }
             }
         };
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent I = new Intent(login.this, Signup.class);
+                Intent I = new Intent(Login.this, Signup.class);
                 startActivity(I);
             }
         });
@@ -67,20 +67,20 @@ public class login extends AppCompatActivity {
                     login_password.setError("Enter Password!");
                     login_password.requestFocus();
                 } else if (userEmail.isEmpty() && userPaswd.isEmpty()) {
-                    Toast.makeText(login.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
                 } else if (!(userEmail.isEmpty() && userPaswd.isEmpty())) {
-                    firebaseAuth.signInWithEmailAndPassword(userEmail, userPaswd).addOnCompleteListener(login.this, new OnCompleteListener<AuthResult>() {
+                    firebaseAuth.signInWithEmailAndPassword(userEmail, userPaswd).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
-                                Toast.makeText(login.this, "Not sucessfull", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Not sucessfull", Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(login.this, Details_choice.class));
+                                startActivity(new Intent(Login.this, MainActivity.class));
                             }
                         }
                     });
                 } else {
-                    Toast.makeText(login.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
                 }
             }
         });
