@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    android:orientation="vertical"
+    tools:context=".Signup">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,11 +17,12 @@
         android:text="CEMS"
         android:textStyle="bold"
         android:textSize="80sp"/>
+
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="@string/user_name"
-        android:id="@+id/username"
+        android:id="@+id/username_signup"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:layout_gravity="center"
@@ -31,8 +32,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:id="@+id/password"
-        android:textColor="@color/black"
+        android:id="@+id/password_signup"
         android:textColorHint="@color/black"
         android:inputType="textPassword"
         android:layout_gravity="center"
@@ -41,10 +41,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/log_in"
+        android:text="@string/sign_up"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:id="@+id/button_login"/>
+        android:id="@+id/button_signup"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,11 +52,10 @@
         android:layout_gravity="center"
         android:clickable="true"
         android:layout_marginTop="20dp"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textColor="@color/black"
-        android:id="@+id/signup"
-        android:text="@string/new_user_register_here"
+        android:id="@+id/signin_signup"
+        android:text="@string/already_have_an_account_sign_in"
         android:focusable="true" />
-
 
 </LinearLayout>
