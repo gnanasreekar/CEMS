@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "73228294573",
+    "firebase_url": "https://cemsvvit.firebaseio.com",
+    "project_id": "cemsvvit",
+    "storage_bucket": "cemsvvit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73228294573:android:0b53cc90910c4a7a",
+        "android_client_info": {
+          "package_name": "com.rgs.cems"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "73228294573-i6o8rd6len18h4vqagvm80cugho6lrii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rgs.cems",
+            "certificate_hash": "b2910785e2285e6fefa6ecbb48d68ca23eb87052"
+          }
+        },
+        {
+          "client_id": "73228294573-vkm0skvgt2arlg3bnrv9839if8ncr53d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNzJLStd2gDEbxRnuHsHWhYeoFXdeBrX0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "73228294573-vkm0skvgt2arlg3bnrv9839if8ncr53d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
