@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Myinfo"
+    tools:showIn="@layout/activity_myinfo"
+    android:background="@color/dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:textColor="@color/colorAccent"
+            android:text="@string/dev_name"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/udacity_capstone_2_project"/>
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/api_provider_newsapi_org"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/used_libraries"
+            android:textSize="20sp"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_1_butterknife_n2_volley_n3_picasso"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/linkdin_www_linkedin_com_in_gnana_sreekar"
+            android:id="@+id/linkdin"
+            android:autoLink="web"
+            android:focusable="true" />
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/github_www_github_com_gnanasreekar"
+            android:id="@+id/github"
+            android:autoLink="web"
+            android:focusable="true" />
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/youtube_www_youtube_com_rgstech"
+            android:id="@+id/youtube"
+            android:autoLink="web"
+            android:focusable="true" />
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_tools) {
 
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.dev_info) {
+            startActivity(new Intent(MainActivity.this,Myinfo.class));
         } else if (id == R.id.nav_send) {
 
         }
@@ -116,11 +116,5 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-
-    public void plot(View view) {
-        Intent I = new Intent(MainActivity.this, AnotherBarActivity.class);
-        startActivity(I);
     }
 }
