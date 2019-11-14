@@ -126,4 +126,5 @@
     <string name="feedback_emal">Email</string>
     <string name="feedback_name">Name</string>
     <string name="campus_energy_monitoring_system_cems">Campus Energy Monitoring System (CEMS)</string>
+    <string name="email">Email</string>
 </resources>

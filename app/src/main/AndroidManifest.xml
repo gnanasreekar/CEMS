@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Auth.Getdetails"></activity>
+        <activity android:name=".ret"></activity>
         <activity
             android:name=".feedback"
             android:label="@string/title_activity_feedback"

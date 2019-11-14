@@ -3,9 +3,12 @@ package com.rgs.cems.Auth;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 
@@ -28,25 +36,55 @@ public class Login extends AppCompatActivity {
     TextView signup;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
+    DatabaseReference databaseReference;
+    static public String fb_name, fb_uid , fb_email;
+    ProgressBar progressBar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setTitle("SignIn");
+        setTitle("LogIn");
+
         firebaseAuth = FirebaseAuth.getInstance();
         login_username = findViewById(R.id.username);
         login_password = findViewById(R.id.password);
         button_login = findViewById(R.id.button_login);
         signup = findViewById(R.id.signup);
+        progressBar = findViewById(R.id.progress);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Toast.makeText(Login.this, "User logged in ", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.VISIBLE);
+                    databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid());
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            fb_name = dataSnapshot.child("Name").getValue().toString();
+                            fb_email = dataSnapshot.child("Email").getValue().toString();
+                            fb_uid = dataSnapshot.child("UID").getValue().toString();
+                            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("uid" , fb_uid);
+                            editor.putString("name" , fb_name);
+                            editor.putString("email" , fb_email);
+                            editor.apply();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.INVISIBLE);
+
                     Intent I = new Intent(Login.this, MainActivity.class);
                     startActivity(I);
                 } else {
@@ -96,6 +134,15 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+        login_password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    //do what you want on the press of 'done'
+                    button_login.performClick();
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -104,4 +151,6 @@ public class Login extends AppCompatActivity {
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
     }
+
+
 }

@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
     Button plot;
+    Button FB;
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = findViewById(R.id.toolbar);
         plot = findViewById(R.id.plot);
         fab = findViewById(R.id.fab);
+        FB = findViewById(R.id.FB);
         navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
@@ -57,6 +59,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        FB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this , ret.class));
+            }
+        });
     }
 
     @Override

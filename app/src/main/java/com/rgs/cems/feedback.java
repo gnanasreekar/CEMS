@@ -31,7 +31,7 @@ public class feedback extends AppCompatActivity {
         feedback = findViewById(R.id.feedback);
         name = findViewById(R.id.feedback_name);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-        uid = sharedPreferences.getString("uid" , null);
+        uid = sharedPreferences.getString("name" , null);
         Toast.makeText(this, uid, Toast.LENGTH_SHORT).show();
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +51,6 @@ public class feedback extends AppCompatActivity {
         databaseReference.child("Email").setValue(email.getText().toString());
         databaseReference.child("Feedback").setValue(feedback.getText().toString());
         Toast.makeText(this, "ThankYou For the feedback"  , Toast.LENGTH_SHORT).show();
-
-
     }
 
 }

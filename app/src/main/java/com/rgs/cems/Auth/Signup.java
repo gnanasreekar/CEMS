@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 
@@ -24,6 +26,7 @@ import com.rgs.cems.R;
 public class Signup extends AppCompatActivity {
     public EditText emailId;
     public EditText password;
+    public EditText username;
     Button buttom_signup;
     TextView signIn;
     FirebaseAuth firebaseAuth;
@@ -34,7 +37,8 @@ public class Signup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         firebaseAuth = FirebaseAuth.getInstance();
-        emailId = findViewById(R.id.username_signup);
+        emailId = findViewById(R.id.email_signup);
+        username = findViewById(R.id.username_signup);
         password = findViewById(R.id.password_signup);
         setTitle("SignUp");
         buttom_signup = findViewById(R.id.button_signup);
@@ -44,6 +48,7 @@ public class Signup extends AppCompatActivity {
             public void onClick(View view) {
                 String emailID = emailId.getText().toString();
                 String paswd = password.getText().toString();
+                final String name = username.getText().toString();
                 if (emailID.isEmpty()) {
                     emailId.setError("Provide your Email first!");
                     emailId.requestFocus();
@@ -65,8 +70,12 @@ public class Signup extends AppCompatActivity {
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("uid" , firebaseAuth.getUid());
-                                Toast.makeText(Signup.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
+                                editor.putString("name" , name);
                                 editor.apply();
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getUid());
+                                databaseReference.child("Name").setValue(username.getText().toString());
+                                databaseReference.child("Email").setValue(emailId.getText().toString());
+                                databaseReference.child("UID").setValue(firebaseAuth.getUid());
                                 startActivity(new Intent(Signup.this, MainActivity.class));
                             }
                         }
