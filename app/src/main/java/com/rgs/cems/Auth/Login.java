@@ -1,18 +1,21 @@
 package com.rgs.cems.Auth;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,7 +41,7 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
     static public String fb_name, fb_uid , fb_email;
-    ProgressBar progressBar;
+
 
 
     @Override
@@ -52,14 +55,14 @@ public class Login extends AppCompatActivity {
         login_password = findViewById(R.id.password);
         button_login = findViewById(R.id.button_login);
         signup = findViewById(R.id.signup);
-        progressBar = findViewById(R.id.progress);
+
+
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    progressBar.setVisibility(View.VISIBLE);
                     databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid());
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -83,7 +86,7 @@ public class Login extends AppCompatActivity {
                     });
 
                     Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.INVISIBLE);
+
 
                     Intent I = new Intent(Login.this, MainActivity.class);
                     startActivity(I);
@@ -147,10 +150,41 @@ public class Login extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Alert")
+                .setMessage("Are you sure you want to quit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
+
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
     }
 
 
+    public void dia(View view) {
+        AlertDialog alertDialog = new AlertDialog.Builder(Login.this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Alert message to be shown");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
 }

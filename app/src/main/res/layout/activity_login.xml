@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_gravity="center"
+        android:onClick="dia"
         android:layout_marginTop="100dp"
         android:textColor="@color/colorAccent"
         android:clickable="true"
@@ -19,12 +20,6 @@
         android:textStyle="bold"
         android:textSize="80sp"/>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/progress"
-        />
 
     <com.google.android.material.textfield.TextInputLayout
 
@@ -41,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/user_name"
+            android:singleLine="true"
             android:textColor="@color/colorAccent"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -62,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:singleLine="true"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorAccent"
             android:hint="@string/password" />

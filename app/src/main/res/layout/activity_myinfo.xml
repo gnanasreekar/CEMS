@@ -55,6 +55,7 @@
         android:layout_gravity="bottom|right"
         android:contentDescription="Feedback"
         android:layout_margin="20dp"
+        android:src="@drawable/ic_feedback_black_24dp"
         android:id="@+id/feedback_myinfo"
         />
 

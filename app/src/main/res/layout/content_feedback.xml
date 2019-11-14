@@ -10,22 +10,14 @@
     android:background="@color/dark"
     tools:showIn="@layout/activity_feedback">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="51dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/colorAccent"
-        android:text="Feedback"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+
 
     <com.google.android.material.textfield.TextInputLayout
 
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="350dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorAccent"
         >
@@ -64,14 +56,14 @@
         android:layout_width="350dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:textColorHint="@color/colorAccent"
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/feedback"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorAccent"
             android:hint="@string/feedback" />

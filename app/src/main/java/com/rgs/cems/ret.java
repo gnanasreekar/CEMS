@@ -35,24 +35,25 @@ public class ret extends AppCompatActivity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(ProgressBar.VISIBLE);
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child("Sreekar");
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String email = dataSnapshot.child("Email").getValue().toString();
-                        String name = dataSnapshot.child("Name").getValue().toString();
-                        tv1.setText(email);
-                        tv2.setText(name);
-                    }
+                        if(dataSnapshot.hasChild("Sreekar")) {
+                            String email = dataSnapshot.child("Email").getValue().toString();
+                            String name = dataSnapshot.child("Name").getValue().toString();
+                            tv1.setText(email);
+                            tv2.setText(name);
+                        }else{
+                            Toast.makeText(ret.this, "No data", Toast.LENGTH_SHORT).show();
+                    }}
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        databaseError.toException();
+                        Toast.makeText(ret.this, "No data", Toast.LENGTH_SHORT).show();
                     }
                 });
-                Toast.makeText(ret.this, "Recived", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(ProgressBar.INVISIBLE);
             }
         });
 

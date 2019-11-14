@@ -1,7 +1,10 @@
 package com.rgs.cems;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     private FirebaseAnalytics mFirebaseAnalytics;
     TextView nav_namec , nav_emailc;
+    private int count = 0;
+    private long startMillis=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +50,6 @@ public class MainActivity extends AppCompatActivity
         FB = findViewById(R.id.FB);
         navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
-        //Displaying names in Nav Bar
-
-
-
 
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        //Displaying names in Nav Bar
         View nav_view = navigationView.getHeaderView(0);
         nav_emailc = nav_view.findViewById(R.id.nav_email);
         nav_namec = nav_view.findViewById(R.id.nav_name);
@@ -90,6 +94,20 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Alert")
+                    .setMessage("Are you sure you want to quit?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+
+                    })
+                    .setNegativeButton("No", null)
+                    .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
             super.onBackPressed();
         }
     }
@@ -124,19 +142,27 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.dev_info) {
+        }  else if (id == R.id.dev_info) {
             startActivity(new Intent(MainActivity.this,Myinfo.class));
         } else if (id == R.id.nav_feedback) {
             startActivity(new Intent(MainActivity.this,feedback.class));
         } else if (id == R.id.nav_signout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(MainActivity.this, Login.class));
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("Alert")
+                    .setMessage("Are you sure you want to SignOut?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseAuth.getInstance().signOut();
+                            startActivity(new Intent(MainActivity.this, Login.class));
+                        }
+
+                    })
+                    .setNegativeButton("No", null)
+                    .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -148,4 +174,17 @@ public class MainActivity extends AppCompatActivity
         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
+
+    static int i = 0;
+
+    public void onClick(View view) {
+        i++;
+        if (i == 5) {
+            Snackbar.make(view, "I Love U❤😍", Snackbar.LENGTH_LONG).show();
+            i = 0;
+
+        }
+    }
+
 }
+

@@ -27,6 +27,16 @@ public class feedback extends AppCompatActivity {
         setContentView(R.layout.activity_feedback);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                finish();
+            }
+        });
+        setTitle("FeedBack");
+
         email = findViewById(R.id.feedback_mail);
         feedback = findViewById(R.id.feedback);
         name = findViewById(R.id.feedback_name);

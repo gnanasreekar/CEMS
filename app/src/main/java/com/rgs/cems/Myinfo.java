@@ -1,10 +1,10 @@
 package com.rgs.cems;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,7 +45,7 @@ public class Myinfo extends AppCompatActivity {
         feedbackMyinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Myinfo.this, "Something", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Myinfo.this,feedback.class));
 
              //   startActivity(new Intent(Myinfo.this,Feedback.class));
             }

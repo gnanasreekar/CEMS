@@ -16,6 +16,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
+        android:onClick="onClick"
         android:textColor="@color/colorAccent"
         android:clickable="true"
         android:text="CEMS"
