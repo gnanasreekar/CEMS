@@ -34,7 +34,7 @@ public class feedback extends AppCompatActivity {
                 finish();
             }
         });
-        setTitle("FeedBack");
+        setTitle("Feedback");
 
         email = findViewById(R.id.feedback_mail);
         feedback = findViewById(R.id.feedback);

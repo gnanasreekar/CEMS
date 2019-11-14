@@ -29,7 +29,6 @@ import com.rgs.cems.Auth.Login;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Toolbar toolbar;
     Button plot;
     Button FB;
     FloatingActionButton fab;
@@ -37,8 +36,7 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     private FirebaseAnalytics mFirebaseAnalytics;
     TextView nav_namec , nav_emailc;
-    private int count = 0;
-    private long startMillis=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +93,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            //Alert dialog to exit
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Alert")
