@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this, "Not Yet done", Toast.LENGTH_SHORT).show();
             return true;
         }
 
@@ -146,7 +148,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this,Myinfo.class));
         } else if (id == R.id.nav_feedback) {
             startActivity(new Intent(MainActivity.this,feedback.class));
-        } else if (id == R.id.nav_signout) {
+        } else if (id == R.id.nav_report) {
+            startActivity(new Intent(MainActivity.this,Report.class));
+        }else if (id == R.id.nav_signout) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Alert")

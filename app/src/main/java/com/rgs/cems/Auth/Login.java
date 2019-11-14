@@ -85,7 +85,7 @@ public class Login extends AppCompatActivity {
                         }
                     });
 
-                    Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show(); //TODO: Remove Toast
 
 
                     Intent I = new Intent(Login.this, MainActivity.class);
@@ -126,7 +126,7 @@ public class Login extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("uid" , firebaseAuth.getUid());
                                 editor.apply();
-                                Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show(); //TODO: Remove Toast
 
                                 startActivity(new Intent(Login.this, MainActivity.class));
                             }

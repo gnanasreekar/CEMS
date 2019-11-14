@@ -14,17 +14,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class feedback extends AppCompatActivity {
-    EditText email;
-    EditText feedback;
-    EditText name;
-    String uid;
+public class Report extends AppCompatActivity {
 
+    EditText report;
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedback);
+        setContentView(R.layout.activity_report);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -34,31 +32,25 @@ public class feedback extends AppCompatActivity {
                 finish();
             }
         });
-        setTitle("FeedBack");
-
-        email = findViewById(R.id.feedback_mail);
-        feedback = findViewById(R.id.feedback);
-        name = findViewById(R.id.feedback_name);
+        report = findViewById(R.id.report);
+        setTitle("Report");
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
         uid = sharedPreferences.getString("name" , null);
-        Toast.makeText(this, uid, Toast.LENGTH_SHORT).show(); //TODO: Remove Toast
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                feedback_todb();
+                report_todb();
                 Snackbar.make(view, "Thanks for your feedback! ;-)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
     }
 
-    public void feedback_todb() {
+    public void report_todb() {
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Feedback/" + uid);
-        databaseReference.child("Name").setValue(name.getText().toString());
-        databaseReference.child("Email").setValue(email.getText().toString());
-        databaseReference.child("Feedback").setValue(feedback.getText().toString());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Report/" + uid);
+        databaseReference.child("Report").setValue(report.getText().toString());
         Toast.makeText(this, "ThankYou For the feedback"  , Toast.LENGTH_SHORT).show();
     }
 

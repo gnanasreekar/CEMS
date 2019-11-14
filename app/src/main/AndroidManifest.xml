@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ret"></activity>
+        <activity
+            android:name=".Report"
+            android:label="@string/title_activity_report"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ret" />
         <activity
             android:name=".feedback"
             android:label="@string/title_activity_feedback"
