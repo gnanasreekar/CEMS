@@ -15,10 +15,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class feedback extends AppCompatActivity {
-    EditText email;
-    EditText feedback;
-    EditText name;
-    String uid;
+    EditText emailet;
+    EditText feedbacket;
+    EditText nameet;
+    String uid,name,email,feedback;
 
 
     @Override
@@ -36,30 +36,53 @@ public class feedback extends AppCompatActivity {
         });
         setTitle("Feedback");
 
-        email = findViewById(R.id.feedback_mail);
-        feedback = findViewById(R.id.feedback);
-        name = findViewById(R.id.feedback_name);
+        emailet = findViewById(R.id.feedback_mail);
+        feedbacket = findViewById(R.id.feedback);
+        nameet = findViewById(R.id.feedback_name);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
         uid = sharedPreferences.getString("name" , null);
         Toast.makeText(this, uid, Toast.LENGTH_SHORT).show(); //TODO: Remove Toast
+
+
+
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                feedback_todb();
-                Snackbar.make(view, "Thanks for your feedback! ;-)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                String name = nameet.getText().toString();
+                String email = emailet.getText().toString();
+                String feedback = feedbacket.getText().toString();
+
+                if (name.isEmpty()) {
+                    nameet.setError("Provide your Name");
+                    nameet.requestFocus();
+                } else if (email.isEmpty()) {
+                    emailet.setError("Provide your Email!");
+                    emailet.requestFocus();
+                } else if (feedback.isEmpty()) {
+                    feedbacket.setError("Fill the Field");
+                    feedbacket.requestFocus();
+                } else {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Feedback/" + uid);
+                    databaseReference.child("Name").setValue(name);
+                    databaseReference.child("Email").setValue(email);
+                    databaseReference.child("Feedback").setValue(feedback);
+                    Snackbar.make(view, "Thanks for your feedback! ;-)", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
     }
 
-    public void feedback_todb() {
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Feedback/" + uid);
-        databaseReference.child("Name").setValue(name.getText().toString());
-        databaseReference.child("Email").setValue(email.getText().toString());
-        databaseReference.child("Feedback").setValue(feedback.getText().toString());
-        Toast.makeText(this, "ThankYou For the feedback"  , Toast.LENGTH_SHORT).show();
-    }
+//    public void feedback_todb() {
+//
+//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Feedback/" + uid);
+//        databaseReference.child("Name").setValue(name);
+//        databaseReference.child("Email").setValue(email);
+//        databaseReference.child("Feedback").setValue(feedback);
+//        Toast.makeText(this, "ThankYou For the feedback"  , Toast.LENGTH_SHORT).show();
+//    }
 
 }

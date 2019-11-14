@@ -65,6 +65,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/colorAccent"
+            android:scrollIndicators="right"
+            android:scrollbars="vertical"
+            android:singleLine="true"
             android:textColorHint="@color/colorAccent"
             android:hint="@string/feedback" />
     </com.google.android.material.textfield.TextInputLayout>

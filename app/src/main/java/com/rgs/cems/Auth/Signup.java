@@ -46,18 +46,23 @@ public class Signup extends AppCompatActivity {
         buttom_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 final String emailID = emailId.getText().toString();
                 String paswd = password.getText().toString();
                 final String name = username.getText().toString();
+
                 if (emailID.isEmpty()) {
                     emailId.setError("Provide your Email first!");
                     emailId.requestFocus();
                 } else if (paswd.isEmpty()) {
                     password.setError("Set your password");
                     password.requestFocus();
-                } else if (emailID.isEmpty() && paswd.isEmpty()) {
+                } else if (name.isEmpty()) {
+                    username.setError("Set your Username");
+                    username.requestFocus();
+                }else if (emailID.isEmpty() && paswd.isEmpty() && name.isEmpty()) {
                     Toast.makeText(Signup.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
-                } else if (!(emailID.isEmpty() && paswd.isEmpty())) {
+                } else if (!(emailID.isEmpty() && paswd.isEmpty() && name.isEmpty())) {
                     firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(Signup.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
