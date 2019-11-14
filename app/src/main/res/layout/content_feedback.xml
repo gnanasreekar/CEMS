@@ -4,38 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark"
     android:orientation="vertical"
-    tools:context=".Auth.Signup">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".feedback"
+    android:background="@color/dark"
+    tools:showIn="@layout/activity_feedback">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:clickable="true"
-        android:text="@string/cems"
+        android:gravity="center"
         android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:textSize="80sp"/>
+        android:text="Feedback"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
 
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="350dp"
         android:layout_gravity="center"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorAccent"
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username_signup"
+            android:id="@+id/feedback_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent"
-            android:hint="@string/user_name" />
+            android:textColor="@color/kindadark"
+            android:textColorHint="@color/kindadark"
+            android:hint="@string/feedback_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -49,34 +50,31 @@
         >
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password_signup"
+            android:id="@+id/feedback_mail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorAccent"
-            android:hint="@string/password" />
+            android:hint="@string/feedback_emal" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_up"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:id="@+id/button_signup"/>
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/colorAccent"
+        >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent"
-        android:id="@+id/signin_signup"
-        android:text="@string/already_have_an_account_sign_in"
-        android:focusable="true" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent"
+            android:hint="@string/feedback" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

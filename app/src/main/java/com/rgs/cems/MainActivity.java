@@ -17,21 +17,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.analytics.FirebaseAnalytics;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.google.firebase.auth.FirebaseAuth;
+import com.rgs.cems.Auth.Login;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.plot)
     Button plot;
-    @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.nav_view)
     NavigationView navView;
-    @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -39,8 +33,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        plot = findViewById(R.id.plot);
+        fab = findViewById(R.id.fab);
+        navView = findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -109,12 +107,20 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.dev_info) {
             startActivity(new Intent(MainActivity.this,Myinfo.class));
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_feedback) {
+            startActivity(new Intent(MainActivity.this,feedback.class));
+        } else if (id == R.id.nav_signout) {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(MainActivity.this, Login.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void plot(View view) {
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 }

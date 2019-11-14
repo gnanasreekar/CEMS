@@ -29,9 +29,22 @@
                 android:icon="@drawable/ic_info_black_24dp"
                 android:title="@string/dev_info" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_feedback"
                 android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:title="@string/feedback" />
+            <item
+                android:id="@+id/nav_report"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Report Issues" />
+        </menu>
+    </item>
+
+    <item android:title="@string/account">
+        <menu>
+            <item
+                android:id="@+id/nav_signout"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="@string/sign_out" />
         </menu>
     </item>
 

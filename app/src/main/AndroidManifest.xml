@@ -9,12 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Auth.Getdetails"></activity>
+        <activity
+            android:name=".feedback"
+            android:label="@string/title_activity_feedback"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Myinfo"
             android:label="@string/title_activity_myinfo"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Signup" />
-        <activity android:name=".Login">
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Auth.Signup" />
+        <activity android:name=".Auth.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

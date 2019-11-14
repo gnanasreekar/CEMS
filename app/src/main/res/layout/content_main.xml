@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
+    android:background="@color/dark"
     android:orientation="vertical"
     tools:showIn="@layout/app_bar_main">
 
@@ -15,7 +16,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorAccent"
         android:clickable="true"
         android:text="CEMS"
         android:textStyle="bold"

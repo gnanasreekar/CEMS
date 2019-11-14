@@ -4,40 +4,22 @@ import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class Myinfo extends AppCompatActivity {
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout toolbarLayout;
-    @BindView(R.id.app_bar)
-    AppBarLayout appBar;
-    @BindView(R.id.linkdin)
-    TextView linkdin;
-    @BindView(R.id.youtube)
-    TextView youtube;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-    @BindView(R.id.feedback_myinfo)
     FloatingActionButton feedbackMyinfo;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
-        ButterKnife.bind(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        feedbackMyinfo = findViewById(R.id.feedback_myinfo);
         setSupportActionBar(toolbar);
         final TextView myClickableUrl =  findViewById(R.id.linkdin);
         myClickableUrl.setText(getString(R.string.lindin));
@@ -63,6 +45,8 @@ public class Myinfo extends AppCompatActivity {
         feedbackMyinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(Myinfo.this, "Something", Toast.LENGTH_SHORT).show();
+
              //   startActivity(new Intent(Myinfo.this,Feedback.class));
             }
         });

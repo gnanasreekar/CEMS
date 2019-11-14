@@ -1,6 +1,7 @@
-package com.rgs.cems;
+package com.rgs.cems.Auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.rgs.cems.MainActivity;
+import com.rgs.cems.R;
 
 
 public class Login extends AppCompatActivity {
@@ -26,15 +29,18 @@ public class Login extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setTitle("SignIn");
         firebaseAuth = FirebaseAuth.getInstance();
         login_username = findViewById(R.id.username);
         login_password = findViewById(R.id.password);
         button_login = findViewById(R.id.button_login);
         signup = findViewById(R.id.signup);
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -75,6 +81,12 @@ public class Login extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(Login.this, "Not sucessfull", Toast.LENGTH_SHORT).show();
                             } else {
+                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("uid" , firebaseAuth.getUid());
+                                editor.apply();
+                                Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
+
                                 startActivity(new Intent(Login.this, MainActivity.class));
                             }
                         }

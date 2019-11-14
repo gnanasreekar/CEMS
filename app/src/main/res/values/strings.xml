@@ -110,8 +110,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="dev_name">Developed by R.Gnana Sreekar</string>
-    <string name="udacity_capstone_2_project">Udacity CapStone--2 Project</string>
-    <string name="api_provider_newsapi_org">API Provider newsapi.org</string>
     <string name="used_libraries">Libraries Used</string>
     <string name="_1_butterknife_n2_volley_n3_picasso">1.ButterKnife  \n2.Volley  \n3.Picasso  \n4.Chrome CustomTabs  \n5.AdMob  \n6.FireBase</string>
     <string name="linkdin_www_linkedin_com_in_gnana_sreekar">Linkdin : www.linkedin.com/in/gnana-sreekar/</string>
@@ -120,4 +118,12 @@
     <string name="yotube">Youtube : www.youtube.com/rgstech</string>
     <string name="dev_info">Dev Info</string>
     <string name="github_www_github_com_gnanasreekar">Github : www.github.com/gnanasreekar</string>
+    <string name="feedback">Feedback</string>
+    <string name="title_activity_feedback">feedback</string>
+    <string name="cems">CEMS</string>
+    <string name="account">Account</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="feedback_emal">Email</string>
+    <string name="feedback_name">Name</string>
+    <string name="campus_energy_monitoring_system_cems">Campus Energy Monitoring System (CEMS)</string>
 </resources>

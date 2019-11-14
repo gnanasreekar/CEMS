@@ -1,7 +1,8 @@
-package com.rgs.cems;
+package com.rgs.cems.Auth;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.rgs.cems.MainActivity;
+import com.rgs.cems.R;
 
 
 public class Signup extends AppCompatActivity {
@@ -25,6 +28,7 @@ public class Signup extends AppCompatActivity {
     TextView signIn;
     FirebaseAuth firebaseAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,7 @@ public class Signup extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         emailId = findViewById(R.id.username_signup);
         password = findViewById(R.id.password_signup);
+        setTitle("SignUp");
         buttom_signup = findViewById(R.id.button_signup);
         signIn = findViewById(R.id.signin_signup);
         buttom_signup.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +62,11 @@ public class Signup extends AppCompatActivity {
                                         "SignUp unsuccessful: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
+                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("uid" , firebaseAuth.getUid());
+                                Toast.makeText(Signup.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show();
+                                editor.apply();
                                 startActivity(new Intent(Signup.this, MainActivity.class));
                             }
                         }

@@ -28,13 +28,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@string/udacity_capstone_2_project"/>
+            android:text="@string/campus_energy_monitoring_system_cems"/>
 
         <TextView
             android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/api_provider_newsapi_org"
+            android:text=""
             android:layout_margin="10dp"/>
 
         <TextView

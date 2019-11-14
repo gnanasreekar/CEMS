@@ -4,40 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="@color/dark"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".Auth.Login">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorAccent"
         android:clickable="true"
         android:text="CEMS"
         android:textStyle="bold"
         android:textSize="80sp"/>
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/user_name"
-        android:id="@+id/username"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"/>
+    <com.google.android.material.textfield.TextInputLayout
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:id="@+id/password"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:inputType="textPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="130dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/colorAccent"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/user_name"
+            android:textColor="@color/colorAccent"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/colorAccent"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent"
+            android:hint="@string/password" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:layout_width="wrap_content"
@@ -54,7 +73,7 @@
         android:clickable="true"
         android:layout_marginTop="20dp"
         android:textSize="20dp"
-        android:textColor="@color/black"
+        android:textColor="@color/colorAccent"
         android:id="@+id/signup"
         android:text="@string/new_user_register_here"
         android:focusable="true" />
