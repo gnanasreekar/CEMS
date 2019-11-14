@@ -18,7 +18,7 @@ public class feedback extends AppCompatActivity {
     EditText emailet;
     EditText feedbacket;
     EditText nameet;
-    String uid,name,email,feedback;
+    String uid;
 
 
     @Override
@@ -54,7 +54,7 @@ public class feedback extends AppCompatActivity {
                 String name = nameet.getText().toString();
                 String email = emailet.getText().toString();
                 String feedback = feedbacket.getText().toString();
-
+                //Checking edit text if its empty
                 if (name.isEmpty()) {
                     nameet.setError("Provide your Name");
                     nameet.requestFocus();
@@ -65,6 +65,7 @@ public class feedback extends AppCompatActivity {
                     feedbacket.setError("Fill the Field");
                     feedbacket.requestFocus();
                 } else {
+                    //Uploding Data to FBDB
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Feedback/" + uid);
                     databaseReference.child("Name").setValue(name);
                     databaseReference.child("Email").setValue(email);
@@ -75,14 +76,4 @@ public class feedback extends AppCompatActivity {
             }
         });
     }
-
-//    public void feedback_todb() {
-//
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Feedback/" + uid);
-//        databaseReference.child("Name").setValue(name);
-//        databaseReference.child("Email").setValue(email);
-//        databaseReference.child("Feedback").setValue(feedback);
-//        Toast.makeText(this, "ThankYou For the feedback"  , Toast.LENGTH_SHORT).show();
-//    }
-
 }

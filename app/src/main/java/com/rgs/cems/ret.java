@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ret extends AppCompatActivity {
+public class ret extends AppCompatActivity { //TODO: Need to del this activity
     private TextView tv1;
     private TextView tv2;
     private Button bt;

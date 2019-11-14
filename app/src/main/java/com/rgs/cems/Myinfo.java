@@ -21,6 +21,7 @@ public class Myinfo extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         feedbackMyinfo = findViewById(R.id.feedback_myinfo);
         setSupportActionBar(toolbar);
+
         final TextView myClickableUrl =  findViewById(R.id.linkdin);
         myClickableUrl.setText(getString(R.string.lindin));
         Linkify.addLinks(myClickableUrl, Linkify.WEB_URLS);
@@ -46,8 +47,6 @@ public class Myinfo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Myinfo.this,feedback.class));
-
-             //   startActivity(new Intent(Myinfo.this,Feedback.class));
             }
         });
     }
