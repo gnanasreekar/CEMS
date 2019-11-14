@@ -46,7 +46,7 @@ public class Signup extends AppCompatActivity {
         buttom_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String emailID = emailId.getText().toString();
+                final String emailID = emailId.getText().toString();
                 String paswd = password.getText().toString();
                 final String name = username.getText().toString();
                 if (emailID.isEmpty()) {
@@ -71,6 +71,7 @@ public class Signup extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("uid" , firebaseAuth.getUid());
                                 editor.putString("name" , name);
+                                editor.putString("email" , emailID);
                                 editor.apply();
                                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getUid());
                                 databaseReference.child("Name").setValue(username.getText().toString());

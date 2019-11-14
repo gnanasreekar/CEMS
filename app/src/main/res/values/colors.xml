@@ -6,5 +6,6 @@
     <color name="black">#000000</color>
     <color name="dark">#424242</color>
     <color name="kindadark">#bdbdbd</color>
+    <color name="kindablue">#87ceeb</color>
 
 </resources>

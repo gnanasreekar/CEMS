@@ -1,11 +1,13 @@
 package com.rgs.cems;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity
     NavigationView navView;
     DrawerLayout drawerLayout;
     private FirebaseAnalytics mFirebaseAnalytics;
+    TextView nav_namec , nav_emailc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,11 @@ public class MainActivity extends AppCompatActivity
         FB = findViewById(R.id.FB);
         navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
+        //Displaying names in Nav Bar
+
+
+
+
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +60,15 @@ public class MainActivity extends AppCompatActivity
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        View nav_view = navigationView.getHeaderView(0);
+        nav_emailc = nav_view.findViewById(R.id.nav_email);
+        nav_namec = nav_view.findViewById(R.id.nav_name);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+        String temp1 = sharedPreferences.getString("name" , null);
+        String temp2 =sharedPreferences.getString("email" , null);
+        nav_namec.setText(temp1);
+        nav_emailc.setText(temp2);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
