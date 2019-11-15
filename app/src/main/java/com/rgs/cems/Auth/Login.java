@@ -151,6 +151,18 @@ public class Login extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+
+//        Snackbar.make(findViewById(android.R.id.content), "Are you sure you want to quit?", Snackbar.LENGTH_LONG)
+//                .setAction("Yes", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        finish();
+//                        Toast.makeText(Login.this, "cool", Toast.LENGTH_LONG).show();
+//                    }
+//                }).show();
+
+
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Alert")
@@ -174,17 +186,4 @@ public class Login extends AppCompatActivity {
         firebaseAuth.addAuthStateListener(authStateListener);
     }
 
-
-    public void dia(View view) {
-        AlertDialog alertDialog = new AlertDialog.Builder(Login.this).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("Alert message to be shown");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
 }

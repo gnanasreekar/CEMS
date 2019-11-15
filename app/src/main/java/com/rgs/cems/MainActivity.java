@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawerLayout;
     private FirebaseAnalytics mFirebaseAnalytics;
     TextView nav_namec , nav_emailc;
+    View view;
 
 
     @Override
@@ -94,20 +95,22 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             //Alert dialog to exit
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("Alert")
-                    .setMessage("Are you sure you want to quit?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-
-                    })
-                    .setNegativeButton("No", null)
-                    .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
+            Snackbar.make(view , "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+//            new AlertDialog.Builder(this)
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .setTitle("Alert")
+//                    .setMessage("Are you sure you want to quit?")
+//                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+//                    {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            finish();
+//                        }
+//
+//                    })
+//                    .setNegativeButton("No", null)
+//                    .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
             super.onBackPressed();
         }
     }
