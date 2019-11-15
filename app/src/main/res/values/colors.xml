@@ -7,5 +7,12 @@
     <color name="dark">#424242</color>
     <color name="kindadark">#bdbdbd</color>
     <color name="kindablue">#87ceeb</color>
+    <color name="grey_90">#263238</color> //TODO
+    <color name="grey_60">#666666</color>
+    <color name="overlay_light_40">#66FFFFFF</color>
+    <color name="grey_10">#e6e6e6</color>
+    <color name="amber_600">#FFB300</color>
+    <color name="grey_80">#37474F</color>
+    <color name="grey_40">#999999</color>
 
 </resources>

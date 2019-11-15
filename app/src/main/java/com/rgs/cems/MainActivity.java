@@ -23,7 +23,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rgs.cems.Auth.Login;
 
@@ -34,7 +33,6 @@ public class MainActivity extends AppCompatActivity
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    private FirebaseAnalytics mFirebaseAnalytics;
     TextView nav_namec , nav_emailc;
     View view;
 
@@ -78,8 +76,6 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         FB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +143,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         }  else if (id == R.id.dev_info) {
-            startActivity(new Intent(MainActivity.this,Myinfo.class));
+            startActivity(new Intent(MainActivity.this,About.class));
         } else if (id == R.id.nav_feedback) {
             startActivity(new Intent(MainActivity.this,feedback.class));
         } else if (id == R.id.nav_report) {
