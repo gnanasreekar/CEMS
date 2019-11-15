@@ -8,7 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
 
+
+    </style>
+
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">#fff</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+
+    <style name="generalnotitle" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="EditText.Grey" parent="@style/AppTheme">
+        <item name="colorControlActivated">@color/grey_60</item>
+        <item name="colorControlHighlight">@color/grey_60</item>
+        <item name="colorControlNormal">@color/grey_40</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

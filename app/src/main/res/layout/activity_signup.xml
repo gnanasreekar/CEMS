@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
     tools:context=".Auth.Signup">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="80dp"
+        android:layout_width="212dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="100dp"
         android:clickable="true"
-        android:text="@string/cems"
+        android:text="Create an
+        Account"
         android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        android:textSize="80sp"/>
-
+        android:textSize="40sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
 
@@ -35,9 +35,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:drawableLeft="@drawable/ic_person_outline_black_24dp"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorAccent"
-            android:hint="@string/user_name" />
+            android:drawablePadding="10dp"
+            android:hint="@string/user_nameaaa" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -54,6 +56,8 @@
             android:id="@+id/email_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+            android:drawablePadding="10dp"
             android:hint="@string/email"
             android:singleLine="true"
             android:textColor="@color/colorAccent"
@@ -76,6 +80,8 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:textColor="@color/colorAccent"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
             android:singleLine="true"
             android:textColorHint="@color/colorAccent"
             android:hint="@string/password" />
@@ -83,23 +89,43 @@
 
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
+        android:background="@drawable/btn_rounded_orange"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         android:id="@+id/button_signup"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp"
-        android:textColor="@color/colorAccent"
-        android:id="@+id/signin_signup"
-        android:text="@string/already_have_an_account_sign_in"
-        android:focusable="true" />
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already have an account?"
+            android:textSize="20sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/blue_grey_300" />
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:id="@+id/signin_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:textSize="22sp"
+            android:text="Log in"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

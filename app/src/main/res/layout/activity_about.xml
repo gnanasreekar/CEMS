@@ -39,7 +39,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="2dp"
+                app:cardCornerRadius="6dp"
                 app:cardElevation="2dp"
                 app:cardUseCompatPadding="true">
 
@@ -147,7 +147,6 @@
                                 android:textColor="@color/grey_40" />
 
                         </LinearLayout>
-
 
                     </LinearLayout>
 
@@ -280,7 +279,7 @@
                             android:layout_height="50dp"
                             android:src="@mipmap/ic_rgs_round"
                             app:civ_border_color="#EEEEEE"
-                            app:civ_border_width="4dp"
+                            app:civ_border_width="1dp"
                             app:civ_shadow="true"
                             app:civ_shadow_color="#8BC34A"
                             app:civ_shadow_radius="1" />

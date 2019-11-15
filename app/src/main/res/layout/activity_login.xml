@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@color/dark"
+    android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent"
     tools:context=".Auth.Login">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:onClick="dia"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="100dp"
-        android:textColor="@color/colorAccent"
         android:clickable="true"
-        android:text="CEMS"
-        android:textStyle="bold"
-        android:textSize="80sp"/>
+        android:text="Log In"
+        android:textColor="@color/colorAccent"
+        android:textSize="40sp"
+        android:textStyle="bold" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -35,6 +34,8 @@
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:hint="@string/user_name"
             android:singleLine="true"
             android:textColor="@color/colorAccent"
@@ -59,30 +60,53 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:singleLine="true"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorAccent"
             android:hint="@string/password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="@string/log_in"
+        android:background="@drawable/btn_rounded_orange"
         android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
         android:layout_marginTop="40dp"
         android:id="@+id/button_login"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"
-        android:textColor="@color/colorAccent"
-        android:id="@+id/signup"
-        android:text="@string/new_user_register_here"
-        android:focusable="true" />
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New user? "
+            android:textSize="20sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/blue_grey_300" />
+
+        <TextView
+            android:id="@+id/signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginLeft="10dp"
+            android:text="Sign Up"
+            android:textSize="22sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
 
 
 </LinearLayout>
