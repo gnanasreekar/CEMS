@@ -119,7 +119,6 @@
     <string name="github_www_github_com_gnanasreekar">Github : www.github.com/gnanasreekar</string>
     <string name="feedback">Feedback</string>
     <string name="title_activity_feedback">feedback</string>
-    <string name="cems">CEMS</string>
     <string name="account">Account</string>
     <string name="sign_out">Sign Out</string>
     <string name="feedback_emal">Email</string>
@@ -128,4 +127,19 @@
     <string name="email">Email</string>
     <string name="title_activity_report">Report</string>
     <string name="enter_report_here">Enter Report Here</string>
+    <string name="gopi">Gopi</string>
+    <string name="android_developer">Android Developer</string>
+    <string name="web_developer_backend">Web Developer, Backend</string>
+    <string name="web_developer">Web Developer</string>
+    <string name="sai_sumanth">Sai Sumanth</string>
+    <string name="vivek_kolasani">Vivek Kolasani</string>
+    <string name="lanka_mounica">Lanka Mounica</string>
+    <string name="gnana_sreekar">Gnana Sreekar</string>
+    <string name="developers">Developers</string>
+    <string name="license">License</string>
+    <string name="changelog">Changelog</string>
+    <string name="_1_0">1.0</string>
+    <string name="version">Version</string>
+    <string name="u0040vvit">\@vvit</string>
+    <string name="cems">CEMS</string>
 </resources>
