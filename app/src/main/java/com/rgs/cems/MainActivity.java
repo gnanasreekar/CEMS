@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void plot(View view) {
-        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        Snackbar.make(view, "Not yet done", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
