@@ -25,7 +25,7 @@
     <color name="purple_A700">#6200EA</color>
     <color name="orange_600">#FB8C00</color>
     <color name="orange_500">#FF9800</color>
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FF9800</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FF9800</color>    //Textinput outline colour
     <color name="green">#9CCC65</color>
     <color name="light_green_600">#7CB342</color>
     <color name="light_green_500">#8BC34A</color>

@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        NavigationView navigationView = findViewById(R.id.nav_view);
 
         //Displaying names in Nav Bar
-        View nav_view = navigationView.getHeaderView(0);
+        View nav_view = navView.getHeaderView(0);
         nav_emailc = nav_view.findViewById(R.id.nav_email);
         nav_namec = nav_view.findViewById(R.id.nav_name);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
@@ -80,10 +80,10 @@ public class MainActivity extends AppCompatActivity
         nav_emailc.setText(temp2);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+        navView.setNavigationItemSelectedListener(this);
 
         if(isNetworkAvailable()){
             Log.d("hehehehe" , "net");
@@ -220,16 +220,7 @@ public class MainActivity extends AppCompatActivity
                 .setAction("Action", null).show();
     }
 
-    static int i = 0;
 
-    public void onClick(View view) {
-        i++;
-        if (i == 5) {
-            Snackbar.make(view, "I Love U❤😍", Snackbar.LENGTH_LONG).show();
-            i = 0;
-
-        }
-    }
 
     //TODO: Make this work
     public void showaccountcreatedDialog() {

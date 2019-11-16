@@ -27,7 +27,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 
 
@@ -91,9 +90,7 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("Name").setValue(username.getText().toString());
                                 databaseReference.child("Email").setValue(emailId.getText().toString());
                                 databaseReference.child("UID").setValue(firebaseAuth.getUid());
-                                
-                                startActivity( new Intent(Signup.this, MainActivity.class));
-
+                                Log.d("signup" , "YYYYYYYYYYYYYYYY");
                             }
                         }
                     });
@@ -149,6 +146,32 @@ public class Signup extends AppCompatActivity {
         dialog.getWindow().setAttributes(lp);
     }
 
+    //TODO: Make this work
+    public void showaccountcreatedDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.acc_confirmed);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Signup.this, "ITS pmONNNN", Toast.LENGTH_SHORT).show();
+                Log.d("invoked" , "Itsnnn");
+              //  startActivity( new Intent(Signup.this, MainActivity.class));
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
 
 }
 

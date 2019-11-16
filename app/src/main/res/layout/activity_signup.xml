@@ -14,11 +14,12 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="100dp"
         android:clickable="true"
-        android:text="Create an
-        Account"
+        android:text="@string/create_an_account"
         android:textColor="@color/colorAccent"
         android:textSize="40sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginStart="30dp"
+        android:focusable="true" />
 
     <com.google.android.material.textfield.TextInputLayout
 

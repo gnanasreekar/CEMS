@@ -15,11 +15,11 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:onClick="onClick"
         android:textColor="@color/colorAccent"
         android:clickable="true"
-        android:text="CEMS"
+        android:text="@string/cems"
         android:textStyle="bold"
-        android:textSize="80sp"/>
+        android:textSize="80sp"
+        android:focusable="true" />
 
 </LinearLayout>
