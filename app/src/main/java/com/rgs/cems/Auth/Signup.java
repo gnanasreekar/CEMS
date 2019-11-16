@@ -60,15 +60,15 @@ public class Signup extends AppCompatActivity {
                 final String name = username.getText().toString();
 
                 if (emailID.isEmpty()) {
+                    username.setError("Set your Username");
+                    username.requestFocus();
+                } else if (name.isEmpty()) {
                     emailId.setError("Provide your Email first!");
                     emailId.requestFocus();
                 } else if (paswd.isEmpty()) {
                     password.setError("Set your password");
                     password.requestFocus();
-                } else if (name.isEmpty()) {
-                    username.setError("Set your Username");
-                    username.requestFocus();
-                }else if (emailID.isEmpty() && paswd.isEmpty() && name.isEmpty()) {
+                } else if (emailID.isEmpty() && paswd.isEmpty() && name.isEmpty()) {
                     Toast.makeText(Signup.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
                 } else if (!(emailID.isEmpty() && paswd.isEmpty() && name.isEmpty())) {
                     firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(Signup.this, new OnCompleteListener<AuthResult>() {
@@ -91,6 +91,7 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("Email").setValue(emailId.getText().toString());
                                 databaseReference.child("UID").setValue(firebaseAuth.getUid());
                                 //TODO: The place where intent should be placed
+                                showaccountcreatedDialog();
                                 Log.d("signup" , "YYYYYYYYYYYYYYYY");
                             }
                         }

@@ -2,11 +2,8 @@ package com.rgs.cems;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
@@ -134,9 +130,9 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             //Alert dialog to exit
-            Snackbar.make(view , "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-//            new AlertDialog.Builder(this)
+//            Snackbar.make(view , "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
+//            new AlertDialog.Builder(MainActivity.this)
 //                    .setIcon(android.R.drawable.ic_dialog_alert)
 //                    .setTitle("Alert")
 //                    .setMessage("Are you sure you want to quit?")
@@ -192,21 +188,22 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_report) {
             startActivity(new Intent(MainActivity.this,Report.class));
         }else if (id == R.id.nav_signout) {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("Alert")
-                    .setMessage("Are you sure you want to SignOut?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                    {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            FirebaseAuth.getInstance().signOut();
-                            startActivity(new Intent(MainActivity.this, Login.class));
-                        }
-
-                    })
-                    .setNegativeButton("No", null)
-                    .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
+            showsignoutDialog();
+//            new AlertDialog.Builder(this)
+//                    .setIcon(android.R.drawable.ic_dialog_alert)
+//                    .setTitle("Alert")
+//                    .setMessage("Are you sure you want to SignOut?")
+//                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+//                    {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            FirebaseAuth.getInstance().signOut();
+//                            startActivity(new Intent(MainActivity.this, Login.class));
+//                        }
+//
+//                    })
+//                    .setNegativeButton("No", null)
+//                    .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
 
         }
 
@@ -214,13 +211,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public void plot(View view) {
-        Snackbar.make(view, "Not yet done", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-    }
-
-
 
     //TODO: Make this work
     public void showaccountcreatedDialog() {
@@ -235,7 +225,7 @@ public class MainActivity extends AppCompatActivity
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
 
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -245,6 +235,33 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
+
+    public void showsignoutDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.signout);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, Login.class));
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+
 
 
 }
