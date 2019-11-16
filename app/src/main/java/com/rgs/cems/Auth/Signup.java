@@ -90,6 +90,7 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("Name").setValue(username.getText().toString());
                                 databaseReference.child("Email").setValue(emailId.getText().toString());
                                 databaseReference.child("UID").setValue(firebaseAuth.getUid());
+                                //TODO: The place where intent should be placed
                                 Log.d("signup" , "YYYYYYYYYYYYYYYY");
                             }
                         }
