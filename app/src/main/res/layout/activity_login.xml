@@ -14,9 +14,18 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="100dp"
         android:clickable="true"
-        android:text="Log In"
+        android:text="Welcome Back,"
         android:textColor="@color/colorAccent"
         android:textSize="40sp"
+        android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:clickable="true"
+        android:text="Sign In to continue"
+        android:textColor="@color/grey_60"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
 

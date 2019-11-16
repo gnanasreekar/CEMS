@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
-    android:background="@color/dark"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
     tools:showIn="@layout/app_bar_main">
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,21 +21,5 @@
         android:text="CEMS"
         android:textStyle="bold"
         android:textSize="80sp"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Plot"
-        android:onClick="plot"
-        android:id="@+id/plot"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="FB"
-        android:onClick="plot"
-        android:id="@+id/FB"/>
-
 
 </LinearLayout>

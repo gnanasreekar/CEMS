@@ -91,7 +91,9 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("Name").setValue(username.getText().toString());
                                 databaseReference.child("Email").setValue(emailId.getText().toString());
                                 databaseReference.child("UID").setValue(firebaseAuth.getUid());
-                                startActivity(new Intent(Signup.this, MainActivity.class));
+                                
+                                startActivity( new Intent(Signup.this, MainActivity.class));
+
                             }
                         }
                     });
@@ -146,6 +148,7 @@ public class Signup extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
+
 
 }
 

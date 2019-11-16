@@ -85,6 +85,9 @@ public class Login extends AppCompatActivity {
                             editor.putString("name" , fb_name);
                             editor.putString("email" , fb_email);
                             editor.apply();
+                            Log.d("firebase" , fb_name);
+                            Log.d("firebase2" , fb_email);
+                            Log.d("firebase3" , fb_uid);
                         }
 
                         @Override

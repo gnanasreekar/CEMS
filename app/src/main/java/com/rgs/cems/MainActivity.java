@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +35,13 @@ import com.rgs.cems.Auth.Login;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Button plot;
-    Button FB;
+
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
     TextView nav_namec , nav_emailc;
     View view;
+    static Context context;
 
 
     @Override
@@ -51,9 +50,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar = findViewById(R.id.toolbar);
-        plot = findViewById(R.id.plot);
+        setTitle("");
         fab = findViewById(R.id.fab);
-        FB = findViewById(R.id.FB);
         navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
 
@@ -76,6 +74,8 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
         String temp1 = sharedPreferences.getString("name" , null);
         String temp2 =sharedPreferences.getString("email" , null);
+        Log.d("firebasemain" , temp1);
+        Log.d("firebasemain2" , temp2);
         nav_namec.setText(temp1);
         nav_emailc.setText(temp2);
 
@@ -84,12 +84,6 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-        FB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this , ret.class));
-            }
-        });
 
         if(isNetworkAvailable()){
             Log.d("hehehehe" , "net");
@@ -97,6 +91,8 @@ public class MainActivity extends AppCompatActivity
             showCustomDialog();
             Log.d("hehehehe" , "nonet");
         }
+
+
     }
 
     //Checking for internet
@@ -234,6 +230,31 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+
+    //TODO: Make this work
+    public void showaccountcreatedDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.acc_confirmed);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
 
 }
 
