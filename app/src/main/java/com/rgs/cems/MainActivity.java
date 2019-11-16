@@ -189,22 +189,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this,Report.class));
         }else if (id == R.id.nav_signout) {
             showsignoutDialog();
-//            new AlertDialog.Builder(this)
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .setTitle("Alert")
-//                    .setMessage("Are you sure you want to SignOut?")
-//                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-//                    {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            FirebaseAuth.getInstance().signOut();
-//                            startActivity(new Intent(MainActivity.this, Login.class));
-//                        }
-//
-//                    })
-//                    .setNegativeButton("No", null)
-//                    .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
-
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
