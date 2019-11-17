@@ -47,7 +47,7 @@ public class About extends AppCompatActivity {
         linkedin_rgs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.linkedin.com/in/gnana-sreekar/")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/gnana-sreekar/")));
             }
         });
 
@@ -76,7 +76,7 @@ public class About extends AppCompatActivity {
         linkedin_mounica.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.linkedin.com/in/lanka-mounica-37a946178/")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/lanka-mounica-37a946178/")));
             }
         });
 
@@ -105,7 +105,7 @@ public class About extends AppCompatActivity {
         linkedin_vk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.linkedin.com/in/krishna-vivek-kolasani-74b2a715a/")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/krishna-vivek-kolasani-74b2a715a/")));
             }
         });
 
@@ -116,6 +116,64 @@ public class About extends AppCompatActivity {
             public void onClick(View v) {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                         "mailto","vivekkolasani45@gmail.com", null));
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+            }
+        });
+
+        //Github_sumanth
+        ImageView github_sumanth = findViewById(R.id.github_sunny);
+        github_sumanth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.github.com/Vivek-Kolasani"))); //TODO: sunny github
+            }
+        });
+
+        //Linkedin_sumant
+        ImageView linkedin_sumanth = findViewById(R.id.linkedin_sunny);
+        linkedin_sumanth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/sunny-sumanth-571236152/")));
+            }
+        });
+
+        //Mail_sumanth
+        ImageButton mail_sumanth = findViewById(R.id.mail_sunny);
+        mail_sumanth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto","Saisumanth532@gmail.com", null));
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+            }
+        });
+
+        //Github_sumanth
+        ImageView github_gopi = findViewById(R.id.github_gp);
+        github_gopi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.github.com/Vivek-Kolasani"))); //TODO: gopi github
+            }
+        });
+
+        //Linkedin_sumant
+        ImageView linkedin_gopi = findViewById(R.id.linkedin_gp);
+        linkedin_gopi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/sunny-sumanth-571236152/")));  //TODO: gopi linkedin
+            }
+        });
+
+        //Mail_sumanth
+        ImageButton mail_gopi = findViewById(R.id.mail_gp);     //TODO: gopi mail
+        mail_gopi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto","Saisumanth532@gmail.com", null));
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
             }
         });
