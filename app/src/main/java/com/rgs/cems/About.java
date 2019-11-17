@@ -62,6 +62,64 @@ public class About extends AppCompatActivity {
             }
         });
 
+        //Github_M
+        ImageView github_mounica = findViewById(R.id.github_lm);
+        github_mounica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.github.com/LankaMounica")));
+            }
+        });
+
+        //Linkedin_mounica
+        ImageView linkedin_mounica = findViewById(R.id.linkedin_lm);
+        linkedin_mounica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.linkedin.com/in/lanka-mounica-37a946178/")));
+            }
+        });
+
+        //Mail_rgs
+        ImageButton mail_mounica = findViewById(R.id.mail_lm);
+        mail_mounica.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto","lankamounica@pm.me", null));
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+            }
+        });
+
+        //Github_VK
+        ImageView github_vk = findViewById(R.id.github_vk);
+        github_vk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.github.com/Vivek-Kolasani")));
+            }
+        });
+
+        //Linkedin_mounica
+        ImageView linkedin_vk = findViewById(R.id.linkedin_vk);
+        linkedin_vk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.linkedin.com/in/krishna-vivek-kolasani-74b2a715a/")));
+            }
+        });
+
+        //Mail_rgs
+        ImageButton mail_vk = findViewById(R.id.mail_vk);
+        mail_vk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto","vivekkolasani45@gmail.com", null));
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+            }
+        });
+
     }
 
 
