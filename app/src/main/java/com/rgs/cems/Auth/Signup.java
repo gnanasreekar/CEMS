@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -28,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.R;
+
+import java.util.Date;
 
 
 public class Signup extends AppCompatActivity {
@@ -68,18 +71,19 @@ public class Signup extends AppCompatActivity {
                 } else if (paswd.isEmpty()) {
                     password.setError("Set your password");
                     password.requestFocus();
-                } else if (emailID.isEmpty() && paswd.isEmpty() && name.isEmpty()) {
-                    Toast.makeText(Signup.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
                 } else if (!(emailID.isEmpty() && paswd.isEmpty() && name.isEmpty())) {
                     firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(Signup.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
                             if (!task.isSuccessful()) {
                                 Toast.makeText(Signup.this.getApplicationContext(),
                                         "SignUp unsuccessful: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
+
+                                Date d = new Date();
+                                CharSequence s  = DateFormat.format("MMMM d, yyyy ", d.getTime());
+
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("uid" , firebaseAuth.getUid());
@@ -87,9 +91,12 @@ public class Signup extends AppCompatActivity {
                                 editor.putString("email" , emailID);
                                 editor.apply();
                                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getUid());
-                                databaseReference.child("Name").setValue(username.getText().toString());
-                                databaseReference.child("Email").setValue(emailId.getText().toString());
+                                databaseReference.child("Name").setValue(name);
+                                databaseReference.child("Email").setValue(emailID);
                                 databaseReference.child("UID").setValue(firebaseAuth.getUid());
+                                databaseReference.child("Date").setValue(s);
+                                databaseReference.child("V1").setValue(0);
+                                databaseReference.child("V2").setValue(0);
                                 //TODO: The place where intent should be placed
                                 showaccountcreatedDialog();
                                 Log.d("signup" , "YYYYYYYYYYYYYYYY");
@@ -104,8 +111,7 @@ public class Signup extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent I = new Intent(Signup.this, Login.class);
-                startActivity(I);
+                startActivity(new Intent(Signup.this, Login.class));
             }
         });
 

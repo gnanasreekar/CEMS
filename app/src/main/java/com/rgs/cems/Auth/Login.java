@@ -54,6 +54,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         login_username = findViewById(R.id.username);
         login_password = findViewById(R.id.password);
@@ -160,7 +161,6 @@ public class Login extends AppCompatActivity {
             showCustomDialog();
             Log.d("hehehehe" , "nonet");
         }
-
     }
 
     private boolean isNetworkAvailable() {

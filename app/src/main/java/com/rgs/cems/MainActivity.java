@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,16 +30,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rgs.cems.Auth.Login;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
     TextView nav_namec , nav_emailc;
-    View view;
-    static Context context;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        NavigationView navigationView = findViewById(R.id.nav_view);
 
         //Displaying names in Nav Bar
         View nav_view = navView.getHeaderView(0);
@@ -88,6 +86,20 @@ public class MainActivity extends AppCompatActivity
             Log.d("hehehehe" , "nonet");
         }
 
+        Date d = new Date();
+        CharSequence s  = DateFormat.format("dd MM yyyy ", d.getTime());
+        SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
+        String dateBeforeString = "26 12 2018";
+        String dateAfterString = (String) s;
+        try {
+            Date dateBefore = myFormat.parse(dateBeforeString);
+            Date dateAfter = myFormat.parse(dateAfterString);
+            long difference = dateAfter.getTime() - dateBefore.getTime();
+            float daysBetween = (difference / (1000*60*60*24));
+            Log.d("Datebw" ,"Number of Days between dates: "+daysBetween );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -244,6 +256,8 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
+
+
 
 
 
