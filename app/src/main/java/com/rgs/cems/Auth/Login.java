@@ -68,6 +68,8 @@ public class Login extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+
+                    //Getting data from Firebase Database
                     databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid());
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -92,10 +94,7 @@ public class Login extends AppCompatActivity {
 
                         }
                     });
-
                     Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show(); //TODO: Remove Toast
-
-
                     Intent I = new Intent(Login.this, MainActivity.class);
                     startActivity(I);
                 } else {
@@ -130,12 +129,13 @@ public class Login extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(Login.this, "Not sucessfull", Toast.LENGTH_SHORT).show();
                             } else {
+
+                                //Storing data to display in the Nav bar and in the app
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("uid" , firebaseAuth.getUid());
                                 editor.apply();
                                 Toast.makeText(Login.this, firebaseAuth.getUid(), Toast.LENGTH_SHORT).show(); //TODO: Remove Toast
-
                                 startActivity(new Intent(Login.this, MainActivity.class));
                             }
                         }
@@ -155,6 +155,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        //For interent dialog
         if(isNetworkAvailable()){
             Log.d("hehehehe" , "net");
         } else {
@@ -163,6 +164,7 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    //To check if internet is avaliable or no
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -170,6 +172,7 @@ public class Login extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    //No internet Dialog
     private void showCustomDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -205,6 +208,7 @@ public class Login extends AppCompatActivity {
         firebaseAuth.addAuthStateListener(authStateListener);
     }
 
+    //Exit Dialog
     private void showexitDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before

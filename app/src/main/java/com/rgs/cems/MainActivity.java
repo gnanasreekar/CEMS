@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navView;
     DrawerLayout drawerLayout;
     TextView nav_namec , nav_emailc;
+    int dpb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +80,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navView.setNavigationItemSelectedListener(this);
 
+        //Checking for Internet
         if(isNetworkAvailable()){
-            Log.d("hehehehe" , "net");
+            Log.d("Internet Status" , "net");
         } else {
             showCustomDialog();
-            Log.d("hehehehe" , "nonet");
+            Log.d("Internet Status" , "nonet");
         }
 
+        //DPBdialoginfo
         Date d = new Date();
         CharSequence s  = DateFormat.format("dd MM yyyy ", d.getTime());
         SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
@@ -96,7 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Date dateAfter = myFormat.parse(dateAfterString);
             long difference = dateAfter.getTime() - dateBefore.getTime();
             float daysBetween = (difference / (1000*60*60*24));
-            Log.d("Datebw" ,"Number of Days between dates: "+daysBetween );
+            dpb = (int) daysBetween;
+            Log.d("Datebw" , String.valueOf(dpb));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -111,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    //No internet dialog
     private void showCustomDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -141,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+
+            //TODO: not working
             //Alert dialog to exit
 //            Snackbar.make(view , "Replace with your own action", Snackbar.LENGTH_LONG)
 //                    .setAction("Action", null).show();
@@ -202,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if (id == R.id.nav_signout) {
             showsignoutDialog();
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -257,10 +263,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.getWindow().setAttributes(lp);
     }
 
+    static int i = 0;
+    public void onClick(View view) {
+        i++;
+        if (i == 5) {
+            ///showdpbDialog();
+            Toast.makeText(this, "Works", Toast.LENGTH_SHORT).show();
+            i = 0;
+        }
+    }
 
-
-
-
-
+    //SPBdialog goes here
 }
 

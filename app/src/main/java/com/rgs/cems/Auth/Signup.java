@@ -81,15 +81,19 @@ public class Signup extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             } else {
 
+                                //Data
                                 Date d = new Date();
                                 CharSequence s  = DateFormat.format("MMMM d, yyyy ", d.getTime());
 
+                                //Storing data to display in the Nav bar and in the app
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("uid" , firebaseAuth.getUid());
                                 editor.putString("name" , name);
                                 editor.putString("email" , emailID);
                                 editor.apply();
+
+                                //To save data in Firebase Database
                                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users/" + firebaseAuth.getUid());
                                 databaseReference.child("Name").setValue(name);
                                 databaseReference.child("Email").setValue(emailID);
