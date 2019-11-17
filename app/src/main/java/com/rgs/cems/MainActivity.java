@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
         String temp1 = sharedPreferences.getString("name" , null);
         String temp2 =sharedPreferences.getString("email" , null);
-        Log.d("firebasemain" , temp1);
-        Log.d("firebasemain2" , temp2);
+        Log.d("firebasemain" , "asd");
+        Log.d("firebasemain2" , "asda");
         nav_namec.setText(temp1);
         nav_emailc.setText(temp2);
 
