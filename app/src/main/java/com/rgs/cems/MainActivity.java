@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab = findViewById(R.id.fab);
         navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
-
         setSupportActionBar(toolbar);
 //        FloatingActionButton fab = findViewById(R.id.fabmain);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -145,28 +144,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-
-            //TODO: not working
-            //Alert dialog to exit
-//            Snackbar.make(view , "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-//            new AlertDialog.Builder(MainActivity.this)
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .setTitle("Alert")
-//                    .setMessage("Are you sure you want to quit?")
-//                    .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-//                    {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            finish();
-//                        }
-//
-//                    })
-//                    .setNegativeButton("No", null)
-//                    .show().getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
-            super.onBackPressed();
-        }
+//            super.onBackPressed();
+            showexitDialog();        }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -229,6 +211,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    //Exit Dialog
+    private void showexitDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.exitdialog);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                //  System.exit(0);
                 dialog.dismiss();
             }
         });

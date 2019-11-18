@@ -70,9 +70,48 @@ public class Login extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    firebasedatabaseretrive(fbuid);
-                    Intent I = new Intent(Login.this, MainActivity.class);
-                    startActivity(I);
+
+                    //Getting data from Firebase Database
+                    databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid());
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            //To make sure the data exist
+                            if(dataSnapshot.hasChild("Name") && dataSnapshot.hasChild("Email") && dataSnapshot.hasChild("UID")) {
+                                fb_name = dataSnapshot.child("Name").getValue().toString();
+                                fb_email = dataSnapshot.child("Email").getValue().toString();
+                                fb_uid = dataSnapshot.child("UID").getValue().toString();
+                            } else {
+                                fb_name = "NO data found";
+                                fb_email = "NO data found";
+                                fb_uid = "NO data found";
+                                Log.d("Firebase Database" , "No data found");
+                            }
+                            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("uid" , fb_uid);
+                            editor.putString("name" , fb_name);
+                            editor.putString("email" , fb_email);
+                            editor.apply();
+                            Log.d("firebase" , fb_name);
+                            Log.d("firebase2" , fb_email);
+                            Log.d("firebase3" , fb_uid);
+                            Intent I = new Intent(Login.this, MainActivity.class);
+                            startActivity(I);
+                            finish();
+                            //TODO too much delay sometimes
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            databaseError.toException();
+                        }
+                    });
+
+
+                        //TODO finiah
+
                 } else {
                     Toast.makeText(Login.this, "Login to continue", Toast.LENGTH_SHORT).show();
                 }
@@ -137,6 +176,8 @@ public class Login extends AppCompatActivity {
             showCustomDialog();
             Log.d("hehehehe" , "nonet");
         }
+
+
     }
 
     //To check if internet is avaliable or no
@@ -200,42 +241,13 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                System.exit(0);
+              //  System.exit(0);
                 dialog.dismiss();
             }
         });
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
-    }
-
-    private void firebasedatabaseretrive(String fbuid){
-        //Getting data from Firebase Database
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid());
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                fb_name = dataSnapshot.child("Name").getValue().toString();
-                fb_email = dataSnapshot.child("Email").getValue().toString();
-                fb_uid = dataSnapshot.child("UID").getValue().toString();
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("uid" , fb_uid);
-                editor.putString("name" , fb_name);
-                editor.putString("email" , fb_email);
-                editor.apply();
-                Log.d("firebase" , fb_name);
-                Log.d("firebase2" , fb_email);
-                Log.d("firebase3" , fb_uid);
-                //TODO too much delay sometimes
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
 }
