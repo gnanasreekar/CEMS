@@ -65,7 +65,7 @@ public class feedback extends AppCompatActivity {
                     feedbacket.setError("Fill the Field");
                     feedbacket.requestFocus();
                 } else {
-                    //Uploding Data to FBDB
+                    //Uploading Data to FBDB
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Feedback/" + uid);
                     databaseReference.child("Name").setValue(name);
                     databaseReference.child("Email").setValue(email);

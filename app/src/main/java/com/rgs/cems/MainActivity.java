@@ -373,6 +373,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.getWindow().setAttributes(lp);
     }
 
+    public void changestatus(MenuItem item) {
+
+        Toast.makeText(this, "ewefsfd", Toast.LENGTH_SHORT).show();
+    }
+
     //SPBdialog goes here
 }
 

@@ -149,7 +149,7 @@ public class About extends AppCompatActivity {
             }
         });
 
-        //Github_sumanth
+        //Github_gopi
         ImageView github_gopi = findViewById(R.id.github_gp);
         github_gopi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +158,7 @@ public class About extends AppCompatActivity {
             }
         });
 
-        //Linkedin_sumant
+        //Linkedin_gopi
         ImageView linkedin_gopi = findViewById(R.id.linkedin_gp);
         linkedin_gopi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +167,7 @@ public class About extends AppCompatActivity {
             }
         });
 
-        //Mail_sumanth
+        //Mail_gopi
         ImageButton mail_gopi = findViewById(R.id.mail_gp);     //TODO: gopi mail
         mail_gopi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,7 +180,11 @@ public class About extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

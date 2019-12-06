@@ -48,9 +48,7 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
     static public String fb_name, fb_uid , fb_email;
-    //Data
-    Date d = new Date();
-    CharSequence s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
+
 
 
 
@@ -59,7 +57,6 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
-        Log.d("time" , (String) s);
 
         firebaseAuth = FirebaseAuth.getInstance();
         login_username = findViewById(R.id.username);
@@ -144,7 +141,7 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
-                                Toast.makeText(Login.this, "Not sucessfull", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Not successful", Toast.LENGTH_SHORT).show();
                             } else {
 
                                 //Storing data to display in the Nav bar and in the app
