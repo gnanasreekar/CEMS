@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -44,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost;
     CheckBox temp_status;
     int dpb;
-    boolean status = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Crashlytics.getInstance().crash(); // Force a crash
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -79,13 +81,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_emailc = nav_view.findViewById(R.id.nav_email);
         nav_namec = nav_view.findViewById(R.id.nav_name);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-        String temp1 = sharedPreferences.getString("name" , null);
-        String temp2 =sharedPreferences.getString("email" , null);
-        Log.d("firebasemain" , "asd");
-        Log.d("firebasemain2" , "asda");
-        nav_namec.setText(temp1);
-        nav_emailc.setText(temp2);
-        setTitle("Hi, " + temp1);
+        String fb_name_main = sharedPreferences.getString("name" , null);
+        String fb_email_main =sharedPreferences.getString("email" , null);
+        Log.d("Firebase DB_Name_Login" , fb_name_main);
+        Log.d("Firebase DB_Email_Login" , fb_email_main);
+        nav_namec.setText(fb_name_main);
+        nav_emailc.setText(fb_email_main);
+        setTitle("Hi, " + fb_name_main);
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
