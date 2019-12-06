@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         months_powerusage_tv = findViewById(R.id.months_powerusage_tmep);
         today_cost = (TextView) findViewById(R.id.today_cost);
         month_cost = (TextView) findViewById(R.id.month_cost);
+
+        showintroDialog();
         FloatingActionButton fab = findViewById(R.id.fabmain);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,6 +225,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
 
+        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    public void showintroDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.intro);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red_300"
+        android:background="@color/light_green_400"
         android:gravity="center"
         android:minHeight="120dp"
         android:orientation="vertical"
@@ -20,14 +20,14 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:tint="@android:color/white"
-            android:src="@drawable/ic_exit_to_app_black_24dp" />
+            android:src="@drawable/ic_insert_emoticon_black_40dp" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_middle"
-            android:text="Temp Edit dialog"
+            android:text="Welcome!"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
@@ -41,14 +41,12 @@
         android:orientation="vertical"
         android:padding="@dimen/spacing_mlarge">
 
-        <EditText
-            android:layout_gravity="center"
-            android:id="@+id/edittext_powernumber"
+        <TextView
+            android:id="@+id/content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:inputType="number"
-            android:hint="Enter your number here"
+            android:text="Click the Today usage and months usage to edit them"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textColor="@color/grey_60" />
@@ -67,10 +65,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Borderless"
-            android:background="@drawable/btn_rounded_red"
+            android:background="@drawable/btn_rounded_green"
             android:paddingLeft="@dimen/spacing_mlarge"
             android:paddingRight="@dimen/spacing_mlarge"
-            android:text="Done"
+            android:text="Get started"
             android:textColor="@android:color/white" />
 
     </LinearLayout>
