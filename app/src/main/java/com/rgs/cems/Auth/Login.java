@@ -62,10 +62,7 @@ public class Login extends AppCompatActivity {
         signup = findViewById(R.id.signup);
         final String fbuid = firebaseAuth.getUid();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
-
-
-
+        Toast.makeText(this, "Please wait until login", Toast.LENGTH_SHORT).show();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -109,10 +106,6 @@ public class Login extends AppCompatActivity {
                             databaseError.toException();
                         }
                     });
-
-
-                        //TODO finiah
-
                 } else {
                     Toast.makeText(Login.this, "Login to continue", Toast.LENGTH_SHORT).show();
                 }
