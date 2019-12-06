@@ -29,6 +29,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rgs.cems.Auth.Login;
 
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv;
+    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost;
     CheckBox temp_status;
     int dpb;
     boolean status = true;
@@ -58,14 +59,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         temp_status = findViewById(R.id.raspberrypi_status_button);
         today_powerusage_tv = findViewById(R.id.today_power_usage);
         months_powerusage_tv = findViewById(R.id.months_powerusage_tmep);
-//        FloatingActionButton fab = findViewById(R.id.fabmain);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        today_cost = (TextView) findViewById(R.id.today_cost);
+        month_cost = (TextView) findViewById(R.id.month_cost);
+        FloatingActionButton fab = findViewById(R.id.fabmain);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
 
         //Displaying names in Nav Bar
         View nav_view = navView.getHeaderView(0);
@@ -303,7 +308,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 today_powerusage_tv.setText(editText.getText().toString() + " Units");
-                //  System.exit(0);
+
+                int finalValue=Integer.parseInt(editText.getText().toString());
+                float temp = (float) (finalValue * 5.43);
+                today_cost.setText(String.valueOf(temp));
                 dialog.dismiss();
             }
         });
@@ -327,7 +335,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 months_powerusage_tv.setText(editText.getText().toString() + " Units");
-                //  System.exit(0);
+
+                int finalValue=Integer.parseInt(editText.getText().toString());
+                float temp = (float) (finalValue * 5.43);
+                month_cost.setText(String.valueOf(temp));
                 dialog.dismiss();
             }
         });

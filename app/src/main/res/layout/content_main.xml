@@ -39,7 +39,6 @@
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_medium"
         android:layout_marginLeft="@dimen/spacing_middle"
         android:layout_marginRight="@dimen/spacing_middle"
         android:layout_marginTop="-15dp"
@@ -154,6 +153,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="54.75 Rs"
+                            android:id="@+id/today_cost"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/green_400"
                             android:textStyle="bold" />
@@ -181,8 +181,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -281,6 +279,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="3,558.75 Rs"
+                            android:id="@+id/month_cost"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/green_400"
                             android:textStyle="bold" />
@@ -308,7 +307,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
