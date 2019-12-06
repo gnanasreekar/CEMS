@@ -113,11 +113,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Date dateAfter = myFormat.parse(dateAfterString);
             long difference = dateAfter.getTime() - dateBefore.getTime();
             float daysBetween = (difference / (1000*60*60*24));
-            dpb = (int) daysBetween;
+            dpb = (int) daysBetween + 1;
             Log.d("Datebw" , String.valueOf(dpb));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        months_powerusage_tv.setText(String.valueOf(dpb) + " Units");
 
 
     }

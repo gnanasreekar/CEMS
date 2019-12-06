@@ -94,9 +94,9 @@ public class Login extends AppCompatActivity {
                             editor.putString("name" , fb_name);
                             editor.putString("email" , fb_email);
                             editor.apply();
-                            Log.d("firebase" , fb_name);
-                            Log.d("firebase2" , fb_email);
-                            Log.d("firebase3" , fb_uid);
+                            Log.d("Firebase DB_Name_Login" , fb_name);
+                            Log.d("Firebase DB_Email_Login" , fb_email);
+                            Log.d("Firebase DB_UID_Login" , fb_uid);
                             Intent I = new Intent(Login.this, MainActivity.class);
                             startActivity(I);
                             finish();
