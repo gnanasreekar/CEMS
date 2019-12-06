@@ -9,6 +9,12 @@
         app:showAsAction="always"
         />
 
+    <item
+        android:id="@+id/raspberrypi_status_button"
+        android:title="Status"
+        android:icon="@drawable/ic_rasbpi_cellular_off_black_24dp"
+        app:showAsAction="never"
+        />
 
     <item
         android:id="@+id/action_settings"

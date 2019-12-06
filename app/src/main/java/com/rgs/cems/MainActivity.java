@@ -1,6 +1,7 @@
 package com.rgs.cems;
 
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,8 +40,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    TextView nav_namec , nav_emailc;
+    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv;
+    CheckBox temp_status;
     int dpb;
+    boolean status = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
+        temp_status = findViewById(R.id.raspberrypi_status_button);
+        today_powerusage_tv = findViewById(R.id.today_power_usage);
+        months_powerusage_tv = findViewById(R.id.months_powerusage_tmep);
 //        FloatingActionButton fab = findViewById(R.id.fabmain);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -103,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
 
@@ -277,6 +286,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "Works", Toast.LENGTH_SHORT).show();
             i = 0;
         }
+    }
+
+    public void showtemptodaysDialog(View view) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.edit);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        final EditText editText = dialog.findViewById(R.id.edittext_powernumber);
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                today_powerusage_tv.setText(editText.getText().toString() + " Units");
+                //  System.exit(0);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    public void showtempmonthssDialog(View view) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.edit);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        final EditText editText = dialog.findViewById(R.id.edittext_powernumber);
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                months_powerusage_tv.setText(editText.getText().toString() + " Units");
+                //  System.exit(0);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     //SPBdialog goes here

@@ -52,6 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:clickable="true"
+            android:onClick="showtemptodaysDialog"
             android:padding="@dimen/spacing_large">
 
             <LinearLayout
@@ -68,6 +70,7 @@
                     android:textColor="@color/grey_60" />
 
                 <TextView
+                    android:id="@+id/today_power_usage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Todays power usage value"
@@ -195,6 +198,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:clickable="true"
+                    android:onClick="showtempmonthssDialog"
                     android:padding="@dimen/spacing_large">
 
                     <LinearLayout
@@ -214,6 +219,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Months power usage value"
+                            android:id="@+id/months_powerusage_tmep"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/green_400"
                             android:textStyle="bold" />
