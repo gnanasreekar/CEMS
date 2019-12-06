@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,6 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 
+import java.util.Date;
+
 
 public class Login extends AppCompatActivity {
 
@@ -45,6 +48,9 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
     static public String fb_name, fb_uid , fb_email;
+    //Data
+    Date d = new Date();
+    CharSequence s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
 
 
 
@@ -53,7 +59,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
-
+        Log.d("time" , (String) s);
 
         firebaseAuth = FirebaseAuth.getInstance();
         login_username = findViewById(R.id.username);
@@ -62,6 +68,8 @@ public class Login extends AppCompatActivity {
         signup = findViewById(R.id.signup);
         final String fbuid = firebaseAuth.getUid();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+
         Toast.makeText(this, "Please wait until login", Toast.LENGTH_SHORT).show();
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override

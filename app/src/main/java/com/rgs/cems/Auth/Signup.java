@@ -83,7 +83,7 @@ public class Signup extends AppCompatActivity {
 
                                 //Data
                                 Date d = new Date();
-                                CharSequence s  = DateFormat.format("MMMM d, yyyy ", d.getTime());
+                                CharSequence s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
 
                                 //Storing data to display in the Nav bar and in the app
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
