@@ -175,6 +175,7 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(Signup.this, "ITS pmONNNN", Toast.LENGTH_SHORT).show();
+                finish();
                 Log.d("invoked" , "Itsnnn");
               //  startActivity( new Intent(Signup.this, MainActivity.class));
                 dialog.dismiss();

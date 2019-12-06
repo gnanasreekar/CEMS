@@ -65,6 +65,7 @@ public class Login extends AppCompatActivity {
 
 
 
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -171,10 +172,10 @@ public class Login extends AppCompatActivity {
 
         //For interent dialog
         if(isNetworkAvailable()){
-            Log.d("hehehehe" , "net");
+            Log.d("Internet Status Login" , "On line");
         } else {
             showCustomDialog();
-            Log.d("hehehehe" , "nonet");
+            Log.d("Internet Status Login" , "Off line");
         }
 
 
