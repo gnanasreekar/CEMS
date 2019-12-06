@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar = findViewById(R.id.toolbar);
-        setTitle("");
         fab = findViewById(R.id.fab);
         navView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -71,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("firebasemain2" , "asda");
         nav_namec.setText(temp1);
         nav_emailc.setText(temp2);
+        setTitle("Hi, " + temp1);
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
