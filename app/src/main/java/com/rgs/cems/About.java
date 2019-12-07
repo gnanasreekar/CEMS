@@ -154,7 +154,7 @@ public class About extends AppCompatActivity {
         github_gopi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.github.com/Vivek-Kolasani"))); //TODO: gopi github
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.github.com/kornegopi123"))); //TODO: gopi github
             }
         });
 
@@ -173,7 +173,7 @@ public class About extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                        "mailto","Saisumanth532@gmail.com", null));
+                        "mailto","kornegopi5a2@gmail.com", null));
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
             }
         });
