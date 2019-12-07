@@ -98,10 +98,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Checking for Internet
         if(isNetworkAvailable()){
-            Log.d("Internet Status" , "net");
+            Log.d("Internet Status" , "On line");
         } else {
             showCustomDialog();
-            Log.d("Internet Status" , "nonet");
+            Log.d("Internet Status" , "Off line");
         }
 
         //DPBdialoginfo
