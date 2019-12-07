@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:clickable="true"
-            android:onClick="showtemptodaysDialog"
+            android:onClick="changeactivity"
             android:padding="@dimen/spacing_large">
 
             <LinearLayout

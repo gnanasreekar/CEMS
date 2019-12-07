@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
 
     //Checking for internet
     private boolean isNetworkAvailable() {
@@ -376,6 +378,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void changestatus(MenuItem item) {
 
         Toast.makeText(this, "ewefsfd", Toast.LENGTH_SHORT).show();
+    }
+
+    public  void changeactivity(View view){
+        startActivity(new Intent(MainActivity.this , DetailsDisplay.class));
     }
 
     //SPBdialog goes here
