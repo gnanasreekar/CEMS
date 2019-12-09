@@ -47,7 +47,7 @@ public class Login extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
-    static public String fb_name, fb_uid , fb_email;
+    static public String fb_name, fb_uid , fb_email , fb_flag;
 
 
 
@@ -58,21 +58,24 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
+//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         firebaseAuth = FirebaseAuth.getInstance();
         login_username = findViewById(R.id.username);
         login_password = findViewById(R.id.password);
         button_login = findViewById(R.id.button_login);
         signup = findViewById(R.id.signup);
         final String fbuid = firebaseAuth.getUid();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
 
-        Toast.makeText(this, "Please wait until login", Toast.LENGTH_SHORT).show();
+
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+
+                    Toast.makeText(Login.this, "Please wait until login", Toast.LENGTH_SHORT).show();
 
                     //Getting data from Firebase Database
                     databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid());
@@ -85,10 +88,14 @@ public class Login extends AppCompatActivity {
                                 fb_name = dataSnapshot.child("Name").getValue().toString();
                                 fb_email = dataSnapshot.child("Email").getValue().toString();
                                 fb_uid = dataSnapshot.child("UID").getValue().toString();
+                                fb_flag = dataSnapshot.child("V1").getValue().toString();
+                                Log.d("Firebase Database" , "data found");
+
                             } else {
                                 fb_name = "NO data found";
                                 fb_email = "NO data found";
                                 fb_uid = "NO data found";
+                                fb_flag = "NO data found";
                                 Log.d("Firebase Database" , "No data found");
                             }
                             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
@@ -100,8 +107,11 @@ public class Login extends AppCompatActivity {
                             Log.d("Firebase DB_Name_Login" , fb_name);
                             Log.d("Firebase DB_Email_Login" , fb_email);
                             Log.d("Firebase DB_UID_Login" , fb_uid);
-                            Intent I = new Intent(Login.this, MainActivity.class);
-                            startActivity(I);
+
+                                Toast.makeText(Login.this, "This works", Toast.LENGTH_SHORT).show();
+                                Log.d("WOrks", fb_flag);
+                                startActivity(new Intent(Login.this, MainActivity.class));
+
                             finish();
                             //TODO too much delay sometimes
                         }

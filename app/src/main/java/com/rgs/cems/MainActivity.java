@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost;
     CheckBox temp_status;
     int dpb;
+    String introflag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         today_cost = (TextView) findViewById(R.id.today_cost);
         month_cost = (TextView) findViewById(R.id.month_cost);
 
-        showintroDialog();
         FloatingActionButton fab = findViewById(R.id.fabmain);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,15 +75,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+
+
+        if (!sharedPreferences.getBoolean("firstTime", false)) {
+            // <---- run your one time code here
+            showintroDialog();
+
+            // mark first time has ran.
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstTime", true);
+            editor.commit();
+        }
 
 
         //Displaying names in Nav Bar
         View nav_view = navView.getHeaderView(0);
         nav_emailc = nav_view.findViewById(R.id.nav_email);
         nav_namec = nav_view.findViewById(R.id.nav_name);
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-        String fb_name_main = sharedPreferences.getString("name" , null);
-        String fb_email_main =sharedPreferences.getString("email" , null);
+        String fb_name_main = sharedPreferences.getString("name" , "NO data found");
+        String fb_email_main =sharedPreferences.getString("email" , "NO data found");
         Log.d("Firebase DB_Name_Login" , fb_name_main);
         Log.d("Firebase DB_Email_Login" , fb_email_main);
         nav_namec.setText(fb_name_main);
