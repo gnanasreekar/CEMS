@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -74,53 +75,10 @@ public class Login extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-
                     Toast.makeText(Login.this, "Please wait until login", Toast.LENGTH_SHORT).show();
 
-                    //Getting data from Firebase Database
-                    databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid());
-                    databaseReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    new MyAsyncTask().execute();
 
-                            //To make sure the data exist
-                            if(dataSnapshot.hasChild("Name") && dataSnapshot.hasChild("Email") && dataSnapshot.hasChild("UID")) {
-                                fb_name = dataSnapshot.child("Name").getValue().toString();
-                                fb_email = dataSnapshot.child("Email").getValue().toString();
-                                fb_uid = dataSnapshot.child("UID").getValue().toString();
-                                fb_flag = dataSnapshot.child("V1").getValue().toString();
-                                Log.d("Firebase Database" , "data found");
-
-                            } else {
-                                fb_name = "NO data found";
-                                fb_email = "NO data found";
-                                fb_uid = "NO data found";
-                                fb_flag = "NO data found";
-                                Log.d("Firebase Database" , "No data found");
-                            }
-                            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("uid" , fb_uid);
-                            editor.putString("name" , fb_name);
-                            editor.putString("email" , fb_email);
-                            editor.apply();
-                            Log.d("Firebase DB_Name_Login" , fb_name);
-                            Log.d("Firebase DB_Email_Login" , fb_email);
-                            Log.d("Firebase DB_UID_Login" , fb_uid);
-
-                                Toast.makeText(Login.this, "This works", Toast.LENGTH_SHORT).show();
-                                Log.d("WOrks", fb_flag);
-                                startActivity(new Intent(Login.this, MainActivity.class));
-
-                            finish();
-                            //TODO too much delay sometimes
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            databaseError.toException();
-                        }
-                    });
                 } else {
                     Toast.makeText(Login.this, "Login to continue", Toast.LENGTH_SHORT).show();
                 }
@@ -158,6 +116,8 @@ public class Login extends AppCompatActivity {
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("uid" , firebaseAuth.getUid());
+                                editor.putString("name" , us);
+                                editor.putString("email" , emailID);
                                 editor.apply();
                                 startActivity(new Intent(Login.this, MainActivity.class));
                             }
@@ -187,6 +147,66 @@ public class Login extends AppCompatActivity {
         }
 
 
+    }
+
+    private class MyAsyncTask extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            //Getting data from Firebase Database
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(firebaseAuth.getUid());
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    //To make sure the data exist
+                    if(dataSnapshot.hasChild("Name") && dataSnapshot.hasChild("Email") && dataSnapshot.hasChild("UID")) {
+                        fb_name = dataSnapshot.child("Name").getValue().toString();
+                        fb_email = dataSnapshot.child("Email").getValue().toString();
+                        fb_uid = dataSnapshot.child("UID").getValue().toString();
+                        fb_flag = dataSnapshot.child("V1").getValue().toString();
+                        Log.d("Firebase Database" , "data found");
+
+                    } else {
+                        fb_name = "NO data found";
+                        fb_email = "NO data found";
+                        fb_uid = "NO data found";
+                        fb_flag = "NO data found";
+                        Log.d("Firebase Database" , "No data found");
+                    }
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("uid" , fb_uid);
+                    editor.putString("name" , fb_name);
+                    editor.putString("email" , fb_email);
+                    editor.apply();
+                    Log.d("Firebase DB_Name_Login" , fb_name);
+                    Log.d("Firebase DB_Email_Login" , fb_email);
+                    Log.d("Firebase DB_UID_Login" , fb_uid);
+
+                    Toast.makeText(Login.this, "This works", Toast.LENGTH_SHORT).show();
+                    Log.d("WOrks", fb_flag);
+//                    try {
+//                        Thread.sleep(3000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+                    //TODO too much delay sometimes
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    databaseError.toException();
+                }
+            });            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result) {
+
+            startActivity(new Intent(Login.this, MainActivity.class));
+            finish();
+        }
     }
 
     //To check if internet is avaliable or no
