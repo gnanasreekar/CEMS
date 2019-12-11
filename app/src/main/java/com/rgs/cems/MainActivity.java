@@ -50,11 +50,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost;
+    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usage;
     CheckBox temp_status;
     int dpb;
     SharedPreferences sharedPreferences;
     String url = "http://18.208.162.97/Totalenergyexept9";
+    String generatorusage = "http://18.208.162.97/generatortotal";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         months_powerusage_tv = findViewById(R.id.months_powerusage_tmep);
         today_cost = (TextView) findViewById(R.id.today_cost);
         month_cost = (TextView) findViewById(R.id.month_cost);
+        generator_usage = findViewById(R.id.generator_usage);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -113,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d("Internet Status" , "Off line");
         }
 
-        httpCall(url);
+        httpCall(generatorusage);
     }
 
     public void Dpb() {
@@ -410,7 +413,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onResponse(String response) {
                         Log.d("Volley" , response);
-                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                        generator_usage.setText(response + " Units");
                         // enjoy your response
                     }
                 }, new Response.ErrorListener() {
