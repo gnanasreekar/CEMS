@@ -192,12 +192,6 @@ public class Login extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Void result) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.d("Login" , "Login");
             startActivity(new Intent(Login.this, MainActivity.class));
             finish();
         }

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usage;
     CheckBox temp_status;
     int dpb;
-    Float TEC;
+    Integer TEC;
     SharedPreferences sharedPreferences;
     String url = "http://18.208.162.97/Totalenergyexept9";
     String generatorusage = "http://18.208.162.97/generatortotal";
@@ -128,12 +128,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void TEC() {
         try {
-            TEC = numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 0 , "1"))).floatValue() +
-                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 1 , "1"))).floatValue() +
-                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 2 , "1"))).floatValue() +
-                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 3 , "1"))).floatValue() +
-                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 4 , "1"))).floatValue();
-            today_powerusage_tv.setText(TEC.toString() + "Units");
+            TEC = numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 0 , "1"))).intValue() +
+                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 1 , "1"))).intValue() +
+                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 2 , "1"))).intValue() +
+                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 3 , "1"))).intValue() +
+                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 4 , "1"))).intValue();
+            today_powerusage_tv.setText(TEC.toString() + " Units");
         } catch (ParseException e) {
             e.printStackTrace();
         }
