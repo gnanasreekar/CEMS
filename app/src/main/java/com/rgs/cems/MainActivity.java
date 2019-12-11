@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.LocaleData;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -42,8 +43,11 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rgs.cems.Auth.Login;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -53,9 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usage;
     CheckBox temp_status;
     int dpb;
+    Float TEC;
     SharedPreferences sharedPreferences;
     String url = "http://18.208.162.97/Totalenergyexept9";
     String generatorusage = "http://18.208.162.97/generatortotal";
+    NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
 
     @Override
@@ -117,6 +123,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         httpCall(generatorusage);
+        TEC();
+    }
+
+    public void TEC() {
+        try {
+            TEC = numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 0 , "1"))).floatValue() +
+                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 1 , "1"))).floatValue() +
+                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 2 , "1"))).floatValue() +
+                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 3 , "1"))).floatValue() +
+                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 4 , "1"))).floatValue();
+            today_powerusage_tv.setText(TEC.toString() + "Units");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("TEC" , String.valueOf(TEC));
     }
 
     public void Dpb() {
@@ -341,33 +363,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "Works", Toast.LENGTH_SHORT).show();
             i = 0;
         }
-    }
-
-    public void showtemptodaysDialog(View view) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.edit);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        final EditText editText = dialog.findViewById(R.id.edittext_powernumber);
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                today_powerusage_tv.setText(editText.getText().toString() + " Units");
-
-                int finalValue=Integer.parseInt(editText.getText().toString());
-                float temp = (float) (finalValue * 5.43);
-                today_cost.setText(String.valueOf(temp));
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
     }
 
     public void showtempmonthssDialog(View view) {
