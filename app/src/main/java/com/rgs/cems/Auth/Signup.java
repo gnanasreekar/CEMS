@@ -28,6 +28,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 
 import java.util.Date;
@@ -102,8 +103,9 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("V1").setValue(0);
                                 databaseReference.child("V2").setValue(0);
                                 //TODO: The place where intent should be placed
+                                Log.d("Firebase Signup dsent" , "YYYYYYYYYYYYYYYY");
                                 showaccountcreatedDialog();
-                                Log.d("signup" , "YYYYYYYYYYYYYYYY");
+
                             }
                         }
                     });
@@ -178,7 +180,8 @@ public class Signup extends AppCompatActivity {
                 Toast.makeText(Signup.this, "ITS pmONNNN", Toast.LENGTH_SHORT).show();
                 finish();
                 Log.d("invoked" , "Itsnnn");
-              //  startActivity( new Intent(Signup.this, MainActivity.class));
+                startActivity( new Intent(Signup.this, MainActivity.class));
+                finish();
                 dialog.dismiss();
             }
         });

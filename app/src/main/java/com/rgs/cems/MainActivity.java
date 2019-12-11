@@ -28,6 +28,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -46,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost;
     CheckBox temp_status;
     int dpb;
-    String introflag;
+    SharedPreferences sharedPreferences;
+    String url = "http://18.208.162.97/Totalenergyexept9";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,19 +72,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         today_cost = (TextView) findViewById(R.id.today_cost);
         month_cost = (TextView) findViewById(R.id.month_cost);
 
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navView.setNavigationItemSelectedListener(this);
+
         FloatingActionButton fab = findViewById(R.id.fabmain);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Crashlytics.getInstance().crash(); // Force a crash
-
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
 
         if (!sharedPreferences.getBoolean("firstTime", false)) {
             // <---- run your one time code here
@@ -88,25 +99,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editor.commit();
         }
 
-
         //Displaying names in Nav Bar
-        View nav_view = navView.getHeaderView(0);
-        nav_emailc = nav_view.findViewById(R.id.nav_email);
-        nav_namec = nav_view.findViewById(R.id.nav_name);
-        String fb_name_main = sharedPreferences.getString("name" , "NO data found");
-        String fb_email_main =sharedPreferences.getString("email" , "NO data found");
-        Log.d("Firebase DB_Name_Login" , fb_name_main);
-        Log.d("Firebase DB_Email_Login" , fb_email_main);
-        nav_namec.setText(fb_name_main);
-        nav_emailc.setText(fb_email_main);
-        setTitle("Hi, " + fb_name_main);
+        navviewdata();
 
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navView.setNavigationItemSelectedListener(this);
+        //DPBdialoginfo
+        Dpb();
 
         //Checking for Internet
         if(isNetworkAvailable()){
@@ -116,7 +113,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d("Internet Status" , "Off line");
         }
 
-        //DPBdialoginfo
+        httpCall(url);
+    }
+
+    public void Dpb() {
         Date d = new Date();
         CharSequence s  = DateFormat.format("dd MM yyyy ", d.getTime());
         SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
@@ -133,10 +133,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
         months_powerusage_tv.setText(String.valueOf(dpb) + " Units");
-
-
     }
 
+    public void navviewdata() {
+        View nav_view = navView.getHeaderView(0);
+        nav_emailc = nav_view.findViewById(R.id.nav_email);
+        nav_namec = nav_view.findViewById(R.id.nav_name);
+        String fb_name_main = sharedPreferences.getString("name" , "NO data found");
+        String fb_email_main =sharedPreferences.getString("email" , "NO data found");
+        Log.d("Firebase DB_Name_Login" , fb_name_main);
+        Log.d("Firebase DB_Email_Login" , fb_email_main);
+        nav_namec.setText(fb_name_main);
+        nav_emailc.setText(fb_email_main);
+        setTitle("Hi, " + fb_name_main);
+    }
 
     //Checking for internet
     private boolean isNetworkAvailable() {
@@ -180,8 +190,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            super.onBackPressed();
             showexitDialog();        }
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -393,6 +401,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public  void changeactivity(View view){
         startActivity(new Intent(MainActivity.this , DetailsDisplay.class));
+    }
+
+    public void httpCall(String url) {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Volley" , response);
+                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                        // enjoy your response
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+        queue.add(stringRequest);
     }
 
     //SPBdialog goes here

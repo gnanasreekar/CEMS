@@ -77,7 +77,7 @@ public class Login extends AppCompatActivity {
                 if (user != null) {
                     Toast.makeText(Login.this, "Please wait until login", Toast.LENGTH_SHORT).show();
 
-                    new MyAsyncTask().execute();
+                    new Firebaseretrive().execute();
 
                 } else {
                     Toast.makeText(Login.this, "Login to continue", Toast.LENGTH_SHORT).show();
@@ -87,8 +87,10 @@ public class Login extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("Login" , "Login");
                 Intent I = new Intent(Login.this, Signup.class);
                 startActivity(I);
+                finish();
             }
         });
         button_login.setOnClickListener(new View.OnClickListener() {
@@ -111,15 +113,7 @@ public class Login extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(Login.this, "Not successful", Toast.LENGTH_SHORT).show();
                             } else {
-
-                                //Storing data to display in the Nav bar and in the app
-                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("uid" , firebaseAuth.getUid());
-                                editor.putString("name" , us);
-                                editor.putString("email" , emailID);
-                                editor.apply();
-                                startActivity(new Intent(Login.this, MainActivity.class));
+                                new Firebaseretrive().execute();
                             }
                         }
                     });
@@ -149,7 +143,7 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private class MyAsyncTask extends AsyncTask<Void, Void, Void>
+    private class Firebaseretrive extends AsyncTask<Void, Void, Void>
     {
         @Override
         protected Void doInBackground(Void... params) {
@@ -181,17 +175,12 @@ public class Login extends AppCompatActivity {
                     editor.putString("name" , fb_name);
                     editor.putString("email" , fb_email);
                     editor.apply();
-                    Log.d("Firebase DB_Name_Login" , fb_name);
-                    Log.d("Firebase DB_Email_Login" , fb_email);
-                    Log.d("Firebase DB_UID_Login" , fb_uid);
+                    Log.d("Firebase Name_ALogin" , fb_name);
+                    Log.d("Firebase Email_ALogin" , fb_email);
+                    Log.d("Firebase UID_ALogin" , fb_uid);
 
                     Toast.makeText(Login.this, "This works", Toast.LENGTH_SHORT).show();
                     Log.d("WOrks", fb_flag);
-//                    try {
-//                        Thread.sleep(3000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                     //TODO too much delay sometimes
                 }
 
@@ -203,11 +192,17 @@ public class Login extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Void result) {
-
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("Login" , "Login");
             startActivity(new Intent(Login.this, MainActivity.class));
             finish();
         }
     }
+
 
     //To check if internet is avaliable or no
     private boolean isNetworkAvailable() {
