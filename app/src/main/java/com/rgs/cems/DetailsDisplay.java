@@ -7,11 +7,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
+
 public class DetailsDisplay extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     TextView a,b,c,d,n;
     Float asa;
+    NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +29,16 @@ public class DetailsDisplay extends AppCompatActivity {
         n = findViewById(R.id.nblock_power_tv);
         sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
 
-        a.setText(sharedPreferences.getString("Energy Consumed" + 0 , "NO data found") + " Units");
-        b.setText(sharedPreferences.getString("Energy Consumed" + 1 , "NO data found") + " Units");
-        c.setText(sharedPreferences.getString("Energy Consumed" + 2 , "NO data found") + " Units");
-        d.setText(sharedPreferences.getString("Energy Consumed" + 3 , "NO data found") + " Units");
-        n.setText(sharedPreferences.getString("Energy Consumed" + 4 , "NO data found") + " Units");
+        try {
+            a.setText(numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 0 , "1"))).intValue() + " Units");
+            b.setText(numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 1 , "1")).intValue() + " Units");
+            c.setText(numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 2 , "2")).intValue() + " Units");
+            d.setText(numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 3 , "3")).intValue() + " Units");
+            n.setText(numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 4 , "4")).intValue() + " Units");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         asa = Float.parseFloat(sharedPreferences.getString("Energy Consumed" + 4 , "1"));
 
