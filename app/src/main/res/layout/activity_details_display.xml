@@ -55,7 +55,6 @@
                 android:layout_height="35dp" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/spacing_middle"
@@ -71,7 +70,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:clickable="true"
-                    android:onClick="showtemptodaysDialog"
                     android:padding="@dimen/spacing_large">
 
                     <LinearLayout
@@ -248,7 +246,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:clickable="true"
-                    android:onClick="showtempmonthssDialog"
                     android:padding="@dimen/spacing_large">
 
                     <LinearLayout
