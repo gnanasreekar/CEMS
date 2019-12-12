@@ -21,8 +21,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import io.fabric.sdk.android.services.network.HttpRequest;
-
 public class FirebaseHandler extends Application {
 
     String url = "http://18.208.162.97/todaysusage";
@@ -34,9 +32,11 @@ public class FirebaseHandler extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        getdata();
 
+    }
 
-
+    public void getdata() {
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

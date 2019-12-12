@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String generatorusage = "http://18.208.162.97/generatortotal";
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
+    FirebaseHandler firebaseHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                TEC();
+                Snackbar.make(view, "Refreshing", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
