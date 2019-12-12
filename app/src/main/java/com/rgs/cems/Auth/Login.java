@@ -38,6 +38,7 @@ import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 
 import java.util.Date;
+import java.util.concurrent.CountDownLatch;
 
 
 public class Login extends AppCompatActivity {
@@ -49,6 +50,7 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
     static public String fb_name, fb_uid , fb_email , fb_flag;
+    final CountDownLatch allDoneSignal = new CountDownLatch(1);
 
 
 
@@ -191,7 +193,8 @@ public class Login extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     databaseError.toException();
                 }
-            });            return null;
+            });
+            return null;
         }
         @Override
         protected void onPostExecute(Void result) {

@@ -2,6 +2,7 @@ package com.rgs.cems;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,23 +20,13 @@ public class DetailsDisplay extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     TextView a,b,c,d,n;
-    Float asa;
+    Integer a1,b1,c1,d1,n1;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_display);
-
-        FloatingActionButton fab = findViewById(R.id.fabdetails);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                refresh();
-                Snackbar.make(view, "Refreshing", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         a = findViewById(R.id.ablock_power_tv);
         b = findViewById(R.id.bblock_power_tv);
@@ -47,14 +38,59 @@ public class DetailsDisplay extends AppCompatActivity {
     }
     public void refresh() {
         try {
-            a.setText(numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 0 , "1"))).intValue() + " Units");
-            b.setText(numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 1 , "1")).intValue() + " Units");
-            c.setText(numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 2 , "2")).intValue() + " Units");
-            d.setText(numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 3 , "3")).intValue() + " Units");
-            n.setText(numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 4 , "4")).intValue() + " Units");
+            a1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 0 , "1")).intValue();
+            b1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 1 , "1")).intValue();
+            c1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 2 , "2")).intValue();
+            d1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 3 , "3")).intValue();
+            n1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 4 , "4")).intValue();
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        ValueAnimator school = ValueAnimator.ofInt(0, a1);
+        school.setDuration(1500);
+        school.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                a.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        school.start();
+
+        ValueAnimator schooladmin = ValueAnimator.ofInt(0, c1);
+        schooladmin.setDuration(1500);
+        schooladmin.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                c.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        schooladmin.start();
+
+        ValueAnimator schoolacamedic = ValueAnimator.ofInt(0, b1);
+        schoolacamedic.setDuration(1500);
+        schoolacamedic.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                b.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        schoolacamedic.start();
+
+        ValueAnimator Girlshostel = ValueAnimator.ofInt(0, d1);
+        Girlshostel.setDuration(1500);
+        Girlshostel.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                d.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        Girlshostel.start();
+
+        ValueAnimator audotourim = ValueAnimator.ofInt(0, n1);
+        audotourim.setDuration(1500);
+        audotourim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                n.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        audotourim.start();
 
     }
 }

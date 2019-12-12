@@ -19,23 +19,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class FirebaseHandler extends Application {
 
     String url = "http://18.208.162.97/todaysusage";
-    String moviedb;
     SharedPreferences sharedPreferences;
-    int val = 0;
+    int val = 0 , gen = 0;
     RequestQueue queue;
-    StringRequest stringRequest;
+    NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         queue = Volley.newRequestQueue(this);
-        stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -53,9 +57,9 @@ public class FirebaseHandler extends Application {
                                 String Date =  e.getString("DATE");
                                 String EC = e.getString("Energy Consumed");
                                 String MID = e.getString("Meter ID");
-                                Log.d("HEllo DATE" , Date);
-                                Log.d("HEllo EC" , String.valueOf(EC));
-                                Log.d("HEllo MID" , MID);
+                                gen = gen +  numberFormat.parse(EC).intValue();
+
+                                editor.putInt("TEC" , gen);
                                 editor.putString("DATE" +val ,Date);
                                 editor.putString("Energy Consumed" + val, EC);
                                 editor.putString("Meter ID" + val , MID);
@@ -65,6 +69,8 @@ public class FirebaseHandler extends Application {
                             }
                         } catch (JSONException e) {
                             Log.d("HEllo" , e.getMessage());
+                            e.printStackTrace();
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
 

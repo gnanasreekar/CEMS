@@ -1,5 +1,6 @@
 package com.rgs.cems;
 
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
@@ -41,6 +42,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.Auth.Login;
 
 import java.text.NumberFormat;
@@ -54,12 +57,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usage;
+    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usagetv;
     CheckBox temp_status;
     int dpb;
     Integer TEC;
     SharedPreferences sharedPreferences;
-    String url = "http://18.208.162.97/Totalenergyexept9";
     String generatorusage = "http://18.208.162.97/generatortotal";
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar = findViewById(R.id.toolbar);
         fab = findViewById(R.id.fab);
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         months_powerusage_tv = findViewById(R.id.months_powerusage_tmep);
         today_cost = (TextView) findViewById(R.id.today_cost);
         month_cost = (TextView) findViewById(R.id.month_cost);
-        generator_usage = findViewById(R.id.generator_usage);
+        generator_usagetv = findViewById(R.id.generator_usage);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -125,21 +129,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         httpCall(generatorusage);
         TEC();
+
+        ValueAnimator animator = ValueAnimator.ofInt(0, 20);
+        animator.setDuration(1500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                generator_usagetv.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        animator.start();
     }
 
     public void TEC() {
-        try {
-            TEC = numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 0 , "1"))).intValue() +
-                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 1 , "1"))).intValue() +
-                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 2 , "1"))).intValue() +
-                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 3 , "1"))).intValue() +
-                    numberFormat.parse((sharedPreferences.getString("Energy Consumed" + 4 , "1"))).intValue();
-            today_powerusage_tv.setText(TEC.toString() + " Units");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-        Log.d("TEC" , String.valueOf(TEC));
+            TEC = sharedPreferences.getInt("TEC", 0);
+            ValueAnimator animator = ValueAnimator.ofInt(0, TEC);
+            animator.setDuration(1500);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    today_powerusage_tv.setText(animation.getAnimatedValue().toString() + " Units");
+                }
+            });
+            animator.start();
+            //  startCountAnimation();
+
+            String date = sharedPreferences.getString("DATE" + 0, "Not aval");
+
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Values/Totalpower/" + date);
+            databaseReference.child("Total Power used").setValue(TEC + " Units");
+
+
+            Log.d("TEC", String.valueOf(TEC));
+
     }
 
     public void Dpb() {
@@ -158,7 +179,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             e.printStackTrace();
         }
-        months_powerusage_tv.setText(String.valueOf(dpb) + " Units");
+        ValueAnimator animator = ValueAnimator.ofInt(0, dpb);
+        animator.setDuration(1500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                months_powerusage_tv.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        animator.start();
     }
 
     public void navviewdata() {
@@ -409,8 +437,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Volley" , response);
-                        generator_usage.setText(response + " Units");
+                        try {
+                            int gen = numberFormat.parse(response).intValue();
+                            Log.d("Volley" , response);
+                            ValueAnimator animator = ValueAnimator.ofInt(0, gen);
+                            animator.setDuration(1500);
+                            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                public void onAnimationUpdate(ValueAnimator animation) {
+                                    generator_usagetv.setText(animation.getAnimatedValue().toString() + " Units");
+                                }
+                            });
+                            animator.start();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
                         // enjoy your response
                     }
                 }, new Response.ErrorListener() {

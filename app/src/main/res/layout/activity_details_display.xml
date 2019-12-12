@@ -476,7 +476,6 @@
                                 android:layout_height="wrap_content"
                                 android:text="50.23 Rs"
                                 android:layout_marginLeft="10dp"
-
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                                 android:textColor="@color/green_400"
                                 android:textStyle="bold" />
@@ -575,14 +574,6 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabdetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 
 
