@@ -76,10 +76,10 @@ public class Login extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Toast.makeText(Login.this, "Please wait until login", Toast.LENGTH_SHORT).show();
-
+                    Log.d("Redirect" , "This happened from LOGIN authstate listner");
                     new Firebaseretrive().execute();
-
                 } else {
+                    firebaseAuth.removeAuthStateListener(authStateListener);
                     Toast.makeText(Login.this, "Login to continue", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -88,6 +88,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.d("Login" , "Login");
+                Log.d("Redirect" , "This happned from LOGIN1");
                 Intent I = new Intent(Login.this, Signup.class);
                 startActivity(I);
                 finish();
@@ -113,6 +114,8 @@ public class Login extends AppCompatActivity {
                             if (!task.isSuccessful()) {
                                 Toast.makeText(Login.this, "Not successful", Toast.LENGTH_SHORT).show();
                             } else {
+                                Log.d("Redirect" , "This happned from LOGIN normal sign in");
+
                                 new Firebaseretrive().execute();
                             }
                         }
@@ -192,6 +195,7 @@ public class Login extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Void result) {
+            Log.d("Redirect" , "This happned from LOGIN2");
             startActivity(new Intent(Login.this, MainActivity.class));
             finish();
         }
