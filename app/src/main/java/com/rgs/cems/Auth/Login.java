@@ -1,13 +1,18 @@
 package com.rgs.cems.Auth;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,6 +22,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +46,8 @@ import com.rgs.cems.R;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
+import is.arontibo.library.ElasticDownloadView;
+
 
 public class Login extends AppCompatActivity {
 
@@ -50,7 +58,11 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
     static public String fb_name, fb_uid , fb_email , fb_flag;
-    final CountDownLatch allDoneSignal = new CountDownLatch(1);
+    ProgressDialog TempDialog;
+
+    ProgressBar mProgressBar;
+    CountDownTimer mCountDownTimer;
+    int i=0;
 
 
 
@@ -61,8 +73,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
-//        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
         firebaseAuth = FirebaseAuth.getInstance();
         login_username = findViewById(R.id.username);
         login_password = findViewById(R.id.password);
@@ -70,7 +80,12 @@ public class Login extends AppCompatActivity {
         signup = findViewById(R.id.signup);
         final String fbuid = firebaseAuth.getUid();
 
-
+        TempDialog = new ProgressDialog(Login.this);
+        TempDialog.setMessage("Please wait...");
+        TempDialog.setCancelable(false);
+        TempDialog.setProgress(i);
+        TempDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        TempDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -79,6 +94,8 @@ public class Login extends AppCompatActivity {
                 if (user != null) {
                     Toast.makeText(Login.this, "Please wait until login", Toast.LENGTH_SHORT).show();
                     Log.d("Redirect" , "This happened from LOGIN authstate listner");
+                    TempDialog.show();
+
                     new Firebaseretrive().execute();
                 } else {
                     firebaseAuth.removeAuthStateListener(authStateListener);
@@ -101,6 +118,8 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 String userEmail = login_username.getText().toString();
                 String userPaswd = login_password.getText().toString();
+                TempDialog.show();
+
                 if (userEmail.isEmpty()) {
                     login_username.setError("Provide your Email first!");
                     login_username.requestFocus();
@@ -146,6 +165,8 @@ public class Login extends AppCompatActivity {
         }
 
 
+
+
     }
 
     private class Firebaseretrive extends AsyncTask<Void, Void, Void>
@@ -187,6 +208,48 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "This works", Toast.LENGTH_SHORT).show();
                     Log.d("WOrks", fb_flag);
                     //TODO too much delay sometimes
+
+
+                    mCountDownTimer = new CountDownTimer(2000, 1000)
+                    {
+                        public void onTick(long millisUntilFinished)
+                        {
+                            TempDialog.setMessage("Please wait..");
+                        }
+
+                        public void onFinish()
+                        {
+                            TempDialog.dismiss();
+                            startActivity(new Intent(Login.this, MainActivity.class));
+                               finish();
+                        }
+                    }.start();
+
+
+//                    mProgressBar=(ProgressBar)findViewById(R.id.progressbar);
+//                    mProgressBar.setProgress(i);
+//                    mCountDownTimer=new CountDownTimer(5000,1000) {
+//
+//                        @Override
+//                        public void onTick(long millisUntilFinished) {
+//                            Log.v("Log_tag", "Tick of Progress"+ i+ millisUntilFinished);
+//                            i++;
+//                            mProgressBar.setProgress((int)i*100/(5000/1000));
+//
+//                        }
+//
+//                        @Override
+//                        public void onFinish() {
+//                            //Do what you want
+//                            i++;
+//                            mProgressBar.setProgress(100);
+//                            startActivity(new Intent(Login.this, MainActivity.class));
+//                            finish();
+//                        }
+//                    };
+//                    mCountDownTimer.start();
+
+
                 }
 
                 @Override
@@ -199,8 +262,11 @@ public class Login extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             Log.d("Redirect" , "This happned from LOGIN2");
-            startActivity(new Intent(Login.this, MainActivity.class));
-            finish();
+
+//                startActivity(new Intent(Login.this, MainActivity.class));
+//                finish();
+
+
         }
     }
 

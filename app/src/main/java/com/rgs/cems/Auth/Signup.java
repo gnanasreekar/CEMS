@@ -173,13 +173,9 @@ public class Signup extends AppCompatActivity {
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-
         ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Signup.this, "ITS pmONNNN", Toast.LENGTH_SHORT).show();
-                finish();
-                Log.d("invoked" , "Itsnnn");
                 startActivity( new Intent(Signup.this, MainActivity.class));
                 finish();
                 dialog.dismiss();

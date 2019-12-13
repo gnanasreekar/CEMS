@@ -12,6 +12,10 @@
 
     </style>
 
+    <style name="ProgressBarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/dark</item>
+    </style>
+
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">  //Textinput outline colour
         <item name="boxStrokeColor">#fff</item>
         <item name="boxStrokeWidth">2dp</item>
