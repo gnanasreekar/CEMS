@@ -59,8 +59,6 @@ public class Login extends AppCompatActivity {
     DatabaseReference databaseReference;
     static public String fb_name, fb_uid , fb_email , fb_flag;
     ProgressDialog TempDialog;
-
-    ProgressBar mProgressBar;
     CountDownTimer mCountDownTimer;
     int i=0;
 
@@ -210,7 +208,7 @@ public class Login extends AppCompatActivity {
                     //TODO too much delay sometimes
 
 
-                    mCountDownTimer = new CountDownTimer(2000, 1000)
+                    mCountDownTimer = new CountDownTimer(1000, 1000)
                     {
                         public void onTick(long millisUntilFinished)
                         {
@@ -221,34 +219,9 @@ public class Login extends AppCompatActivity {
                         {
                             TempDialog.dismiss();
                             startActivity(new Intent(Login.this, MainActivity.class));
-                               finish();
+                            finish();
                         }
                     }.start();
-
-
-//                    mProgressBar=(ProgressBar)findViewById(R.id.progressbar);
-//                    mProgressBar.setProgress(i);
-//                    mCountDownTimer=new CountDownTimer(5000,1000) {
-//
-//                        @Override
-//                        public void onTick(long millisUntilFinished) {
-//                            Log.v("Log_tag", "Tick of Progress"+ i+ millisUntilFinished);
-//                            i++;
-//                            mProgressBar.setProgress((int)i*100/(5000/1000));
-//
-//                        }
-//
-//                        @Override
-//                        public void onFinish() {
-//                            //Do what you want
-//                            i++;
-//                            mProgressBar.setProgress(100);
-//                            startActivity(new Intent(Login.this, MainActivity.class));
-//                            finish();
-//                        }
-//                    };
-//                    mCountDownTimer.start();
-
 
                 }
 
@@ -269,7 +242,6 @@ public class Login extends AppCompatActivity {
 
         }
     }
-
 
     //To check if internet is avaliable or no
     private boolean isNetworkAvailable() {
