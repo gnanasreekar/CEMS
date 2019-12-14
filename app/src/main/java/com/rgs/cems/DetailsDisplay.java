@@ -110,21 +110,4 @@ public class DetailsDisplay extends AppCompatActivity {
 
 
     }
-
-
-
-//    public void refresh() {
-//        try {
-//            a1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 0 , "1")).intValue();
-//            b1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 1 , "1")).intValue();
-//            c1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 2 , "2")).intValue();
-//            d1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 3 , "3")).intValue();
-//            n1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 4 , "4")).intValue();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//
-//    }
 }
