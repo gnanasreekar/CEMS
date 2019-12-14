@@ -56,9 +56,6 @@ public class Login extends AppCompatActivity {
     int i=0;
     CatLoadingView mView;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,8 +162,7 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private class Firebaseretrive extends AsyncTask<Void, Void, Void>
-    {
+    private class Firebaseretrive extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
 
