@@ -49,7 +49,6 @@ public class FirebaseHandler extends Application {
                         try {
                             json = new JSONArray(response);
                             for(int i=0;i<json.length();i++){
-                                HashMap<String, String> map = new HashMap<String, String>();
                                 JSONObject e = json.getJSONObject(i);
 
                                 sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
