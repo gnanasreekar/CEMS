@@ -1,4 +1,4 @@
-package com.rgs.cems;
+package com.rgs.cems.Firebase;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.rgs.cems.R;
 
 public class feedback extends AppCompatActivity {
     EditText emailet;

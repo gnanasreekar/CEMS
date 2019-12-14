@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.rgs.cems.Firebase.feedback;
 
 public class Myinfo extends AppCompatActivity {
     FloatingActionButton feedbackMyinfo;
@@ -46,7 +47,7 @@ public class Myinfo extends AppCompatActivity {
         feedbackMyinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Myinfo.this,feedback.class));
+                startActivity(new Intent(Myinfo.this, feedback.class));
             }
         });
     }

@@ -12,8 +12,6 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,7 +20,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,11 +39,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
-
-import java.util.Date;
-import java.util.concurrent.CountDownLatch;
-
-import is.arontibo.library.ElasticDownloadView;
+import com.roger.catloadinglibrary.CatLoadingView;
 
 
 public class Login extends AppCompatActivity {
@@ -57,10 +50,11 @@ public class Login extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
-    static public String fb_name, fb_uid , fb_email , fb_flag;
+    static public String fb_name, fb_uid , fb_email;
     ProgressDialog TempDialog;
     CountDownTimer mCountDownTimer;
     int i=0;
+    CatLoadingView mView;
 
 
 
@@ -77,6 +71,8 @@ public class Login extends AppCompatActivity {
         button_login = findViewById(R.id.button_login);
         signup = findViewById(R.id.signup);
         final String fbuid = firebaseAuth.getUid();
+        mView = new CatLoadingView();
+
 
         TempDialog = new ProgressDialog(Login.this);
         TempDialog.setMessage("Please wait...");
@@ -92,7 +88,8 @@ public class Login extends AppCompatActivity {
                 if (user != null) {
                     Toast.makeText(Login.this, "Please wait until login", Toast.LENGTH_SHORT).show();
                     Log.d("Redirect" , "This happened from LOGIN authstate listner");
-                    TempDialog.show();
+                  //  TempDialog.show();
+                    mView.show(getSupportFragmentManager(), "");
 
                     new Firebaseretrive().execute();
                 } else {
@@ -116,7 +113,8 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 String userEmail = login_username.getText().toString();
                 String userPaswd = login_password.getText().toString();
-                TempDialog.show();
+               // TempDialog.show();
+                mView.show(getSupportFragmentManager(), "");
 
                 if (userEmail.isEmpty()) {
                     login_username.setError("Provide your Email first!");
@@ -183,14 +181,12 @@ public class Login extends AppCompatActivity {
                         fb_name = dataSnapshot.child("Name").getValue().toString();
                         fb_email = dataSnapshot.child("Email").getValue().toString();
                         fb_uid = dataSnapshot.child("UID").getValue().toString();
-                        fb_flag = dataSnapshot.child("V1").getValue().toString();
                         Log.d("Firebase Database" , "data found");
 
                     } else {
                         fb_name = "NO data found";
                         fb_email = "NO data found";
                         fb_uid = "NO data found";
-                        fb_flag = "NO data found";
                         Log.d("Firebase Database" , "No data found");
                     }
                     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
@@ -202,22 +198,18 @@ public class Login extends AppCompatActivity {
                     Log.d("Firebase Name_ALogin" , fb_name);
                     Log.d("Firebase Email_ALogin" , fb_email);
                     Log.d("Firebase UID_ALogin" , fb_uid);
-
-                    Toast.makeText(Login.this, "This works", Toast.LENGTH_SHORT).show();
-                    Log.d("WOrks", fb_flag);
                     //TODO too much delay sometimes
 
 
-                    mCountDownTimer = new CountDownTimer(1000, 1000)
+                    mCountDownTimer = new CountDownTimer(2000, 1000)
                     {
                         public void onTick(long millisUntilFinished)
                         {
-                            TempDialog.setMessage("Please wait..");
                         }
 
                         public void onFinish()
                         {
-                            TempDialog.dismiss();
+                            mView.dismiss();
                             startActivity(new Intent(Login.this, MainActivity.class));
                             finish();
                         }
@@ -235,10 +227,6 @@ public class Login extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             Log.d("Redirect" , "This happned from LOGIN2");
-
-//                startActivity(new Intent(Login.this, MainActivity.class));
-//                finish();
-
 
         }
     }

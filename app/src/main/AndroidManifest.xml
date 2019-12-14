@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".FirebaseHandler"
+        android:name=".Firebase.FirebaseHandler"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -20,12 +20,11 @@
         <activity android:name=".DetailsDisplay" />
         <activity android:name=".About" />
         <activity
-            android:name=".Report"
+            android:name=".Firebase.Report"
             android:label="@string/title_activity_report"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ret" />
         <activity
-            android:name=".feedback"
+            android:name=".Firebase.feedback"
             android:label="@string/title_activity_feedback"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

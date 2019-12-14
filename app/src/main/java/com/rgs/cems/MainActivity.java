@@ -2,11 +2,9 @@ package com.rgs.cems;
 
 import android.animation.ValueAnimator;
 import android.app.Dialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.LocaleData;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +34,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.crashlytics.android.Crashlytics;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,6 +41,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.Auth.Login;
+import com.rgs.cems.Firebase.Report;
+import com.rgs.cems.Firebase.feedback;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -279,9 +277,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }  else if (id == R.id.dev_info) {
             startActivity(new Intent(MainActivity.this,About.class));
         } else if (id == R.id.nav_feedback) {
-            startActivity(new Intent(MainActivity.this,feedback.class));
+            startActivity(new Intent(MainActivity.this, feedback.class));
         } else if (id == R.id.nav_report) {
-            startActivity(new Intent(MainActivity.this,Report.class));
+            startActivity(new Intent(MainActivity.this, Report.class));
         }else if (id == R.id.nav_signout) {
             showsignoutDialog();
         }

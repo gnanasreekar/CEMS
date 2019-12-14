@@ -1,4 +1,4 @@
-package com.rgs.cems;
+package com.rgs.cems.Firebase;
 
 import android.app.Application;
 import android.content.SharedPreferences;

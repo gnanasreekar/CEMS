@@ -108,36 +108,6 @@ public class DetailsDisplay extends AppCompatActivity {
         });
         audotourim.start();
 
-        chart = findViewById(R.id.chart1);
-
-        chart.setUsePercentValues(true);
-        chart.getDescription().setEnabled(true);
-        chart.setExtraOffsets(5, 10 , 5 , 5);
-
-        chart.setDragDecelerationFrictionCoef(0.95f);
-
-        chart.setDrawHoleEnabled(true);
-        chart.setHoleColor(Color.WHITE);
-        chart.setTransparentCircleRadius(61f);
-
-        ArrayList<PieEntry> values = new ArrayList<>();
-
-        values.add(new PieEntry(a1 , "School"));
-        values.add(new PieEntry(b1 , "School Academic Block"));
-        values.add(new PieEntry(c1 , "School Admin Block"));
-        values.add(new PieEntry(d1 , "Girls Hostel"));
-        values.add(new PieEntry(n1 , "Auditorium"));
-
-        PieDataSet dataSet = new PieDataSet(values , "Units Today");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-
-        PieData data = new PieData(dataSet);
-        data.setValueTextSize(10f);
-        data.setValueTextColor(Color.YELLOW);
-
-        chart.setData(data);
 
     }
 
