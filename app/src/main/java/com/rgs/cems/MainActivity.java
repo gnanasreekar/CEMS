@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usagetv;
+    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usagetv, date_tv;
     CheckBox temp_status;
     int dpb;
     Integer TEC;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar ;
         toolbar = findViewById(R.id.toolbar);
         fab = findViewById(R.id.fab);
         navView = findViewById(R.id.nav_view);
@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         today_cost = (TextView) findViewById(R.id.today_cost);
         month_cost = (TextView) findViewById(R.id.month_cost);
         generator_usagetv = findViewById(R.id.generator_usage);
+        date_tv = findViewById(R.id.date_main);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+        date_tv.setText(sharedPreferences.getString("DATE" + 1, "0"));
 
         if (!sharedPreferences.getBoolean("firstTime", false)) {
             // <---- run your one time code here
