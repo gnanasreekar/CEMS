@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".DetailsDisplay" />
+        <activity android:name=".DetailsDisplay"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".About" />
         <activity
             android:name=".Firebase.Report"

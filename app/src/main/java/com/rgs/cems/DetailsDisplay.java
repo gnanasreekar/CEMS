@@ -1,6 +1,7 @@
 package com.rgs.cems;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.animation.ValueAnimator;
 import android.content.SharedPreferences;
@@ -45,6 +46,12 @@ public class DetailsDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_display);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         a = findViewById(R.id.ablock_power_tv);
         b = findViewById(R.id.bblock_power_tv);

@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.FirebaseDatabase;
+import com.rgs.cems.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +24,7 @@ import java.util.Locale;
 
 public class FirebaseHandler extends Application {
 
-    String url = "http://18.208.162.97/todaysusage";
+    String url =  "http://18.208.162.97/todaysusage";
     SharedPreferences sharedPreferences;
     int val = 0 , gen = 0;
     RequestQueue queue;
