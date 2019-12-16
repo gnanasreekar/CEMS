@@ -49,7 +49,7 @@ public class DetailsDisplay extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setTitle("Todays Usage");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
