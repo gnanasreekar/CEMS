@@ -19,10 +19,7 @@ public class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         setTitle("About");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //RGS profile
         LinearLayout profile_rgs = findViewById(R.id.profile_rgs);

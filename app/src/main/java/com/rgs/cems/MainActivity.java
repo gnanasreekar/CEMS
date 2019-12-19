@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
+        //TODO: warning status
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
         date_tv.setText(sharedPreferences.getString("DATE" + 1, "0"));
@@ -148,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         animator.start();
 
     }
-
 
     public void TEC() {
 
@@ -409,7 +409,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void changestatus(MenuItem item) {
-
         Toast.makeText(this, "ewefsfd", Toast.LENGTH_SHORT).show();
     }
 

@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
+import com.roger.catloadinglibrary.CatLoadingView;
 
 import java.util.Date;
 
@@ -41,7 +42,7 @@ public class Signup extends AppCompatActivity {
     Button buttom_signup;
     TextView signIn;
     FirebaseAuth firebaseAuth;
-
+    CatLoadingView mView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,12 @@ public class Signup extends AppCompatActivity {
         setTitle("SignUp");
         buttom_signup = findViewById(R.id.button_signup);
         signIn = findViewById(R.id.signin_signup);
+        mView = new CatLoadingView();
+
         buttom_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mView.show(getSupportFragmentManager(), "");
 
                 final String emailID = emailId.getText().toString();
                 String paswd = password.getText().toString();
@@ -104,6 +108,7 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("V2").setValue(0);
                                 //TODO: The place where intent should be placed
                                 Log.d("Firebase Signup dsent" , "YYYYYYYYYYYYYYYY");
+                                mView.dismiss();
                                 showaccountcreatedDialog();
 
                             }

@@ -6,12 +6,13 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home_black_24dp"
+            android:icon="@drawable/ic_home_white_24dp"
             android:title="@string/menu_home" />
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Communicate"
+        android:iconTint="@color/colorAccent">
         <menu>
             <item
                 android:id="@+id/dev_info"

@@ -41,6 +41,8 @@ import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 import com.roger.catloadinglibrary.CatLoadingView;
 
+import is.arontibo.library.ElasticDownloadView;
+
 
 public class Login extends AppCompatActivity {
 
@@ -53,8 +55,11 @@ public class Login extends AppCompatActivity {
     static public String fb_name, fb_uid , fb_email;
     ProgressDialog TempDialog;
     CountDownTimer mCountDownTimer;
-    int i=0;
+    int i=0 ;
+    String auth = "0";
     CatLoadingView mView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +72,7 @@ public class Login extends AppCompatActivity {
         login_password = findViewById(R.id.password);
         button_login = findViewById(R.id.button_login);
         signup = findViewById(R.id.signup);
+
         final String fbuid = firebaseAuth.getUid();
         mView = new CatLoadingView();
 
@@ -85,9 +91,8 @@ public class Login extends AppCompatActivity {
                 if (user != null) {
                     Toast.makeText(Login.this, "Please wait until login", Toast.LENGTH_SHORT).show();
                     Log.d("Redirect" , "This happened from LOGIN authstate listner");
-                  //  TempDialog.show();
-                    mView.show(getSupportFragmentManager(), "");
 
+                    mView.show(getSupportFragmentManager(), "");
                     new Firebaseretrive().execute();
                 } else {
                     firebaseAuth.removeAuthStateListener(authStateListener);
@@ -113,6 +118,7 @@ public class Login extends AppCompatActivity {
                // TempDialog.show();
                 mView.show(getSupportFragmentManager(), "");
 
+
                 if (userEmail.isEmpty()) {
                     login_username.setError("Provide your Email first!");
                     login_username.requestFocus();
@@ -129,7 +135,6 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(Login.this, "Not successful", Toast.LENGTH_SHORT).show();
                             } else {
                                 Log.d("Redirect" , "This happned from LOGIN normal sign in");
-
                                 new Firebaseretrive().execute();
                             }
                         }
@@ -153,12 +158,10 @@ public class Login extends AppCompatActivity {
         if(isNetworkAvailable()){
             Log.d("Internet Status Login" , "On line");
         } else {
+            mView.dismiss();
             showCustomDialog();
             Log.d("Internet Status Login" , "Off line");
         }
-
-
-
 
     }
 
@@ -177,12 +180,14 @@ public class Login extends AppCompatActivity {
                         fb_name = dataSnapshot.child("Name").getValue().toString();
                         fb_email = dataSnapshot.child("Email").getValue().toString();
                         fb_uid = dataSnapshot.child("UID").getValue().toString();
+                        auth = dataSnapshot.child("V1").getValue().toString();
                         Log.d("Firebase Database" , "data found");
 
                     } else {
                         fb_name = "NO data found";
                         fb_email = "NO data found";
                         fb_uid = "NO data found";
+                        auth = "0";
                         Log.d("Firebase Database" , "No data found");
                     }
                     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
@@ -205,9 +210,19 @@ public class Login extends AppCompatActivity {
 
                         public void onFinish()
                         {
-                            mView.dismiss();
-                            startActivity(new Intent(Login.this, MainActivity.class));
-                            finish();
+                            if(auth.equals("1")) {
+                                mView.dismiss();
+                                Log.d("AuthLogin","User Auth");
+                                startActivity(new Intent(Login.this, MainActivity.class));
+                                finish();
+
+                            } else if (auth.equals("0")) {
+                                notauthdialog();
+                                Log.d("AuthLogin","User not Auth");
+                            } else {
+                                Log.d("AuthLogin" , "Last else");
+                            }
+
                         }
                     }.start();
 
@@ -270,6 +285,33 @@ public class Login extends AppCompatActivity {
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
     }
+
+    public void notauthdialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.auth_failed);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AuthRequest/" + firebaseAuth.getUid());
+                databaseReference.child("Name").setValue(fb_email);
+                Toast.makeText(Login.this, "Auth Requested", Toast.LENGTH_SHORT).show();
+                finish();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+
 
     //Exit Dialog
     private void showexitDialog() {

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -34,13 +35,9 @@ import java.util.Locale;
 public class DetailsDisplay extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
-    TextView a,b,c,d,n;
-    Integer a1,b1,c1,d1,n1;
+    TextView a,b,c,d,n, ac, bc, cc, dc, nc , total_cost_tv , total_power_tv;
+    Integer a1,b1,c1,d1,n1, a1c, b1c , c1c, d1c ,n1c , cost = 3 , total_cost_value , total_power_value;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-    PieChart chart;
-    private Typeface tf;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +47,20 @@ public class DetailsDisplay extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Todays Usage");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         a = findViewById(R.id.ablock_power_tv);
         b = findViewById(R.id.bblock_power_tv);
         c = findViewById(R.id.cblock_power_tv);
         d = findViewById(R.id.dblock_power_tv);
         n = findViewById(R.id.nblock_power_tv);
+        ac = findViewById(R.id.ablock_cost_tv);
+        bc = findViewById(R.id.bblock_cost_tv);
+        cc = findViewById(R.id.cblock_cost_tv);
+        dc = findViewById(R.id.dblock_cost_tv);
+        nc = findViewById(R.id.nblock_cost_tv);
+        total_cost_tv = findViewById(R.id.total_cost_tv);
+        total_power_tv = findViewById(R.id.total_power_tv);
+
         sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
 
         try {
@@ -66,9 +69,85 @@ public class DetailsDisplay extends AppCompatActivity {
             c1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 2 , "2")).intValue();
             d1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 3 , "3")).intValue();
             n1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 4 , "4")).intValue();
+            a1c = a1 * cost;
+            b1c = b1 * cost;
+            c1c = c1 * cost;
+            d1c = d1 * cost;
+            n1c = n1 * cost;
+
+            total_cost_value = a1c + b1c + c1c + d1c + n1c;
+            total_power_value = a1 + b1 + c1 + d1 + n1;
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        settingtext();
+    }
+
+    private void settingtext() {
+
+        final ValueAnimator total_power = ValueAnimator.ofInt(0, total_power_value);
+        total_power.setDuration(1500);
+        total_power.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                total_power_tv.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        total_power.start();
+
+        ValueAnimator total_cost = ValueAnimator.ofInt(0, total_cost_value);
+        total_cost.setDuration(1500);
+        total_cost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                total_cost_tv.setText(animation.getAnimatedValue().toString() + " Rs");
+            }
+        });
+        total_cost.start();
+
+        ValueAnimator schoolcost = ValueAnimator.ofInt(0, a1c);
+        schoolcost.setDuration(1500);
+        schoolcost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                ac.setText(animation.getAnimatedValue().toString() + " Rs");
+            }
+        });
+        schoolcost.start();
+
+        ValueAnimator schooladmincost = ValueAnimator.ofInt(0, b1c);
+        schooladmincost.setDuration(1500);
+        schooladmincost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                bc.setText(animation.getAnimatedValue().toString() + " Rs");
+            }
+        });
+        schooladmincost.start();
+
+        ValueAnimator schoolacademiccost = ValueAnimator.ofInt(0, c1c);
+        schoolacademiccost.setDuration(1500);
+        schoolacademiccost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                cc.setText(animation.getAnimatedValue().toString() + " Rs");
+            }
+        });
+        schoolacademiccost.start();
+
+        ValueAnimator girlshostelcost = ValueAnimator.ofInt(0, d1c);
+        girlshostelcost.setDuration(1500);
+        girlshostelcost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                dc.setText(animation.getAnimatedValue().toString() + " Rs");
+            }
+        });
+        girlshostelcost.start();
+
+        ValueAnimator audotourimcost = ValueAnimator.ofInt(0, n1c);
+        audotourimcost.setDuration(1500);
+        audotourimcost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                nc.setText(animation.getAnimatedValue().toString() + " Rs");
+            }
+        });
+        audotourimcost.start();
 
         ValueAnimator school = ValueAnimator.ofInt(0, a1);
         school.setDuration(1500);
@@ -114,7 +193,6 @@ public class DetailsDisplay extends AppCompatActivity {
             }
         });
         audotourim.start();
-
 
     }
 }
