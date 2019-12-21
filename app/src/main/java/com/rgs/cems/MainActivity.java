@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usagetv, date_tv;
     CheckBox temp_status;
     int dpb;
-    Integer TEC;
+    Integer TEC , Todayscos;
     SharedPreferences sharedPreferences;
     String generatorusage = "http://18.208.162.97/generatortotal";
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
@@ -90,23 +90,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         generator_usagetv = findViewById(R.id.generator_usage);
         date_tv = findViewById(R.id.date_main);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navView.setNavigationItemSelectedListener(this);
+        {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
+            navView.setNavigationItemSelectedListener(this);
 
-        FloatingActionButton fab = findViewById(R.id.fabmain);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TEC();
-                new Getdata(getApplicationContext());
-                Snackbar.make(view, "Refreshing", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+            FloatingActionButton fab = findViewById(R.id.fabmain);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TEC();
+                    new Getdata(getApplicationContext());
+                    Snackbar.make(view, "Refreshing", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+        }
         //TODO: warning status
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void TEC() {
 
             TEC = sharedPreferences.getInt("TEC", 0);
+            Todayscos = TEC * 7;
             ValueAnimator animator = ValueAnimator.ofInt(0, TEC);
             animator.setDuration(1500);
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -161,7 +163,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
             animator.start();
-            //  startCountAnimation();
+
+        ValueAnimator Todayscost = ValueAnimator.ofInt(0, Todayscos);
+        Todayscost.setDuration(1500);
+        Todayscost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                today_cost.setText("₹ " + animation.getAnimatedValue().toString());
+            }
+        });
+        Todayscost.start();
 
             String date = sharedPreferences.getString("DATE" + 0, "Not aval");
 

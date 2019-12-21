@@ -38,9 +38,10 @@ public class DetailsDisplay extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     TextView a, b, c, d, n, ac, bc, cc, dc, nc, total_cost_tv, total_power_tv;
-    Integer a1, b1, c1, d1, n1, a1c, b1c, c1c, d1c, n1c, cost = 3, total_cost_value, total_power_value;
+    Integer a1, b1, c1, d1, n1, a1c, b1c, c1c, d1c, n1c, cost = 7, total_cost_value, total_power_value;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     LinearLayout school_details, schoo_acd, schol_admin, girls_hostel, audotirium;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +159,7 @@ public class DetailsDisplay extends AppCompatActivity {
         total_cost.setDuration(1500);
         total_cost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                total_cost_tv.setText(animation.getAnimatedValue().toString() + " Rs");
+                total_cost_tv.setText("₹ " + animation.getAnimatedValue().toString());
             }
         });
         total_cost.start();
@@ -167,7 +168,7 @@ public class DetailsDisplay extends AppCompatActivity {
         schoolcost.setDuration(1500);
         schoolcost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                ac.setText(animation.getAnimatedValue().toString() + " Rs");
+                ac.setText("₹ " + animation.getAnimatedValue().toString());
             }
         });
         schoolcost.start();
@@ -176,7 +177,7 @@ public class DetailsDisplay extends AppCompatActivity {
         schooladmincost.setDuration(1500);
         schooladmincost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                bc.setText(animation.getAnimatedValue().toString() + " Rs");
+                bc.setText("₹ " + animation.getAnimatedValue().toString());
             }
         });
         schooladmincost.start();
@@ -185,7 +186,7 @@ public class DetailsDisplay extends AppCompatActivity {
         schoolacademiccost.setDuration(1500);
         schoolacademiccost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                cc.setText(animation.getAnimatedValue().toString() + " Rs");
+                cc.setText("₹ " + animation.getAnimatedValue().toString());
             }
         });
         schoolacademiccost.start();
@@ -194,7 +195,7 @@ public class DetailsDisplay extends AppCompatActivity {
         girlshostelcost.setDuration(1500);
         girlshostelcost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                dc.setText(animation.getAnimatedValue().toString() + " Rs");
+                dc.setText("₹ " + animation.getAnimatedValue().toString());
             }
         });
         girlshostelcost.start();
@@ -203,7 +204,7 @@ public class DetailsDisplay extends AppCompatActivity {
         audotourimcost.setDuration(1500);
         audotourimcost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             public void onAnimationUpdate(ValueAnimator animation) {
-                nc.setText(animation.getAnimatedValue().toString() + " Rs");
+                nc.setText("₹ " + animation.getAnimatedValue().toString());
             }
         });
         audotourimcost.start();

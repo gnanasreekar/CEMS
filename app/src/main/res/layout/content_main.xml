@@ -401,7 +401,7 @@
                         android:layout_marginRight="@dimen/spacing_large"
                         android:textStyle="bold"
                         android:textSize="25sp"
-                        android:text="Rs. 2.6/Unit"
+                        android:text="Rs. 7/Unit"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                         android:textColor="@color/green_400" />
 
