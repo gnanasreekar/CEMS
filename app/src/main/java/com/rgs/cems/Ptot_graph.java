@@ -96,6 +96,7 @@ public class Ptot_graph extends AppCompatActivity {
                 makeJsonObjectMarksWithGraph(URL_ptot);
                 break;
             default:
+                nodataaval();
         }
 
         {   // // Chart Style // //
@@ -185,7 +186,6 @@ public class Ptot_graph extends AppCompatActivity {
         Legend l = chart.getLegend();
         // draw legend entries as lines
         l.setForm(Legend.LegendForm.LINE);
-
 
     }
 
@@ -475,7 +475,6 @@ public class Ptot_graph extends AppCompatActivity {
                     .show();
     }
 
-
     protected void requestStoragePermission(View view) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             Snackbar.make(view, "Write permission is required to save image to gallery", Snackbar.LENGTH_INDEFINITE)
@@ -495,7 +494,7 @@ public class Ptot_graph extends AppCompatActivity {
     public void nodataaval() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.signout);
+        dialog.setContentView(R.layout.no_data_aval);
         dialog.setCancelable(true);
 
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
