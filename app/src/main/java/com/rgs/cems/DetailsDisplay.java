@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -15,6 +16,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -35,9 +37,10 @@ import java.util.Locale;
 public class DetailsDisplay extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
-    TextView a,b,c,d,n, ac, bc, cc, dc, nc , total_cost_tv , total_power_tv;
-    Integer a1,b1,c1,d1,n1, a1c, b1c , c1c, d1c ,n1c , cost = 3 , total_cost_value , total_power_value;
+    TextView a, b, c, d, n, ac, bc, cc, dc, nc, total_cost_tv, total_power_tv;
+    Integer a1, b1, c1, d1, n1, a1c, b1c, c1c, d1c, n1c, cost = 3, total_cost_value, total_power_value;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+    LinearLayout school_details, schoo_acd, schol_admin, girls_hostel, audotirium;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,27 +51,36 @@ public class DetailsDisplay extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Todays Usage");
 
-        a = findViewById(R.id.ablock_power_tv);
-        b = findViewById(R.id.bblock_power_tv);
-        c = findViewById(R.id.cblock_power_tv);
-        d = findViewById(R.id.dblock_power_tv);
-        n = findViewById(R.id.nblock_power_tv);
-        ac = findViewById(R.id.ablock_cost_tv);
-        bc = findViewById(R.id.bblock_cost_tv);
-        cc = findViewById(R.id.cblock_cost_tv);
-        dc = findViewById(R.id.dblock_cost_tv);
-        nc = findViewById(R.id.nblock_cost_tv);
-        total_cost_tv = findViewById(R.id.total_cost_tv);
-        total_power_tv = findViewById(R.id.total_power_tv);
+        {
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+            a = findViewById(R.id.ablock_power_tv);
+            b = findViewById(R.id.bblock_power_tv);
+            c = findViewById(R.id.cblock_power_tv);
+            d = findViewById(R.id.dblock_power_tv);
+            n = findViewById(R.id.nblock_power_tv);
+            ac = findViewById(R.id.ablock_cost_tv);
+            bc = findViewById(R.id.bblock_cost_tv);
+            cc = findViewById(R.id.cblock_cost_tv);
+            dc = findViewById(R.id.dblock_cost_tv);
+            nc = findViewById(R.id.nblock_cost_tv);
+            total_cost_tv = findViewById(R.id.total_cost_tv);
+            total_power_tv = findViewById(R.id.total_power_tv);
+            school_details = findViewById(R.id.school_details);
+            schol_admin = findViewById(R.id.school_amdin_block_details);
+            schoo_acd = findViewById(R.id.school_acadamic_block_details);
+            girls_hostel = findViewById(R.id.girlshostel_details);
+            audotirium = findViewById(R.id.auditotium_details);
+
+        }
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
 
         try {
-            a1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 0 , "1")).intValue();
-            b1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 1 , "1")).intValue();
-            c1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 2 , "2")).intValue();
-            d1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 3 , "3")).intValue();
-            n1 =numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 4 , "4")).intValue();
+            a1 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 0, "1")).intValue();
+            b1 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 1, "1")).intValue();
+            c1 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 2, "2")).intValue();
+            d1 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 3, "3")).intValue();
+            n1 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 4, "4")).intValue();
             a1c = a1 * cost;
             b1c = b1 * cost;
             c1c = c1 * cost;
@@ -82,6 +94,53 @@ public class DetailsDisplay extends AppCompatActivity {
             e.printStackTrace();
         }
         settingtext();
+
+        {
+            school_details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DetailsDisplay.this, Ptot_graph.class);
+                    intent.putExtra("value", 2);
+                    startActivity(intent);
+                }
+            });
+
+            schoo_acd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DetailsDisplay.this, Ptot_graph.class);
+                    intent.putExtra("value", 3);
+                    startActivity(intent);
+                }
+            });
+
+            schol_admin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DetailsDisplay.this, Ptot_graph.class);
+                    intent.putExtra("value", 4);
+                    startActivity(intent);
+                }
+            });
+
+            girls_hostel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DetailsDisplay.this, Ptot_graph.class);
+                    intent.putExtra("value", 5);
+                    startActivity(intent);
+                }
+            });
+
+            audotirium.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DetailsDisplay.this, Ptot_graph.class);
+                    intent.putExtra("value", 6);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void settingtext() {

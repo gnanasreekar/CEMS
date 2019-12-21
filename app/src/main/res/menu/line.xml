@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/actionToggleValues"
+        android:title="actionToggleValues">
+    </item>
+    <item
+        android:id="@+id/actionToggleIcons"
+        android:title="actionToggleIcons">
+    </item>
+    <item
+        android:id="@+id/actionToggleFilled"
+        android:title="actionToggleFilled">
+    </item>
+    <item
+        android:id="@+id/actionToggleCircles"
+        android:title="actionToggleCircles">
+    </item>
+    <item
+        android:id="@+id/actionToggleCubic"
+        android:title="actionToggleCubic">
+    </item>
+    <item
+        android:id="@+id/actionToggleStepped"
+        android:title="actionToggleStepped">
+    </item>
+    <item
+        android:id="@+id/actionToggleHorizontalCubic"
+        android:title="actionToggleHorizontalCubic">
+    </item>
+    <item
+        android:id="@+id/actionTogglePinch"
+        android:title="actionTogglePinch">
+    </item>
+    <item
+        android:id="@+id/actionToggleAutoScaleMinMax"
+        android:title="actionToggleAutoScale">
+    </item>
+    <item
+        android:id="@+id/actionToggleHighlight"
+        android:title="actionToggleHighlight">
+    </item>
+    <item
+        android:id="@+id/animateX"
+        android:title="animateX">
+    </item>
+    <item
+        android:id="@+id/animateY"
+        android:title="animateY">
+    </item>
+    <item
+        android:id="@+id/animateXY"
+        android:title="animateXY">
+    </item>
+    <item
+        android:id="@+id/actionSave"
+        android:title="actionSave">
+    </item>
+
+</menu>

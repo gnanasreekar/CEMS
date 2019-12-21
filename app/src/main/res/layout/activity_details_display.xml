@@ -83,6 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:id="@+id/school_details"
                     android:clickable="true"
                     android:padding="@dimen/spacing_large">
 
@@ -172,6 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:id="@+id/school_acadamic_block_details"
                     android:padding="@dimen/spacing_large">
 
                     <LinearLayout
@@ -260,6 +262,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:id="@+id/school_amdin_block_details"
                     android:clickable="true"
                     android:padding="@dimen/spacing_large">
 
@@ -347,6 +350,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:id="@+id/girlshostel_details"
                     android:padding="@dimen/spacing_large">
 
                     <LinearLayout
@@ -433,6 +437,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/auditotium_details"
                     android:orientation="horizontal"
                     android:padding="@dimen/spacing_large">
 
