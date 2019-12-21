@@ -103,7 +103,7 @@ public class Ptot_graph extends AppCompatActivity {
             chart = findViewById(R.id.chart1);
 
             // background color
-            chart.setBackgroundColor(Color.WHITE);
+            chart.setBackgroundColor(Color.DKGRAY);
 
             // disable description text
             chart.getDescription().setEnabled(false);
@@ -157,7 +157,7 @@ public class Ptot_graph extends AppCompatActivity {
             llXAxis.setTextSize(10f);
 
 
-            LimitLine ll1 = new LimitLine(150f, "Upper Limit");
+            LimitLine ll1 = new LimitLine(200f, "Upper Limit");
             ll1.setLineWidth(4f);
             ll1.enableDashedLine(10f, 10f, 0f);
             ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
@@ -176,7 +176,7 @@ public class Ptot_graph extends AppCompatActivity {
 
             // add limit lines
             yAxis.addLimitLine(ll1);
-            yAxis.addLimitLine(ll2);
+          //  yAxis.addLimitLine(ll2);
             //xAxis.addLimitLine(llXAxis);
         }
 
@@ -244,6 +244,7 @@ public class Ptot_graph extends AppCompatActivity {
                                 // draw dashed line
                                 set.enableDashedLine(10f, 5f, 0f);
                                 // black lines and points
+                                set.setDrawCircles(false);
                                 // set.setColor(Color.BLACK);
                                 set.setCircleColor(Color.BLACK);
                                 // line thickness and point size
@@ -257,6 +258,7 @@ public class Ptot_graph extends AppCompatActivity {
                                 set.setFormSize(15.f);
                                 // text size of values
                                 set.setValueTextSize(9f);
+                                set.setValueTextColor(Color.WHITE);
                                 // draw selection line as dashed
                                 set.enableDashedHighlightLine(10f, 5f, 0f);
                                 // set the filled area
