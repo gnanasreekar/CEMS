@@ -281,6 +281,8 @@ public class Ptot_graph extends AppCompatActivity {
                                 testDataSet.add(set);
 
                             }
+                            chart.getXAxis().setTextColor(Color.WHITE);
+                            chart.getAxisLeft().setTextColor(Color.WHITE); // left y-axis
                             chart.setData(new LineData(testDataSet));
                             chart.notifyDataSetChanged();
                             chart.invalidate();
