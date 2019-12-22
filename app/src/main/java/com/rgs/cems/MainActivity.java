@@ -350,7 +350,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 ShowIntro("Generator Output", "The Power output from the Generator", R.id.generator_layout, 1);
-
                 dialog.dismiss();
             }
         });
