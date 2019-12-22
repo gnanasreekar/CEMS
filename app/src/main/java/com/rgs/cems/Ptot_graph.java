@@ -202,8 +202,13 @@ public class Ptot_graph extends AppCompatActivity {
             //xAxis.addLimitLine(llXAxis);
         }
 
+
+
         // draw points over time
         chart.animateX(1500);
+        chart.getXAxis().setTextColor(Color.WHITE);
+        chart.getAxisLeft().setTextColor(Color.WHITE);
+
         // get the legend (only possible after setting data)
         Legend l = chart.getLegend();
         // draw legend entries as lines
@@ -265,13 +270,13 @@ public class Ptot_graph extends AppCompatActivity {
                             JSONArray jArray = new JSONArray(response);
                             for (int i = 0; i < jArray.length(); i++) {
                                 JSONObject jsonObject = jArray.getJSONObject(i);
-                                String Marks = jsonObject.getString("Ptot");
-                                String examDescription = jsonObject.getString("tstamp");
-                                Log.d("Hello" , Marks);
+                                String ptot = jsonObject.getString("Ptot");
+                                String tstamp = jsonObject.getString("tstamp");
+                                Log.d("Hello" , ptot);
 
 
-                                entries.add(new Entry(i, Float.parseFloat(Marks)));
-                                String[] parts = examDescription.split(" ");
+                                entries.add(new Entry(i, Float.parseFloat(ptot)));
+                                String[] parts = tstamp.split(" ");
                                 String second = parts[1];
                                 String[] timewithoutsec = second.split(":");
                                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
@@ -352,133 +357,6 @@ public class Ptot_graph extends AppCompatActivity {
             }
         };
         requestQueue.add(stringRequest);
-    }
-
-
-    private void makeJsonObjectMarksWithGraph(String URL_ptot) {
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-
-                            JSONArray jsonArray = new JSONArray(response);
-                            HashMap<Integer, ArrayList<JSONObject>> dataFilteredByTerm = new HashMap<>();
-
-                            // filter response to add terms
-                            ArrayList<Integer> termIDs = new ArrayList<>();
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                if (i == 0) {
-                                    termIDs.add(jsonArray.optJSONObject(i).optInt("tstamp"));
-                                }
-                                boolean check = termIDs.contains(jsonArray.optJSONObject(i).optString("tstamp"));
-                                if (check) {
-                                    termIDs.add(jsonArray.optJSONObject(i).optInt("tstamp"));
-                                }
-                            }
-
-                            //group json response according to term ids
-                            for (int i = 0; i < termIDs.size(); i++) {
-                                ArrayList<JSONObject> jsonObjects = new ArrayList<>();
-                                for (int k = 0; k < jsonArray.length(); k++) {
-
-                                    if (termIDs.get(i) == jsonArray.optJSONObject(k).optInt("tstamp")) {
-
-                                        jsonObjects.add(jsonArray.optJSONObject(k));
-                                    }
-                                }
-                                dataFilteredByTerm.put(termIDs.get(i), jsonObjects);
-                            }
-
-                            //set entry for every marks grouped by terms
-                            ArrayList<ILineDataSet> testDataSet = new ArrayList<>();
-
-                            for (int i = 0; i < dataFilteredByTerm.size(); i++) {
-
-                                ArrayList<JSONObject> values = dataFilteredByTerm.get(termIDs.get(i));
-                                ArrayList<Entry> ptot = new ArrayList<>();
-
-                                for (int k = 0; k < values.size(); k++) {
-                                    ptot.add(new Entry(k, values.get(k).optInt("Ptot")));
-                                }
-
-                                LineDataSet set = new LineDataSet(ptot, values.get(i).optString("examDescription"));
-
-                                set.setDrawIcons(false);
-                                // draw dashed line
-                                set.enableDashedLine(10f, 5f, 0f);
-                                // black lines and points
-                                set.setDrawCircles(false);
-                                // set.setColor(Color.BLACK);
-                                set.setCircleColor(Color.BLACK);
-                                // line thickness and point size
-                                set.setLineWidth(1f);
-                                set.setCircleRadius(3f);
-                                // draw points as solid circles
-                                set.setDrawCircleHole(false);
-                                // customize legend entry
-                                set.setFormLineWidth(1f);
-                                set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-                                set.setFormSize(15.f);
-                                // text size of values
-                                set.setValueTextSize(9f);
-                                set.setValueTextColor(Color.WHITE);
-                                // draw selection line as dashed
-                                set.enableDashedHighlightLine(10f, 5f, 0f);
-                                // set the filled area
-                                set.setDrawFilled(true);
-                                set.setFillFormatter(new IFillFormatter() {
-                                    @Override
-                                    public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
-                                        return chart.getAxisLeft().getAxisMinimum();
-                                    }
-                                });
-
-                                if (Utils.getSDKInt() >= 18) {
-                                    // drawables only supported on api level 18 and above
-                                    Drawable drawable = ContextCompat.getDrawable(Ptot_graph.this, R.drawable.fade_red);
-                                    set.setFillDrawable(drawable);
-                                } else {
-                                    set.setFillColor(Color.BLACK);
-                                }
-
-                                testDataSet.add(set);
-
-                            }
-                            chart.getXAxis().setTextColor(Color.WHITE);
-                            chart.getAxisLeft().setTextColor(Color.WHITE); // left y-axis
-                            chart.setData(new LineData(testDataSet));
-                            chart.notifyDataSetChanged();
-                            chart.invalidate();
-
-
-                        } catch (JSONException e) {
-                            Toast.makeText(Ptot_graph.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                , new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Ptot_graph.this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }
-        ) {
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization", "Bearer " + access_token);
-                headers.put("Content-Type", "application/x-www-form-urlencoded");
-                return headers;
-            }
-        };
-
-        requestQueue.add(stringRequest);
-
     }
 
     @Override
