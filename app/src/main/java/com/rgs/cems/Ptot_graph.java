@@ -116,6 +116,11 @@ public class Ptot_graph extends AppCompatActivity {
                 nodataaval();
         }
 
+        MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
+        // Set the marker to the chart
+        mv.setChartView(chart);
+        chart.setMarker(mv);
+
         {   // // Chart Style // //
             chart = findViewById(R.id.chart1);
 
@@ -267,15 +272,53 @@ public class Ptot_graph extends AppCompatActivity {
 
                                 entries.add(new Entry(i, Float.parseFloat(Marks)));
                                 String[] parts = examDescription.split(" ");
-                                String first = parts[0];//"hello"
-                                String second = parts[1];//"World"
-                                labels.add(second);
+                                String second = parts[1];
+                                String[] timewithoutsec = second.split(":");
+                                String time = timewithoutsec[0] + "." + timewithoutsec[1];
+                                labels.add(time);
 
                             }
 
                             set = new LineDataSet(entries, Block);
                             data = new LineData(set);
 
+                            set.setDrawIcons(false);
+                            // draw dashed line
+                            set.enableDashedLine(10f, 5f, 0f);
+                            // black lines and points
+                            set.setDrawCircles(false);
+                            // set.setColor(Color.BLACK);
+                            set.setCircleColor(Color.BLACK);
+                            // line thickness and point size
+                            set.setLineWidth(1f);
+                            set.setCircleRadius(3f);
+                            // draw points as solid circles
+                            set.setDrawCircleHole(false);
+                            // customize legend entry
+                            set.setFormLineWidth(1f);
+                            set.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+                            set.setFormSize(15.f);
+                            // text size of values
+                            set.setValueTextSize(9f);
+                            set.setValueTextColor(Color.WHITE);
+                            // draw selection line as dashed
+                            set.enableDashedHighlightLine(10f, 5f, 0f);
+                            // set the filled area
+                            set.setDrawFilled(true);
+                            set.setFillFormatter(new IFillFormatter() {
+                                @Override
+                                public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                                    return chart.getAxisLeft().getAxisMinimum();
+                                }
+                            });
+
+                            if (Utils.getSDKInt() >= 18) {
+                                // drawables only supported on api level 18 and above
+                                Drawable drawable = ContextCompat.getDrawable(Ptot_graph.this, R.drawable.fade_red);
+                                set.setFillDrawable(drawable);
+                            } else {
+                                set.setFillColor(Color.BLACK);
+                            }
 
                             chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
                             chart.setData(data);
