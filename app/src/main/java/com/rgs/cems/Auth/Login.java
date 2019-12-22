@@ -149,7 +149,6 @@ public class Login extends AppCompatActivity {
         if(isNetworkAvailable()){
             Log.d("Internet Status Login" , "On line");
         } else {
-            mView.dismiss();
             showCustomDialog();
             Log.d("Internet Status Login" , "Off line");
         }

@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TEC();
 
 
-        ShowIntro("Generator Output", "The Power output from the Generator", R.id.generator_layout, 1);
 
     }
 
@@ -157,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setTargetView((LinearLayout)findViewById(viewId))
                 .setContentTextSize(12)//optional
                 .setTitleTextSize(14)//optional
-                .setDismissType(GuideView.DismissType.targetView) //optional - default dismissible by TargetView
+                .setDismissType(GuideView.DismissType.anywhere) //optional - default dismissible by TargetView
                 .setGuideListener(new GuideView.GuideListener() {
                     @Override
                     public void onDismiss(View view) {
@@ -350,6 +349,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ShowIntro("Generator Output", "The Power output from the Generator", R.id.generator_layout, 1);
+
                 dialog.dismiss();
             }
         });
