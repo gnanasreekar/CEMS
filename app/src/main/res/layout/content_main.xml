@@ -69,6 +69,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/todays"
                     android:orientation="horizontal"
                     android:clickable="true"
                     android:onClick="changeactivity"
@@ -197,6 +198,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:id="@+id/months_layout"
                     android:padding="@dimen/spacing_large">
 
                     <LinearLayout
@@ -321,6 +323,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:id="@+id/generator_layout"
                     android:padding="@dimen/spacing_large">
 
                     <LinearLayout
@@ -422,6 +425,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:id="@+id/warning_error"
                         android:orientation="horizontal">
 
                         <LinearLayout

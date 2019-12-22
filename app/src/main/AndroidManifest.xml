@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".Firebase.FirebaseHandler"
+        android:name=".Dataretrive.FirebaseHandler"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_electry_round"
@@ -27,11 +27,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".About" />
         <activity
-            android:name=".Firebase.Report"
+            android:name=".Dataretrive.Report"
             android:label="@string/title_activity_report"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Firebase.feedback"
+            android:name=".Dataretrive.feedback"
             android:label="@string/title_activity_feedback"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

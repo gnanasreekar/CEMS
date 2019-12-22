@@ -8,19 +8,13 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -35,7 +29,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -49,11 +42,10 @@ import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.rgs.cems.Auth.Login;
+import com.rgs.cems.Justclasses.MyMarkerView;
+import com.rgs.cems.Justclasses.ViewAnimation;
 import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONArray;
@@ -477,19 +469,19 @@ public class Ptot_graph extends AppCompatActivity {
                                 }
                             });
 
-                            if (Utils.getSDKInt() >= 18) {
-                                // drawables only supported on api level 18 and above
-                                Drawable drawable = ContextCompat.getDrawable(Ptot_graph.this, R.drawable.fade_red);
-                                set.setFillDrawable(drawable);
-                            } else {
-                                set.setFillColor(Color.BLACK);
-                            }
+//                            if (Utils.getSDKInt() >= 18) {
+//                                // drawables only supported on api level 18 and above
+//                                Drawable drawable = ContextCompat.getDrawable(Ptot_graph.this, R.drawable.fade_red);
+//                                set.setFillDrawable(drawable);
+//                            } else {
+//                                set.setFillColor(Color.BLACK);
+//                            }
 
                             chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
                             chart.setData(data);
                             chart.notifyDataSetChanged();
                             chart.invalidate();
-                            set.setColor(Color.RED);
+                            set.setColor(Color.WHITE);
                             mView.dismiss();
 
 

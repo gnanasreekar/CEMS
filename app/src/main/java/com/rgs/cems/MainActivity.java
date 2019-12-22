@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,14 +42,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.Auth.Login;
-import com.rgs.cems.Firebase.Report;
-import com.rgs.cems.Firebase.feedback;
+import com.rgs.cems.Dataretrive.Report;
+import com.rgs.cems.Dataretrive.feedback;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -63,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar ;
     String generatorusage = "http://18.208.162.97/generatortotal";
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+    private LinearLayout generatorLayout;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             month_cost = (TextView) findViewById(R.id.month_cost);
             generator_usagetv = findViewById(R.id.generator_usage);
             date_tv = findViewById(R.id.date_main);
+            generatorLayout = (LinearLayout) findViewById(R.id.generator_layout);
+
 
         }
 
@@ -135,6 +144,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         httpCall(generatorusage);
         TEC();
 
+
+        ShowIntro("Generator Output", "The Power output from the Generator", R.id.generator_layout, 1);
+
+    }
+
+    private void ShowIntro(String title, String text, int viewId, final int type) {
+
+        new GuideView.Builder(this)
+                .setTitle(title)
+                .setContentText(text)
+                .setTargetView((LinearLayout)findViewById(viewId))
+                .setContentTextSize(12)//optional
+                .setTitleTextSize(14)//optional
+                .setDismissType(GuideView.DismissType.targetView) //optional - default dismissible by TargetView
+                .setGuideListener(new GuideView.GuideListener() {
+                    @Override
+                    public void onDismiss(View view) {
+                        if (type == 1) {
+                            ShowIntro("Month's Usage", "Amount of Units consumed this month", R.id.months_layout, 2);
+                        }   else if (type == 2) {
+                            ShowIntro("Status", "Warnings and Errors will be displayed here", R.id.warning_error, 3);
+
+                        } else if (type == 3) {
+                            ShowIntro("Today's USage", "Amount of Units consumed today", R.id.todays, 4);
+                        }else if (type == 4) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("showcase", false);
+                        }
+                    }
+                })
+                .build()
+                .show();
     }
 
     public void TEC() {

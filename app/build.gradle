@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.6.3"
+        versionName "1.6.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -48,6 +48,8 @@ dependencies {
     implementation 'com.mikhaellopez:circularimageview:3.2.0'
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.4'
+    implementation 'com.github.mreram:ShowCaseView:1.0.5'
+
 
 
     implementation 'com.github.tibolte:elasticdownload:1.0.4'

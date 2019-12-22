@@ -2,6 +2,7 @@ package com.rgs.cems;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -19,12 +20,23 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
+import com.github.mikephil.charting.model.GradientColor;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,6 +44,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class DetailsDisplay extends AppCompatActivity {
@@ -41,6 +54,7 @@ public class DetailsDisplay extends AppCompatActivity {
     Integer a1, b1, c1, d1, n1, a1c, b1c, c1c, d1c, n1c, cost = 7, total_cost_value, total_power_value;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     LinearLayout school_details, schoo_acd, schol_admin, girls_hostel, audotirium;
+    BarChart chart;
 
 
     @Override
@@ -141,6 +155,143 @@ public class DetailsDisplay extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+        }
+
+        {
+            chart = findViewById(R.id.barchart);
+            //  chart.setOnChartValueSelectedListener(DetailsDisplay.this);
+
+            chart.setDrawBarShadow(false);
+            chart.setDrawValueAboveBar(true);
+
+            chart.getDescription().setEnabled(false);
+
+            // if more than 60 entries are displayed in the chart, no values will be
+            // drawn
+            chart.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            chart.setPinchZoom(false);
+
+            chart.setDrawGridBackground(false);
+            // chart.setDrawYLabels(false);
+
+            //    ValueFormatter xAxisFormatter = new DayAxisValueFormatter(chart);
+
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(false);
+            xAxis.setGranularity(1f); // only intervals of 1 day
+            xAxis.setLabelCount(7);
+            //   xAxis.setValueFormatter(xAxisFormatter);
+
+            //   ValueFormatter custom = new MyValueFormatter("$");
+
+            YAxis leftAxis = chart.getAxisLeft();
+            leftAxis.setLabelCount(8, false);
+            //  leftAxis.setValueFormatter(custom);
+            leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+            leftAxis.setSpaceTop(15f);
+            leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+            YAxis rightAxis = chart.getAxisRight();
+            rightAxis.setDrawGridLines(false);
+            rightAxis.setLabelCount(8, false);
+            //  rightAxis.setValueFormatter(custom);
+            rightAxis.setSpaceTop(15f);
+            rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+            Legend l = chart.getLegend();
+            l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+            l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+            l.setDrawInside(false);
+            l.setForm(Legend.LegendForm.SQUARE);
+            l.setFormSize(9f);
+            l.setTextSize(11f);
+            l.setXEntrySpace(4f);
+
+//            XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
+//            mv.setChartView(chart); // For bounds control
+//            chart.setMarker(mv);
+        }
+
+        setData();
+
+    }
+
+    private void setData() {
+
+        float start = 1f;
+
+        ArrayList<BarEntry> values = new ArrayList<>();
+
+
+        values.add(new BarEntry(1f, a1));
+        values.add(new BarEntry(2f, b1));
+        values.add(new BarEntry(3f, c1));
+        values.add(new BarEntry(4f, d1));
+        values.add(new BarEntry(5f, n1));
+
+        final ArrayList<String> xAxisLabel = new ArrayList<>();
+        xAxisLabel.add("School");
+        xAxisLabel.add("School");
+        xAxisLabel.add("Acd block");
+        xAxisLabel.add("Admin block");
+        xAxisLabel.add("Girls Hostel");
+        xAxisLabel.add("Auditorium");
+
+        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+
+
+        BarDataSet set1;
+
+        if (chart.getData() != null &&
+                chart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
+            set1.setValues(values);
+            chart.getData().notifyDataChanged();
+            chart.notifyDataSetChanged();
+
+        } else {
+            set1 = new BarDataSet(values, "Today's Power Usage");
+
+            set1.setDrawIcons(false);
+
+//            set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
+            /*int startColor = ContextCompat.getColor(this, android.R.color.holo_blue_dark);
+            int endColor = ContextCompat.getColor(this, android.R.color.holo_blue_bright);
+            set1.setGradientColor(startColor, endColor);*/
+
+            int startColor1 = ContextCompat.getColor(this, android.R.color.holo_orange_light);
+            int startColor2 = ContextCompat.getColor(this, android.R.color.holo_blue_light);
+            int startColor3 = ContextCompat.getColor(this, android.R.color.holo_orange_light);
+            int startColor4 = ContextCompat.getColor(this, android.R.color.holo_green_light);
+            int startColor5 = ContextCompat.getColor(this, android.R.color.holo_red_light);
+            int endColor1 = ContextCompat.getColor(this, android.R.color.holo_blue_dark);
+            int endColor2 = ContextCompat.getColor(this, android.R.color.holo_purple);
+            int endColor3 = ContextCompat.getColor(this, android.R.color.holo_green_dark);
+            int endColor4 = ContextCompat.getColor(this, android.R.color.holo_red_dark);
+            int endColor5 = ContextCompat.getColor(this, android.R.color.holo_orange_dark);
+
+            List<GradientColor> gradientColors = new ArrayList<>();
+            gradientColors.add(new GradientColor(startColor1, endColor1));
+            gradientColors.add(new GradientColor(startColor2, endColor2));
+            gradientColors.add(new GradientColor(startColor3, endColor3));
+            gradientColors.add(new GradientColor(startColor4, endColor4));
+            gradientColors.add(new GradientColor(startColor5, endColor5));
+
+            set1.setGradientColors(gradientColors);
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+
+            BarData data = new BarData(dataSets);
+            data.setValueTextSize(10f);
+            data.setBarWidth(0.9f);
+
+            chart.setData(data);
         }
     }
 
