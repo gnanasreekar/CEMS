@@ -45,6 +45,7 @@ import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String generatorusage = "http://18.208.162.97/generatortotal";
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     private LinearLayout generatorLayout;
+    static MainActivity instance;
 
 
 
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        instance = this;
 
 
         {
@@ -108,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    TEC();
                     new Getdata(getApplicationContext());
                     Snackbar.make(view, "Refreshing", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -177,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .show();
     }
 
+    public static MainActivity getInstance() {
+        return instance;
+    }
+
     public void TEC() {
 
             TEC = sharedPreferences.getInt("TEC", 0);
@@ -190,14 +196,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             });
             animator.start();
 
-        ValueAnimator Todayscost = ValueAnimator.ofInt(0, Todayscos);
-        Todayscost.setDuration(1500);
-        Todayscost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                today_cost.setText("₹ " + animation.getAnimatedValue().toString());
-            }
-        });
-        Todayscost.start();
+            DecimalFormat decim = new DecimalFormat("#,###.##");
+            today_cost.setText("₹ " +decim.format(Todayscos));
+
+
+//        ValueAnimator Todayscost = ValueAnimator.ofInt(0, Todayscos);
+//        Todayscost.setDuration(1500);
+//        Todayscost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                today_cost.setText("₹ " + animation.getAnimatedValue().toString());
+//            }
+//        });
+//        Todayscost.start();
 
             String date = sharedPreferences.getString("DATE" + 0, "Not aval");
 

@@ -16,15 +16,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Getdata {
 
     String url = "http://18.208.162.97/todaysusage";
     SharedPreferences sharedPreferences;
-    int val = 0;
+    int val = 0, gen =0;
     RequestQueue queue;
     StringRequest stringRequest;
+    NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+
 
     Getdata(final Context context) {
         queue = Volley.newRequestQueue(context);
@@ -49,15 +54,22 @@ public class Getdata {
                                 Log.d("HEllo DATE other calss" , Date);
                                 Log.d("HEllo EC other calss" , String.valueOf(EC));
                                 Log.d("HEllo MID other calss" , MID);
+
+                                gen = gen +  numberFormat.parse(EC).intValue();
+                                editor.putInt("TEC" , gen);
                                 editor.putString("DATE" +val ,Date);
                                 editor.putString("Energy Consumed" + val, EC);
                                 editor.putString("Meter ID" + val , MID);
                                 editor.putInt("Jsonlength" , json.length());
                                 editor.apply();
                                 val++;
+                                MainActivity mainActivity = MainActivity.getInstance();
+                                mainActivity.TEC();
                             }
                         } catch (JSONException e) {
                             Log.d("HEllo" , e.getMessage());
+                            e.printStackTrace();
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
 
