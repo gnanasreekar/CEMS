@@ -44,6 +44,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
@@ -60,12 +61,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 public class Ptot_graph extends AppCompatActivity {
 
-    String URL_ptot;
+    String URL_ptot , Block;
     LineChart chart;
     String access_token;
     private static final int PERMISSION_STORAGE = 0;
+    ArrayList<Entry> entries = new ArrayList<>();
+    ArrayList<String> labels = new ArrayList<>();
+    LineDataSet set;
+    LineData data;
 
 
     @Override
@@ -81,24 +88,29 @@ public class Ptot_graph extends AppCompatActivity {
                 nodataaval();
                 break;
             case 2:
+                Block = "School";
                 URL_ptot = "http://18.208.162.97/ptottoday2";
-                makeJsonObjectMarksWithGraph(URL_ptot);
+                makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 3:
+                Block = "School Academic Block";
                 URL_ptot = "http://18.208.162.97/ptottoday3";
-                makeJsonObjectMarksWithGraph(URL_ptot);
+                makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 4:
+                Block = "School Admin Block";
                 URL_ptot = "http://18.208.162.97/ptottoday4";
-                makeJsonObjectMarksWithGraph(URL_ptot);
+                makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 5:
+                Block = "Girls Hostel";
                 URL_ptot = "http://18.208.162.97/ptottoday5";
-                makeJsonObjectMarksWithGraph(URL_ptot);
+                makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 6:
+                Block = "Auditorium";
                 URL_ptot = "http://18.208.162.97/ptottoday6";
-                makeJsonObjectMarksWithGraph(URL_ptot);
+                makeJsonObjectRequestGraph(URL_ptot);
                 break;
             default:
                 nodataaval();
@@ -234,6 +246,71 @@ public class Ptot_graph extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
+
+    private void makeJsonObjectRequestGraph(String URL_ptot) {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+
+
+                            JSONArray jArray = new JSONArray(response);
+                            for (int i = 0; i < jArray.length(); i++) {
+                                JSONObject jsonObject = jArray.getJSONObject(i);
+                                String Marks = jsonObject.getString("Ptot");
+                                String examDescription = jsonObject.getString("tstamp");
+                                Log.d("Hello" , Marks);
+
+
+                                entries.add(new Entry(i, Float.parseFloat(Marks)));
+                                String[] parts = examDescription.split(" ");
+                                String first = parts[0];//"hello"
+                                String second = parts[1];//"World"
+                                labels.add(second);
+
+                            }
+
+                            set = new LineDataSet(entries, Block);
+                            data = new LineData(set);
+
+
+                            chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+                            chart.setData(data);
+                            chart.notifyDataSetChanged();
+                            chart.invalidate();
+                            set.setColor(Color.RED);
+
+
+                            //Collections.sort(entries, new EntryXComparator());
+
+
+                        } catch (JSONException e) {
+                            Toast.makeText(Ptot_graph.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(Ptot_graph.this, error.toString(), LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + access_token);
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                return headers;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+
 
     private void makeJsonObjectMarksWithGraph(String URL_ptot) {
 
