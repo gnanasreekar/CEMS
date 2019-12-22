@@ -2,17 +2,11 @@ package com.rgs.cems;
 
 import android.animation.ValueAnimator;
 import android.app.Dialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -30,7 +24,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -91,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             month_cost = (TextView) findViewById(R.id.month_cost);
             generator_usagetv = findViewById(R.id.generator_usage);
             date_tv = findViewById(R.id.date_main);
+
         }
 
 
@@ -453,6 +447,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         queue.add(stringRequest);
     }
+
+
 
     //SPBdialog goes here
 }
