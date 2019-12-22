@@ -53,7 +53,6 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
     static public String fb_name, fb_uid , fb_email;
-    ProgressDialog TempDialog;
     CountDownTimer mCountDownTimer;
     int i=0 ;
     String auth = "0";
@@ -75,14 +74,6 @@ public class Login extends AppCompatActivity {
 
         final String fbuid = firebaseAuth.getUid();
         mView = new CatLoadingView();
-
-
-        TempDialog = new ProgressDialog(Login.this);
-        TempDialog.setMessage("Please wait...");
-        TempDialog.setCancelable(false);
-        TempDialog.setProgress(i);
-        TempDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        TempDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -310,8 +301,6 @@ public class Login extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
-
-
 
     //Exit Dialog
     private void showexitDialog() {

@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -48,9 +50,11 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.rgs.cems.Auth.Login;
+import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,7 +69,7 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class Ptot_graph extends AppCompatActivity {
 
-    String URL_ptot , Block;
+    String URL_ptot, Block;
     LineChart chart;
     String access_token;
     private static final int PERMISSION_STORAGE = 0;
@@ -73,13 +77,48 @@ public class Ptot_graph extends AppCompatActivity {
     ArrayList<String> labels = new ArrayList<>();
     LineDataSet set;
     LineData data;
+    CatLoadingView mView;
+
+    private View parent_view;
+    private View back_drop;
+    private boolean rotate = false;
+
+
+    private View steppedLayout;
+    private TextView stepped;
+    private View circlesLayout;
+    private TextView circles;
+    private View cubicLayout;
+    private TextView cubic;
+    private View tooglePinchLayout;
+    private TextView tooglePinch;
+    private View saveGraphLayout;
+    private TextView saveGraph;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ptot_graph);
+        getSupportActionBar().hide();
         chart = findViewById(R.id.chart1);
+        mView = new CatLoadingView();
+        mView.show(getSupportFragmentManager(), "");
+
+        parent_view = findViewById(android.R.id.content);
+        back_drop = findViewById(R.id.back_drop);
+
+        steppedLayout = (LinearLayout) findViewById(R.id.stepped_layout);
+        stepped = (TextView) findViewById(R.id.stepped);
+        circlesLayout = (LinearLayout) findViewById(R.id.circles_layout);
+        circles = (TextView) findViewById(R.id.circles);
+        cubicLayout = (LinearLayout) findViewById(R.id.cubic_layout);
+        cubic = (TextView) findViewById(R.id.cubic);
+        tooglePinchLayout = (LinearLayout) findViewById(R.id.toogle_pinch_layout);
+        tooglePinch = (TextView) findViewById(R.id.toogle_pinch);
+        saveGraphLayout = (LinearLayout) findViewById(R.id.save_graph_layout);
+        saveGraph = (TextView) findViewById(R.id.save_graph);
+
 
         int plot = getIntent().getIntExtra("value", 0);
         switch (plot) {
@@ -198,10 +237,9 @@ public class Ptot_graph extends AppCompatActivity {
 
             // add limit lines
             yAxis.addLimitLine(ll1);
-          //  yAxis.addLimitLine(ll2);
+            //  yAxis.addLimitLine(ll2);
             //xAxis.addLimitLine(llXAxis);
         }
-
 
 
         // draw points over time
@@ -215,13 +253,134 @@ public class Ptot_graph extends AppCompatActivity {
         l.setForm(Legend.LegendForm.LINE);
 
         //Checking for Internet
-        if(isNetworkAvailable()){
-            Log.d("Internet Status" , "On line");
+        if (isNetworkAvailable()) {
+            Log.d("Internet Status", "On line");
         } else {
             showCustomDialog();
-            Log.d("Internet Status" , "Off line");
+            Log.d("Internet Status", "Off line");
+        }
+        {
+            final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
+
+            ViewAnimation.initShowOut(steppedLayout);
+            ViewAnimation.initShowOut(saveGraphLayout);
+            ViewAnimation.initShowOut(circlesLayout);
+            ViewAnimation.initShowOut(cubicLayout);
+            ViewAnimation.initShowOut(tooglePinchLayout);
+            ViewAnimation.initShowOut(saveGraphLayout);
+
+            back_drop.setVisibility(View.GONE);
+
+            fab_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toggleFabMode(v);
+                }
+            });
+
+            back_drop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toggleFabMode(fab_add);
+                }
+            });
+
+            stepped.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<ILineDataSet> sets = chart.getData()
+                            .getDataSets();
+                    for (ILineDataSet iSet : sets) {
+
+                        LineDataSet set = (LineDataSet) iSet;
+                        set.setMode(set.getMode() == LineDataSet.Mode.STEPPED
+                                ? LineDataSet.Mode.LINEAR
+                                : LineDataSet.Mode.STEPPED);
+                    }
+                    chart.invalidate();
+                }
+            });
+
+            cubic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<ILineDataSet> sets = chart.getData()
+                            .getDataSets();
+
+                    for (ILineDataSet iSet : sets) {
+
+                        LineDataSet set = (LineDataSet) iSet;
+                        set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
+                                ? LineDataSet.Mode.LINEAR
+                                : LineDataSet.Mode.CUBIC_BEZIER);
+                    }
+                    chart.invalidate();
+                }
+            });
+
+            tooglePinch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (chart.isPinchZoomEnabled())
+                        chart.setPinchZoom(false);
+                    else
+                        chart.setPinchZoom(true);
+
+                    chart.invalidate();
+                }
+            });
+
+            saveGraph.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (ContextCompat.checkSelfPermission(Ptot_graph.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        saveToGallery(chart, "LineChartActivity1");
+                    } else {
+                        requestStoragePermission(chart);
+                    }
+                }
+            });
+
+            circles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<ILineDataSet> sets = chart.getData()
+                            .getDataSets();
+
+                    for (ILineDataSet iSet : sets) {
+
+                        LineDataSet set = (LineDataSet) iSet;
+                        if (set.isDrawCirclesEnabled())
+                            set.setDrawCircles(false);
+                        else
+                            set.setDrawCircles(true);
+                    }
+                    chart.invalidate();
+                }
+            });
         }
 
+    }
+
+    private void toggleFabMode(View v) {
+        rotate = ViewAnimation.rotateFab(v, !rotate);
+        if (rotate) {
+            ViewAnimation.showIn(saveGraphLayout);
+            ViewAnimation.showIn(circlesLayout);
+            ViewAnimation.showIn(cubicLayout);
+            ViewAnimation.showIn(tooglePinchLayout);
+            ViewAnimation.showIn(steppedLayout);
+            ViewAnimation.showIn(saveGraphLayout);
+            back_drop.setVisibility(View.VISIBLE);
+        } else {
+            ViewAnimation.showOut(saveGraphLayout);
+            ViewAnimation.showOut(circlesLayout);
+            ViewAnimation.showOut(steppedLayout);
+            ViewAnimation.showOut(cubicLayout);
+            ViewAnimation.showOut(tooglePinchLayout);
+            ViewAnimation.showOut(saveGraphLayout);
+            back_drop.setVisibility(View.GONE);
+        }
     }
 
     //Checking for internet
@@ -272,7 +431,7 @@ public class Ptot_graph extends AppCompatActivity {
                                 JSONObject jsonObject = jArray.getJSONObject(i);
                                 String ptot = jsonObject.getString("Ptot");
                                 String tstamp = jsonObject.getString("tstamp");
-                                Log.d("Hello" , ptot);
+                                Log.d("Hello", ptot);
 
 
                                 entries.add(new Entry(i, Float.parseFloat(ptot)));
@@ -283,6 +442,7 @@ public class Ptot_graph extends AppCompatActivity {
                                 labels.add(time);
 
                             }
+
 
                             set = new LineDataSet(entries, Block);
                             data = new LineData(set);
@@ -330,6 +490,7 @@ public class Ptot_graph extends AppCompatActivity {
                             chart.notifyDataSetChanged();
                             chart.invalidate();
                             set.setColor(Color.RED);
+                            mView.dismiss();
 
 
                             //Collections.sort(entries, new EntryXComparator());
@@ -357,161 +518,6 @@ public class Ptot_graph extends AppCompatActivity {
             }
         };
         requestQueue.add(stringRequest);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.line, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.actionToggleValues: {
-                List<ILineDataSet> sets = chart.getData()
-                        .getDataSets();
-
-                for (ILineDataSet iSet : sets) {
-
-                    LineDataSet set = (LineDataSet) iSet;
-                    set.setDrawValues(!set.isDrawValuesEnabled());
-                }
-
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleIcons: {
-                List<ILineDataSet> sets = chart.getData()
-                        .getDataSets();
-
-                for (ILineDataSet iSet : sets) {
-
-                    LineDataSet set = (LineDataSet) iSet;
-                    set.setDrawIcons(!set.isDrawIconsEnabled());
-                }
-
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHighlight: {
-                if(chart.getData() != null) {
-                    chart.getData().setHighlightEnabled(!chart.getData().isHighlightEnabled());
-                    chart.invalidate();
-                }
-                break;
-            }
-            case R.id.actionToggleFilled: {
-
-                List<ILineDataSet> sets = chart.getData()
-                        .getDataSets();
-
-                for (ILineDataSet iSet : sets) {
-
-                    LineDataSet set = (LineDataSet) iSet;
-                    if (set.isDrawFilledEnabled())
-                        set.setDrawFilled(false);
-                    else
-                        set.setDrawFilled(true);
-                }
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleCircles: {
-                List<ILineDataSet> sets = chart.getData()
-                        .getDataSets();
-
-                for (ILineDataSet iSet : sets) {
-
-                    LineDataSet set = (LineDataSet) iSet;
-                    if (set.isDrawCirclesEnabled())
-                        set.setDrawCircles(false);
-                    else
-                        set.setDrawCircles(true);
-                }
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleCubic: {
-                List<ILineDataSet> sets = chart.getData()
-                        .getDataSets();
-
-                for (ILineDataSet iSet : sets) {
-
-                    LineDataSet set = (LineDataSet) iSet;
-                    set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER
-                            ? LineDataSet.Mode.LINEAR
-                            :  LineDataSet.Mode.CUBIC_BEZIER);
-                }
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleStepped: {
-                List<ILineDataSet> sets = chart.getData()
-                        .getDataSets();
-
-                for (ILineDataSet iSet : sets) {
-
-                    LineDataSet set = (LineDataSet) iSet;
-                    set.setMode(set.getMode() == LineDataSet.Mode.STEPPED
-                            ? LineDataSet.Mode.LINEAR
-                            :  LineDataSet.Mode.STEPPED);
-                }
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHorizontalCubic: {
-                List<ILineDataSet> sets = chart.getData()
-                        .getDataSets();
-
-                for (ILineDataSet iSet : sets) {
-
-                    LineDataSet set = (LineDataSet) iSet;
-                    set.setMode(set.getMode() == LineDataSet.Mode.HORIZONTAL_BEZIER
-                            ? LineDataSet.Mode.LINEAR
-                            :  LineDataSet.Mode.HORIZONTAL_BEZIER);
-                }
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionTogglePinch: {
-                if (chart.isPinchZoomEnabled())
-                    chart.setPinchZoom(false);
-                else
-                    chart.setPinchZoom(true);
-
-                chart.invalidate();
-                break;
-            }
-            case R.id.actionToggleAutoScaleMinMax: {
-                chart.setAutoScaleMinMaxEnabled(!chart.isAutoScaleMinMaxEnabled());
-                chart.notifyDataSetChanged();
-                break;
-            }
-            case R.id.animateX: {
-                chart.animateX(2000);
-                break;
-            }
-            case R.id.animateY: {
-                chart.animateY(2000, Easing.EaseInCubic);
-                break;
-            }
-            case R.id.animateXY: {
-                chart.animateXY(2000, 2000);
-                break;
-            }
-            case R.id.actionSave: {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    saveToGallery(chart, "LineChartActivity1");
-                } else {
-                    requestStoragePermission(chart);
-                }
-                break;
-            }
-        }
-        return true;
     }
 
     protected void saveToGallery(Chart chart, String name) {

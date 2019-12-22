@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     int dpb;
     Integer TEC , Todayscos;
     SharedPreferences sharedPreferences;
+    Toolbar toolbar ;
     String generatorusage = "http://18.208.162.97/generatortotal";
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
@@ -76,19 +77,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-        Toolbar toolbar ;
-        toolbar = findViewById(R.id.toolbar);
-        fab = findViewById(R.id.fab);
-        navView = findViewById(R.id.nav_view);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        setSupportActionBar(toolbar);
-        temp_status = findViewById(R.id.raspberrypi_status_button);
-        today_powerusage_tv = findViewById(R.id.today_power_usage);
-        months_powerusage_tv = findViewById(R.id.months_powerusage_tmep);
-        today_cost = (TextView) findViewById(R.id.today_cost);
-        month_cost = (TextView) findViewById(R.id.month_cost);
-        generator_usagetv = findViewById(R.id.generator_usage);
-        date_tv = findViewById(R.id.date_main);
+        {
+
+            toolbar = findViewById(R.id.toolbar);
+            fab = findViewById(R.id.fab);
+            navView = findViewById(R.id.nav_view);
+            drawerLayout = findViewById(R.id.drawer_layout);
+            setSupportActionBar(toolbar);
+            temp_status = findViewById(R.id.raspberrypi_status_button);
+            today_powerusage_tv = findViewById(R.id.today_power_usage);
+            months_powerusage_tv = findViewById(R.id.months_powerusage_tmep);
+            today_cost = (TextView) findViewById(R.id.today_cost);
+            month_cost = (TextView) findViewById(R.id.month_cost);
+            generator_usagetv = findViewById(R.id.generator_usage);
+            date_tv = findViewById(R.id.date_main);
+        }
+
 
         {
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -114,13 +118,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         date_tv.setText(sharedPreferences.getString("DATE" + 1, "0"));
 
         if (!sharedPreferences.getBoolean("firstTime", false)) {
-            // <---- run your one time code here
             showintroDialog();
-
-            // mark first time has ran.
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean("firstTime", true);
-            editor.commit();
+            editor.apply();
         }
 
         //Displaying names in Nav Bar
@@ -139,15 +140,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         httpCall(generatorusage);
         TEC();
-
-        ValueAnimator animator = ValueAnimator.ofInt(0, 20);
-        animator.setDuration(1500);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                generator_usagetv.setText(animation.getAnimatedValue().toString() + " Units");
-            }
-        });
-        animator.start();
 
     }
 
