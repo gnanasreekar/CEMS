@@ -47,6 +47,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+
 public class DetailsDisplay extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
@@ -216,8 +218,36 @@ public class DetailsDisplay extends AppCompatActivity {
 //            chart.setMarker(mv);
         }
 
+        if (!sharedPreferences.getBoolean("firstTime2", false)) {
+            ShowIntro("Graphs", "Click here to view the power usage in realtime", R.id.graph_tutorial, 1);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("firstTime2", true);
+            editor.apply();
+        }
+
         setData();
 
+    }
+
+    private void ShowIntro(String title, String text, int viewId, final int type) {
+
+        new GuideView.Builder(this)
+                .setTitle(title)
+                .setContentText(text)
+                .setTargetView((LinearLayout)findViewById(viewId))
+                .setContentTextSize(12)//optional
+                .setTitleTextSize(14)//optional
+                .setDismissType(GuideView.DismissType.anywhere) //optional - default dismissible by TargetView
+                .setGuideListener(new GuideView.GuideListener() {
+                    @Override
+                    public void onDismiss(View view) {
+                        if (type == 1) {
+                            ShowIntro("Cost till now", "The amount of money spend on the block today", R.id.costfortheunit, 2);
+                        }
+                    }
+                })
+                .build()
+                .show();
     }
 
     private void setData() {
