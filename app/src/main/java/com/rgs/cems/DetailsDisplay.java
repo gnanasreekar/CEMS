@@ -5,21 +5,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -31,15 +27,11 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.model.GradientColor;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -52,11 +44,12 @@ import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 public class DetailsDisplay extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
-    TextView a, b, c, d, n, ac, bc, cc, dc, nc, total_cost_tv, total_power_tv;
+    TextView a, b, c, d, n, ac, bc, cc, dc, nc;
     Integer a1, b1, c1, d1, n1, a1c, b1c, c1c, d1c, n1c, cost = 7, total_cost_value, total_power_value;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     LinearLayout school_details, schoo_acd, schol_admin, girls_hostel, audotirium;
-    BarChart chart;
+    BarChart barChart;
+
 
 
     @Override
@@ -80,8 +73,6 @@ public class DetailsDisplay extends AppCompatActivity {
             cc = findViewById(R.id.cblock_cost_tv);
             dc = findViewById(R.id.dblock_cost_tv);
             nc = findViewById(R.id.nblock_cost_tv);
-            total_cost_tv = findViewById(R.id.total_cost_tv);
-            total_power_tv = findViewById(R.id.total_power_tv);
             school_details = findViewById(R.id.school_details);
             schol_admin = findViewById(R.id.school_amdin_block_details);
             schoo_acd = findViewById(R.id.school_acadamic_block_details);
@@ -104,8 +95,8 @@ public class DetailsDisplay extends AppCompatActivity {
             d1c = d1 * cost;
             n1c = n1 * cost;
 
-            total_cost_value = a1c + b1c + c1c + d1c + n1c;
-            total_power_value = a1 + b1 + c1 + d1 + n1;
+            total_cost_value =  b1c + c1c + d1c + n1c;
+            total_power_value = b1 + c1 + d1 + n1;
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -160,27 +151,27 @@ public class DetailsDisplay extends AppCompatActivity {
         }
 
         {
-            chart = findViewById(R.id.barchart);
-            //  chart.setOnChartValueSelectedListener(DetailsDisplay.this);
+            barChart = findViewById(R.id.barchart);
+            //  barChart.setOnChartValueSelectedListener(DetailsDisplay.this);
 
-            chart.setDrawBarShadow(false);
-            chart.setDrawValueAboveBar(true);
+            barChart.setDrawBarShadow(false);
+            barChart.setDrawValueAboveBar(true);
 
-            chart.getDescription().setEnabled(false);
+            barChart.getDescription().setEnabled(false);
 
-            // if more than 60 entries are displayed in the chart, no values will be
+            // if more than 60 entries are displayed in the barChart, no values will be
             // drawn
-            chart.setMaxVisibleValueCount(60);
+            barChart.setMaxVisibleValueCount(60);
 
             // scaling can now only be done on x- and y-axis separately
-            chart.setPinchZoom(false);
+            barChart.setPinchZoom(false);
 
-            chart.setDrawGridBackground(false);
-            // chart.setDrawYLabels(false);
+            barChart.setDrawGridBackground(false);
+            // barChart.setDrawYLabels(false);
 
-            //    ValueFormatter xAxisFormatter = new DayAxisValueFormatter(chart);
+            //    ValueFormatter xAxisFormatter = new DayAxisValueFormatter(barChart);
 
-            XAxis xAxis = chart.getXAxis();
+            XAxis xAxis = barChart.getXAxis();
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setDrawGridLines(false);
             xAxis.setGranularity(1f); // only intervals of 1 day
@@ -189,21 +180,21 @@ public class DetailsDisplay extends AppCompatActivity {
 
             //   ValueFormatter custom = new MyValueFormatter("$");
 
-            YAxis leftAxis = chart.getAxisLeft();
+            YAxis leftAxis = barChart.getAxisLeft();
             leftAxis.setLabelCount(8, false);
             //  leftAxis.setValueFormatter(custom);
             leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
             leftAxis.setSpaceTop(15f);
             leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
-            YAxis rightAxis = chart.getAxisRight();
+            YAxis rightAxis = barChart.getAxisRight();
             rightAxis.setDrawGridLines(false);
             rightAxis.setLabelCount(8, false);
             //  rightAxis.setValueFormatter(custom);
             rightAxis.setSpaceTop(15f);
             rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
-            Legend l = chart.getLegend();
+            Legend l = barChart.getLegend();
             l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
             l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
             l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
@@ -214,8 +205,8 @@ public class DetailsDisplay extends AppCompatActivity {
             l.setXEntrySpace(4f);
 
 //            XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
-//            mv.setChartView(chart); // For bounds control
-//            chart.setMarker(mv);
+//            mv.setChartView(barChart); // For bounds control
+//            barChart.setMarker(mv);
         }
 
         if (!sharedPreferences.getBoolean("firstTime2", false)) {
@@ -225,32 +216,14 @@ public class DetailsDisplay extends AppCompatActivity {
             editor.apply();
         }
 
-        setData();
+
+
+        setDataBar();
 
     }
 
-    private void ShowIntro(String title, String text, int viewId, final int type) {
 
-        new GuideView.Builder(this)
-                .setTitle(title)
-                .setContentText(text)
-                .setTargetView((LinearLayout)findViewById(viewId))
-                .setContentTextSize(12)//optional
-                .setTitleTextSize(14)//optional
-                .setDismissType(GuideView.DismissType.anywhere) //optional - default dismissible by TargetView
-                .setGuideListener(new GuideView.GuideListener() {
-                    @Override
-                    public void onDismiss(View view) {
-                        if (type == 1) {
-                            ShowIntro("Cost till now", "The amount of money spend on the block today", R.id.costfortheunit, 2);
-                        }
-                    }
-                })
-                .build()
-                .show();
-    }
-
-    private void setData() {
+    private void setDataBar() {
 
         float start = 1f;
 
@@ -271,17 +244,17 @@ public class DetailsDisplay extends AppCompatActivity {
         xAxisLabel.add("Girls Hostel");
         xAxisLabel.add("Auditorium");
 
-        chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+        barChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
 
 
         BarDataSet set1;
 
-        if (chart.getData() != null &&
-                chart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) chart.getData().getDataSetByIndex(0);
+        if (barChart.getData() != null &&
+                barChart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) barChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
-            chart.getData().notifyDataChanged();
-            chart.notifyDataSetChanged();
+            barChart.getData().notifyDataChanged();
+            barChart.notifyDataSetChanged();
 
         } else {
             set1 = new BarDataSet(values, "Today's Power Usage");
@@ -321,29 +294,34 @@ public class DetailsDisplay extends AppCompatActivity {
             data.setValueTextSize(10f);
             data.setBarWidth(0.9f);
 
-            chart.setData(data);
+            barChart.setData(data);
         }
     }
 
+    private void ShowIntro(String title, String text, int viewId, final int type) {
+
+        new GuideView.Builder(this)
+                .setTitle(title)
+                .setContentText(text)
+                .setTargetView((LinearLayout)findViewById(viewId))
+                .setContentTextSize(12)//optional
+                .setTitleTextSize(14)//optional
+                .setDismissType(GuideView.DismissType.anywhere) //optional - default dismissible by TargetView
+                .setGuideListener(new GuideView.GuideListener() {
+                    @Override
+                    public void onDismiss(View view) {
+                        if (type == 1) {
+                            ShowIntro("Cost till now", "The amount of money spend on the block today", R.id.costfortheunit, 2);
+                        }
+                    }
+                })
+                .build()
+                .show();
+    }
+
+
+
     private void settingtext() {
-
-        final ValueAnimator total_power = ValueAnimator.ofInt(0, total_power_value);
-        total_power.setDuration(1500);
-        total_power.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                total_power_tv.setText(animation.getAnimatedValue().toString() + " Units");
-            }
-        });
-        total_power.start();
-
-        ValueAnimator total_cost = ValueAnimator.ofInt(0, total_cost_value);
-        total_cost.setDuration(1500);
-        total_cost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                total_cost_tv.setText("₹ " + animation.getAnimatedValue().toString());
-            }
-        });
-        total_cost.start();
 
         ValueAnimator schoolcost = ValueAnimator.ofInt(0, a1c);
         schoolcost.setDuration(1500);

@@ -54,9 +54,6 @@ public class Getdata {
                                 Log.d("HEllo DATE other calss" , Date);
                                 Log.d("HEllo EC other calss" , String.valueOf(EC));
                                 Log.d("HEllo MID other calss" , MID);
-
-                                gen = gen +  numberFormat.parse(EC).intValue();
-                                editor.putInt("TEC" , gen);
                                 editor.putString("DATE" +val ,Date);
                                 editor.putString("Energy Consumed" + val, EC);
                                 editor.putString("Meter ID" + val , MID);
@@ -68,8 +65,6 @@ public class Getdata {
                             }
                         } catch (JSONException e) {
                             Log.d("HEllo" , e.getMessage());
-                            e.printStackTrace();
-                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
 

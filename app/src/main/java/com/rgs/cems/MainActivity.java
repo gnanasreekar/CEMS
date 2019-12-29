@@ -59,18 +59,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    TextView nav_namec , nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost , generator_usagetv, date_tv;
+    TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv;
     CheckBox temp_status;
     int dpb;
-    Integer TEC , Todayscos;
+    Integer TEC, Todayscos;
     SharedPreferences sharedPreferences;
-    Toolbar toolbar ;
+    Toolbar toolbar;
     String generatorusage = "http://18.208.162.97/generatortotal";
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     private LinearLayout generatorLayout;
     static MainActivity instance;
-
-
 
 
     @Override
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         //TODO: warning status
 
-        sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         date_tv.setText(sharedPreferences.getString("DATE" + 1, "0"));
 
         if (!sharedPreferences.getBoolean("firstTime", false)) {
@@ -136,16 +134,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Dpb();
 
         //Checking for Internet
-        if(isNetworkAvailable()){
-            Log.d("Internet Status" , "On line");
+        if (isNetworkAvailable()) {
+            Log.d("Internet Status", "On line");
         } else {
             showCustomDialog();
-            Log.d("Internet Status" , "Off line");
+            Log.d("Internet Status", "Off line");
         }
 
         httpCall(generatorusage);
         TEC();
-
 
 
     }
@@ -155,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new GuideView.Builder(this)
                 .setTitle(title)
                 .setContentText(text)
-                .setTargetView((LinearLayout)findViewById(viewId))
+                .setTargetView((LinearLayout) findViewById(viewId))
                 .setContentTextSize(12)//optional
                 .setTitleTextSize(14)//optional
                 .setDismissType(GuideView.DismissType.anywhere) //optional - default dismissible by TargetView
@@ -164,12 +161,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onDismiss(View view) {
                         if (type == 1) {
                             ShowIntro("Month's Usage", "Amount of Units consumed this month", R.id.months_layout, 2);
-                        }   else if (type == 2) {
+                        } else if (type == 2) {
                             ShowIntro("Status", "Warnings and Errors will be displayed here", R.id.warning_error, 3);
 
                         } else if (type == 3) {
                             ShowIntro("Today's USage", "Amount of Units consumed today", R.id.todays, 4);
-                        }else if (type == 4) {
+                        } else if (type == 4) {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putBoolean("showcase", false);
                         }
@@ -185,19 +182,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void TEC() {
 
-            TEC = sharedPreferences.getInt("TEC", 0);
-            Todayscos = TEC * 7;
-            ValueAnimator animator = ValueAnimator.ofInt(0, TEC);
-            animator.setDuration(1500);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    today_powerusage_tv.setText(animation.getAnimatedValue().toString() + " Units");
-                }
-            });
-            animator.start();
+        try {
 
-            DecimalFormat decim = new DecimalFormat("#,###.##");
-            today_cost.setText("₹ " +decim.format(Todayscos));
+            TEC = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 0, "1")).intValue();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Todayscos = TEC * 7;
+        ValueAnimator animator = ValueAnimator.ofInt(0, TEC);
+        animator.setDuration(1500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                today_powerusage_tv.setText(animation.getAnimatedValue().toString() + " Units");
+            }
+        });
+        animator.start();
+
+        DecimalFormat decim = new DecimalFormat("#,###.##");
+        today_cost.setText("₹ " + decim.format(Todayscos));
 
 
 //        ValueAnimator Todayscost = ValueAnimator.ofInt(0, Todayscos);
@@ -209,19 +212,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        });
 //        Todayscost.start();
 
-            String date = sharedPreferences.getString("DATE" + 0, "Not aval");
+        String date = sharedPreferences.getString("DATE" + 0, "Not aval");
 
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Values/Totalpower/" + date);
-            databaseReference.child("Total Power used").setValue(TEC + " Units");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Values/Totalpower/" + date);
+        databaseReference.child("Total Power used").setValue(TEC + " Units");
 
 
-            Log.d("TEC", String.valueOf(TEC));
+        Log.d("TEC", String.valueOf(TEC));
 
     }
 
     public void Dpb() {
         Date d = new Date();
-        CharSequence s  = DateFormat.format("dd MM yyyy ", d.getTime());
+        CharSequence s = DateFormat.format("dd MM yyyy ", d.getTime());
         SimpleDateFormat myFormat = new SimpleDateFormat("dd MM yyyy");
         String dateBeforeString = "26 12 2018";
         String dateAfterString = (String) s;
@@ -229,9 +232,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Date dateBefore = myFormat.parse(dateBeforeString);
             Date dateAfter = myFormat.parse(dateAfterString);
             long difference = dateAfter.getTime() - dateBefore.getTime();
-            float daysBetween = (difference / (1000*60*60*24));
+            float daysBetween = (difference / (1000 * 60 * 60 * 24));
             dpb = (int) daysBetween + 1;
-            Log.d("Datebw" , String.valueOf(dpb));
+            Log.d("Datebw", String.valueOf(dpb));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -249,10 +252,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View nav_view = navView.getHeaderView(0);
         nav_emailc = nav_view.findViewById(R.id.nav_email);
         nav_namec = nav_view.findViewById(R.id.nav_name);
-        String fb_name_main = sharedPreferences.getString("name" , "NO data found");
-        String fb_email_main =sharedPreferences.getString("email" , "NO data found");
-        Log.d("Firebase DB_Name_Login" , fb_name_main);
-        Log.d("Firebase DB_Email_Login" , fb_email_main);
+        String fb_name_main = sharedPreferences.getString("name", "NO data found");
+        String fb_email_main = sharedPreferences.getString("email", "NO data found");
+        Log.d("Firebase DB_Name_Login", fb_name_main);
+        Log.d("Firebase DB_Email_Login", fb_email_main);
         nav_namec.setText(fb_name_main);
         nav_emailc.setText(fb_email_main);
         setTitle("Hi, " + fb_name_main);
@@ -298,7 +301,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
 //            super.onBackPressed();
-            showexitDialog();        }
+            showexitDialog();
+        }
     }
 
     @Override
@@ -332,13 +336,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        }  else if (id == R.id.dev_info) {
-            startActivity(new Intent(MainActivity.this,About.class));
+        } else if (id == R.id.nav_compare) {
+            startActivity(new Intent(MainActivity.this, Comparechart.class));
+        } else if (id == R.id.dev_info) {
+            startActivity(new Intent(MainActivity.this, About.class));
         } else if (id == R.id.nav_feedback) {
             startActivity(new Intent(MainActivity.this, feedback.class));
         } else if (id == R.id.nav_report) {
             startActivity(new Intent(MainActivity.this, Report.class));
-        }else if (id == R.id.nav_signout) {
+        } else if (id == R.id.nav_signout) {
             showsignoutDialog();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -419,6 +425,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     static int i = 0;
+
     public void onClick(View view) {
         i++;
         if (i == 5) {
@@ -444,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 months_powerusage_tv.setText(editText.getText().toString() + " Units");
 
-                int finalValue=Integer.parseInt(editText.getText().toString());
+                int finalValue = Integer.parseInt(editText.getText().toString());
                 float temp = (float) (finalValue * 5.43);
                 month_cost.setText(String.valueOf(temp));
                 dialog.dismiss();
@@ -459,8 +466,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this, "ewefsfd", Toast.LENGTH_SHORT).show();
     }
 
-    public  void changeactivity(View view){
-        startActivity(new Intent(MainActivity.this , DetailsDisplay.class));
+    public void changeactivity(View view) {
+        startActivity(new Intent(MainActivity.this, DetailsDisplay.class));
     }
 
     public void httpCall(String url) {
@@ -471,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onResponse(String response) {
                         try {
                             int gen = numberFormat.parse(response).intValue();
-                            Log.d("Volley" , response);
+                            Log.d("Volley", response);
                             ValueAnimator animator = ValueAnimator.ofInt(0, gen);
                             animator.setDuration(1500);
                             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -498,7 +505,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         queue.add(stringRequest);
     }
-
 
 
     //SPBdialog goes here

@@ -71,21 +71,15 @@ public class Ptot_graph extends AppCompatActivity {
     LineData data;
     CatLoadingView mView;
 
-    private View parent_view;
     private View back_drop;
     private boolean rotate = false;
 
 
     private View steppedLayout;
-    private TextView stepped;
     private View circlesLayout;
-    private TextView circles;
     private View cubicLayout;
-    private TextView cubic;
     private View tooglePinchLayout;
-    private TextView tooglePinch;
     private View saveGraphLayout;
-    private TextView saveGraph;
 
 
     @Override
@@ -97,19 +91,18 @@ public class Ptot_graph extends AppCompatActivity {
         mView = new CatLoadingView();
         mView.show(getSupportFragmentManager(), "");
 
-        parent_view = findViewById(android.R.id.content);
         back_drop = findViewById(R.id.back_drop);
 
-        steppedLayout = (LinearLayout) findViewById(R.id.stepped_layout);
-        stepped = (TextView) findViewById(R.id.stepped);
-        circlesLayout = (LinearLayout) findViewById(R.id.circles_layout);
-        circles = (TextView) findViewById(R.id.circles);
-        cubicLayout = (LinearLayout) findViewById(R.id.cubic_layout);
-        cubic = (TextView) findViewById(R.id.cubic);
-        tooglePinchLayout = (LinearLayout) findViewById(R.id.toogle_pinch_layout);
-        tooglePinch = (TextView) findViewById(R.id.toogle_pinch);
-        saveGraphLayout = (LinearLayout) findViewById(R.id.save_graph_layout);
-        saveGraph = (TextView) findViewById(R.id.save_graph);
+        steppedLayout = findViewById(R.id.stepped_layout);
+        TextView stepped = findViewById(R.id.stepped);
+        circlesLayout = findViewById(R.id.circles_layout);
+        TextView circles = findViewById(R.id.circles);
+        cubicLayout = findViewById(R.id.cubic_layout);
+        TextView cubic = findViewById(R.id.cubic);
+        tooglePinchLayout = findViewById(R.id.toogle_pinch_layout);
+        TextView tooglePinch = findViewById(R.id.toogle_pinch);
+        saveGraphLayout = findViewById(R.id.save_graph_layout);
+        TextView saveGraph = findViewById(R.id.save_graph);
 
 
         int plot = getIntent().getIntExtra("value", 0);
@@ -148,7 +141,7 @@ public class Ptot_graph extends AppCompatActivity {
         }
 
         MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
-        // Set the marker to the chart
+        // Set the marker to the barChart
         mv.setChartView(chart);
         chart.setMarker(mv);
 
@@ -171,8 +164,8 @@ public class Ptot_graph extends AppCompatActivity {
             // enable scaling and dragging
             chart.setDragEnabled(true);
             chart.setScaleEnabled(true);
-            // chart.setScaleXEnabled(true);
-            // chart.setScaleYEnabled(true);
+            // barChart.setScaleXEnabled(true);
+            // barChart.setScaleYEnabled(true);
 
             // force pinch zoom along both axis
             chart.setPinchZoom(true);
@@ -502,8 +495,8 @@ public class Ptot_graph extends AppCompatActivity {
         }) {
 
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
                 headers.put("Authorization", "Bearer " + access_token);
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
                 return headers;

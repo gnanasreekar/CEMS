@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Ptot_graph"></activity>
+        <activity android:name=".Comparechart"></activity>
+        <activity android:name=".Ptot_graph" />
         <activity
             android:name=".DetailsDisplay"
             android:configChanges="orientation"
@@ -36,14 +37,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Myinfo"
-            android:label="@string/title_activity_myinfo"
             android:configChanges="orientation"
+            android:label="@string/title_activity_myinfo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Auth.Signup"
+        <activity
+            android:name=".Auth.Signup"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Auth.Login"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Auth.Login"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -54,9 +57,9 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
