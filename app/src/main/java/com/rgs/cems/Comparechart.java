@@ -23,6 +23,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -59,6 +61,7 @@ public class Comparechart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comparechart);
+        setTitle("Temp");
 
         chart = findViewById(R.id.comparechart);
 
@@ -96,6 +99,24 @@ public class Comparechart extends AppCompatActivity {
             chart.getAxisLeft().setTextColor(Color.WHITE);
             chart.getLegend().setTextColor(Color.WHITE);
 
+            YAxis yAxis;
+            yAxis = chart.getAxisLeft();
+
+            // disable dual axis (only use LEFT axis)
+            chart.getAxisRight().setEnabled(false);
+
+            // horizontal grid lines
+            yAxis.enableGridDashedLine(10f, 10f, 0f);
+
+            // axis range
+            yAxis.setAxisMinimum(-50f);
+
+            LimitLine ll1 = new LimitLine(200f, "Upper Limit");
+            ll1.setLineWidth(4f);
+            ll1.enableDashedLine(10f, 10f, 0f);
+            ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+            ll1.setTextSize(10f);
+            yAxis.addLimitLine(ll1);
 
 
             Legend l = chart.getLegend();
@@ -112,7 +133,7 @@ public class Comparechart extends AppCompatActivity {
 
     public void getdata1() {
 
-        String URL_ptot = "http://18.208.162.97/testptot2";
+        String URL_ptot = "http://18.208.162.97/testptot";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
                 new Response.Listener<String>() {
@@ -136,6 +157,7 @@ public class Comparechart extends AppCompatActivity {
                             }
                             LineDataSet lDataSet1 = new LineDataSet(entries1,date1);
                             lDataSet1.setDrawCircles(false);
+                            lDataSet1.setValueTextColor(Color.GREEN);
                             dataSets.add(lDataSet1);
                             Log.d("Helloentries1", String.valueOf(entries1));
                         } catch (JSONException e) {
@@ -154,7 +176,7 @@ public class Comparechart extends AppCompatActivity {
         };
         requestQueue.add(stringRequest);
 
-        String URL_ptot2 = "http://18.208.162.97/testptot";
+        String URL_ptot2 = "http://18.208.162.97/testptot2";
         RequestQueue requestQueue2 = Volley.newRequestQueue(this);
         StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URL_ptot2,
                 new Response.Listener<String>() {
@@ -189,6 +211,8 @@ public class Comparechart extends AppCompatActivity {
                             lDataSet2.setColor(Color.RED);
                             lDataSet2.setCircleColor(Color.RED);
                             lDataSet2.setDrawCircles(false);
+                            lDataSet2.setValueTextColor(Color.WHITE);
+
                             Log.d("Helloentries22", String.valueOf(lDataSet2));
                             dataSets.add(lDataSet2);
                             chart.resetTracking();
@@ -211,10 +235,14 @@ public class Comparechart extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(Comparechart.this, error.toString(), LENGTH_LONG).show();
             }
-        }) {
-
-        };
+        });
         requestQueue2.add(stringRequest2);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @Override
