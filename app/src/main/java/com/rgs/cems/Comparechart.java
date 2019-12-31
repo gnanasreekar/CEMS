@@ -126,14 +126,12 @@ public class Comparechart extends AppCompatActivity {
             l.setDrawInside(false);
         }
 
-        getdata1();
-
-
+        plot();
     }
 
-    public void getdata1() {
-
+    public void plot() {
         String URL_ptot = "http://18.208.162.97/testptot";
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
                 new Response.Listener<String>() {
@@ -177,7 +175,6 @@ public class Comparechart extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
         String URL_ptot2 = "http://18.208.162.97/testptot2";
-        RequestQueue requestQueue2 = Volley.newRequestQueue(this);
         StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URL_ptot2,
                 new Response.Listener<String>() {
                     @Override
@@ -219,10 +216,10 @@ public class Comparechart extends AppCompatActivity {
                             Log.d("Helloentries13", String.valueOf(dataSets));
                             LineData data = new LineData(dataSets);
                             chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-
-                            mView.dismiss();
                             chart.setData(data);
                             chart.invalidate();
+
+                            mView.dismiss();
                             Log.d("Helloentries2", String.valueOf(entries2));
                         } catch (JSONException e) {
                             Toast.makeText(Comparechart.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
@@ -236,7 +233,7 @@ public class Comparechart extends AppCompatActivity {
                 Toast.makeText(Comparechart.this, error.toString(), LENGTH_LONG).show();
             }
         });
-        requestQueue2.add(stringRequest2);
+        requestQueue.add(stringRequest2);
     }
 
     @Override
