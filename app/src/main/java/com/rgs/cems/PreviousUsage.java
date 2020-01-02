@@ -137,6 +137,8 @@ public class PreviousUsage extends AppCompatActivity {
             lineChart.setDrawGridBackground(false);
 
 
+
+
             // enable scaling and dragging
             lineChart.setDragEnabled(true);
             lineChart.setScaleEnabled(true);
