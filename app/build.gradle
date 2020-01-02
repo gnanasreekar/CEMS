@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.7"
+        versionName "1.7.4563"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.4'
     implementation 'com.github.mreram:ShowCaseView:1.0.5'
+    implementation 'com.wdullaer:materialdatetimepicker:3.2.0'         // date & time picker
 
 
     implementation 'com.github.tibolte:elasticdownload:1.0.4'

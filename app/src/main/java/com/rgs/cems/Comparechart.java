@@ -57,6 +57,7 @@ public class Comparechart extends AppCompatActivity {
     CatLoadingView mView;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,8 +132,8 @@ public class Comparechart extends AppCompatActivity {
 
     public void plot() {
         String URL_ptot = "http://18.208.162.97/testptot";
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
                 new Response.Listener<String>() {
                     @Override
@@ -148,15 +149,27 @@ public class Comparechart extends AppCompatActivity {
                                 Log.d("Hello1", ptot);
                                 Log.d("Hellodate1", tstamp);
                                 entries1.add(new Entry(i, Float.parseFloat(ptot)));
+
+
                                 String[] parts = tstamp.split(" ");
-                                date1 = parts[0];
+                                date2 = parts[0];
+                                String second = parts[1];
+                                String[] timewithoutsec = second.split(":");
+                                String time = timewithoutsec[0] + "." + timewithoutsec[1];
+                                labels.add(time);
+
+                                Log.d("Helloper1", "First is done");
 
 
                             }
                             LineDataSet lDataSet1 = new LineDataSet(entries1,date1);
                             lDataSet1.setDrawCircles(false);
                             lDataSet1.setValueTextColor(Color.GREEN);
+                            chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
                             dataSets.add(lDataSet1);
+                            plot2();
+                            chart.animateX(2000);
+
                             Log.d("Helloentries1", String.valueOf(entries1));
                         } catch (JSONException e) {
                             Toast.makeText(Comparechart.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
@@ -173,6 +186,11 @@ public class Comparechart extends AppCompatActivity {
 
         };
         requestQueue.add(stringRequest);
+
+    }
+
+    public void plot2(){
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         String URL_ptot2 = "http://18.208.162.97/testptot2";
         StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URL_ptot2,
@@ -193,14 +211,6 @@ public class Comparechart extends AppCompatActivity {
 
                                 String[] parts = tstamp2.split(" ");
                                 date2 = parts[0];
-                                String second = parts[1];
-                                String[] timewithoutsec = second.split(":");
-                                String time = timewithoutsec[0] + "." + timewithoutsec[1];
-                                labels.add(time);
-
-                                Log.d("Helloper1", "First is done");
-
-
                             }
 
 
@@ -215,9 +225,9 @@ public class Comparechart extends AppCompatActivity {
                             chart.resetTracking();
                             Log.d("Helloentries13", String.valueOf(dataSets));
                             LineData data = new LineData(dataSets);
-                            chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
                             chart.setData(data);
                             chart.invalidate();
+                            chart.animateX(2000);
 
                             mView.dismiss();
                             Log.d("Helloentries2", String.valueOf(entries2));

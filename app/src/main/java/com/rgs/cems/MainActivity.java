@@ -338,6 +338,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Handle the camera action
         } else if (id == R.id.nav_compare) {
             startActivity(new Intent(MainActivity.this, Comparechart.class));
+        } else if (id == R.id.nav_previous) {
+            startActivity(new Intent(MainActivity.this, PreviousUsage.class));
         } else if (id == R.id.dev_info) {
             startActivity(new Intent(MainActivity.this, About.class));
         } else if (id == R.id.nav_feedback) {
