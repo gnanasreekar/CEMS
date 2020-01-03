@@ -35,12 +35,16 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.rgs.cems.Justclasses.MyMarkerView;
 import com.roger.catloadinglibrary.CatLoadingView;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static android.widget.Toast.LENGTH_LONG;
@@ -54,6 +58,7 @@ public class Comparechart extends AppCompatActivity {
     ArrayList<Entry> entries2 = new ArrayList<>();
     ArrayList<ILineDataSet> dataSets = new ArrayList<>();
     String date1, date2;
+    String URL_ptot;
     CatLoadingView mView;
 
 
@@ -63,6 +68,7 @@ public class Comparechart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comparechart);
         setTitle("Temp");
+
 
         chart = findViewById(R.id.comparechart);
 
@@ -130,8 +136,15 @@ public class Comparechart extends AppCompatActivity {
         plot();
     }
 
+    public static String getFormattedDateSimple(Long dateTime) {
+        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return newFormat.format(new Date(dateTime));
+    }
+
+
+
     public void plot() {
-        String URL_ptot = "http://18.208.162.97/testptot";
+        URL_ptot = "http://18.208.162.97/testptot";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,

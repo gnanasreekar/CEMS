@@ -43,19 +43,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'           //Charts
     implementation 'com.android.support:design:28.0.0'
-    implementation 'com.mikhaellopez:circularimageview:3.2.0'
+    implementation 'com.mikhaellopez:circularimageview:3.2.0'           //imageview in about
     implementation 'com.android.volley:volley:1.1.1'
-    implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.4'
-    implementation 'com.github.mreram:ShowCaseView:1.0.5'
+    implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.4'//Loading catview
+    implementation 'com.github.mreram:ShowCaseView:1.0.5'               //Tutorial
     implementation 'com.wdullaer:materialdatetimepicker:3.2.0'         // date & time picker
-
-
-    implementation 'com.github.tibolte:elasticdownload:1.0.4'
-
-
-// circle image view
 
 
 }

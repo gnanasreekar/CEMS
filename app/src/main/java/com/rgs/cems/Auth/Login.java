@@ -1,12 +1,9 @@
 package com.rgs.cems.Auth;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -41,7 +38,6 @@ import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 import com.roger.catloadinglibrary.CatLoadingView;
 
-import is.arontibo.library.ElasticDownloadView;
 
 
 public class Login extends AppCompatActivity {
@@ -207,7 +203,12 @@ public class Login extends AppCompatActivity {
                                 finish();
 
                             } else if (auth.equals("0")) {
-                                notauthdialog();
+                                mView.dismiss();
+                                Log.d("AuthLogin","User Auth");
+                                startActivity(new Intent(Login.this, MainActivity.class));
+                                finish();
+// Temp for testers
+                                //                                notauthdialog();
                                 Log.d("AuthLogin","User not Auth");
                             } else {
                                 Log.d("AuthLogin" , "Last else");
@@ -227,7 +228,7 @@ public class Login extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(Void result) {
-            Log.d("Redirect" , "This happned from LOGIN2");
+            Log.d("Redirect" , "This happened from LOGIN2");
 
         }
     }

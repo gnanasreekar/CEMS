@@ -111,7 +111,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Efficiency"
+                            android:text="Date"
                             android:id="@+id/date_main"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
                             android:textColor="@android:color/white" />
@@ -162,23 +162,7 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_rounded_orange"
-                        android:paddingBottom="@dimen/spacing_small"
-                        android:paddingLeft="@dimen/spacing_xmedium"
-                        android:paddingRight="@dimen/spacing_xmedium"
-                        android:paddingTop="@dimen/spacing_small">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Efficiency"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                            android:textColor="@android:color/white" />
-
-                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -225,23 +209,7 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_rounded_orange"
-                        android:paddingBottom="@dimen/spacing_small"
-                        android:paddingLeft="@dimen/spacing_xmedium"
-                        android:paddingRight="@dimen/spacing_xmedium"
-                        android:paddingTop="@dimen/spacing_small">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Efficiency"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                            android:textColor="@android:color/white" />
-
-                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -287,23 +255,7 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_rounded_orange"
-                        android:paddingBottom="@dimen/spacing_small"
-                        android:paddingLeft="@dimen/spacing_xmedium"
-                        android:paddingRight="@dimen/spacing_xmedium"
-                        android:paddingTop="@dimen/spacing_small">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Efficiency"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                            android:textColor="@android:color/white" />
-
-                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -349,23 +301,7 @@
 
                     </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_rounded_orange"
-                        android:paddingBottom="@dimen/spacing_small"
-                        android:paddingLeft="@dimen/spacing_xmedium"
-                        android:paddingRight="@dimen/spacing_xmedium"
-                        android:paddingTop="@dimen/spacing_small">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Efficiency"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                            android:textColor="@android:color/white" />
-
-                    </RelativeLayout>
 
                 </LinearLayout>
 
