@@ -2,6 +2,7 @@ package com.rgs.cems;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,9 @@ public class LineChartItem extends ChartItem {
         labels = tinyDB.getListString("labels");
         holder.chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
 
+        holder.chart.getXAxis().setTextColor(Color.WHITE);
+        holder.chart.getAxisLeft().setTextColor(Color.WHITE);
+        holder.chart.getLegend().setTextColor(Color.WHITE);
 
         // apply styling
         // holder.chart.setValueTypeface(mTf);

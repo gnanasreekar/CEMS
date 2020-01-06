@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -61,12 +62,9 @@ import static android.widget.Toast.LENGTH_LONG;
 public class Comparechart extends AppCompatActivity {
 
     LineChart chart;
-    ArrayList<String> labels = new ArrayList<>();
+
     int flag = 0, z;
-    ArrayList<Entry> entries1 = new ArrayList<>();
-    ArrayList<Entry> entries2 = new ArrayList<>();
-    ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-    String date1, date2, response1, response2;
+    String date1, date2, response1, response2, da1, da2;
     String URL_ptot , URL_ptot2;
     CatLoadingView mView;
     CountDownTimer mCountDownTimer;
@@ -75,15 +73,13 @@ public class Comparechart extends AppCompatActivity {
     TinyDB tinydb;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comparechart);
-        getSupportActionBar().hide();
+        setTitle("Comparing");
+
+
         DatePickerDark();
         mView = new CatLoadingView();
         mView.show(getSupportFragmentManager(), "");
@@ -270,10 +266,13 @@ public class Comparechart extends AppCompatActivity {
                 String second = parts[1];
                 String[] timewithoutsec = second.split(":");
                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
+                Log.d("timexxx" , time);
+
                 labels.add(time);
                 tinydb.putListString("labels", labels);
                 date2 = parts[0];
             }
+
 
         } catch (JSONException e) {
             Toast.makeText(Comparechart.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
@@ -288,10 +287,21 @@ public class Comparechart extends AppCompatActivity {
         d1.setDrawValues(false);
         d1.setDrawCircles(false);
         d1.setDrawValues(true);
-
+        d1.setValueTextColor(Color.WHITE);
+        d1.setColor(Color.WHITE);
 
         ArrayList<ILineDataSet> sets = new ArrayList<>();
         sets.add(d1);
+
+
+        if(flag == 0) {
+            da1 = date2;
+            flag = 1;
+        } else {
+            da2 = date2;
+        }
+        String subtit = da1 + "," + da2;
+        getSupportActionBar().setSubtitle(subtit);
 
         return new LineData(sets);
     }
