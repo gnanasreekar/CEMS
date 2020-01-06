@@ -42,6 +42,7 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Justclasses.MyMarkerView;
+import com.rgs.cems.Justclasses.TinyDB;
 import com.roger.catloadinglibrary.CatLoadingView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -71,6 +72,8 @@ public class Comparechart extends AppCompatActivity {
     CountDownTimer mCountDownTimer;
     ArrayList<ChartItem> list = new ArrayList<>();
     ListView lv;
+    TinyDB tinydb;
+
 
 
 
@@ -80,20 +83,12 @@ public class Comparechart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comparechart);
-        setTitle("Temp");
         getSupportActionBar().hide();
-
         DatePickerDark();
-
-
         mView = new CatLoadingView();
         mView.show(getSupportFragmentManager(), "");
-
         lv = findViewById(R.id.listView1);
-
-
-
-
+        tinydb = new TinyDB(Comparechart.this);
 
     }
 
@@ -276,6 +271,7 @@ public class Comparechart extends AppCompatActivity {
                 String[] timewithoutsec = second.split(":");
                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
                 labels.add(time);
+                tinydb.putListString("labels", labels);
                 date2 = parts[0];
             }
 

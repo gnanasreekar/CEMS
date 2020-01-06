@@ -12,7 +12,11 @@ import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.rgs.cems.Justclasses.MyMarkerView;
+import com.rgs.cems.Justclasses.TinyDB;
+
+import java.util.ArrayList;
 
 public class LineChartItem extends ChartItem {
 
@@ -51,6 +55,13 @@ public class LineChartItem extends ChartItem {
         // Set the marker to the barChart
         mv.setChartView(holder.chart);
         holder.chart.setMarker(mv);
+
+        ArrayList<String> labels = new ArrayList<>();
+
+        TinyDB tinyDB = new TinyDB(c);
+        labels = tinyDB.getListString("labels");
+        holder.chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+
 
         // apply styling
         // holder.chart.setValueTypeface(mTf);
