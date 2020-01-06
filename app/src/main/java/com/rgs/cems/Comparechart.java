@@ -1,18 +1,25 @@
 package com.rgs.cems;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,6 +40,7 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Justclasses.MyMarkerView;
 import com.roger.catloadinglibrary.CatLoadingView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -57,9 +65,14 @@ public class Comparechart extends AppCompatActivity {
     ArrayList<Entry> entries1 = new ArrayList<>();
     ArrayList<Entry> entries2 = new ArrayList<>();
     ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-    String date1, date2;
-    String URL_ptot;
+    String date1, date2, response1, response2;
+    String URL_ptot , URL_ptot2;
     CatLoadingView mView;
+    CountDownTimer mCountDownTimer;
+    ArrayList<ChartItem> list = new ArrayList<>();
+    ListView lv;
+
+
 
 
 
@@ -68,126 +81,133 @@ public class Comparechart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comparechart);
         setTitle("Temp");
+        getSupportActionBar().hide();
 
+        DatePickerDark();
 
-        chart = findViewById(R.id.comparechart);
 
         mView = new CatLoadingView();
         mView.show(getSupportFragmentManager(), "");
 
-        {
-            MyMarkerView mv = new MyMarkerView(this, R.layout.custom_marker_view);
-            // Set the marker to the barChart
-            mv.setChartView(chart);
-            chart.setMarker(mv);
-
-            chart.setDrawGridBackground(false);
-            chart.getDescription().setEnabled(false);
-            chart.setDrawBorders(false);
-
-            chart.getAxisLeft().setEnabled(true);
-            chart.getAxisRight().setEnabled(false);
-            chart.getAxisRight().setDrawAxisLine(false);
-            chart.getAxisRight().setDrawGridLines(false);
-            chart.getXAxis().setDrawAxisLine(false);
-            chart.getXAxis().setDrawGridLines(false);
-
-            // enable touch gestures
-            chart.setTouchEnabled(true);
-
-            // enable scaling and dragging
-            chart.setDragEnabled(true);
-            chart.setScaleEnabled(true);
-
-            // if disabled, scaling can be done on x- and y-axis separately
-            chart.setPinchZoom(true);
-
-            chart.getXAxis().setTextColor(Color.WHITE);
-            chart.getAxisLeft().setTextColor(Color.WHITE);
-            chart.getLegend().setTextColor(Color.WHITE);
-
-            YAxis yAxis;
-            yAxis = chart.getAxisLeft();
-
-            // disable dual axis (only use LEFT axis)
-            chart.getAxisRight().setEnabled(false);
-
-            // horizontal grid lines
-            yAxis.enableGridDashedLine(10f, 10f, 0f);
-
-            // axis range
-            yAxis.setAxisMinimum(-50f);
-
-            LimitLine ll1 = new LimitLine(200f, "Upper Limit");
-            ll1.setLineWidth(4f);
-            ll1.enableDashedLine(10f, 10f, 0f);
-            ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-            ll1.setTextSize(10f);
-            yAxis.addLimitLine(ll1);
+        lv = findViewById(R.id.listView1);
 
 
-            Legend l = chart.getLegend();
-            l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-            l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-            l.setDrawInside(false);
+
+
+
+    }
+
+    private class ChartDataAdapter extends ArrayAdapter<ChartItem> {
+
+        ChartDataAdapter(Context context, List<ChartItem> objects) {
+            super(context, 0, objects);
         }
 
-        plot();
+        @NonNull
+        @Override
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            //noinspection ConstantConditions
+            return getItem(position).getView(position, convertView, getContext());
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            // return the views type
+            ChartItem ci = getItem(position);
+            return ci != null ? ci.getItemType() : 0;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            return 3; // we have 3 different item-types
+        }
     }
+
 
     public static String getFormattedDateSimple(Long dateTime) {
         SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
         return newFormat.format(new Date(dateTime));
     }
 
+    private void DatePickerDark() {
+        Calendar cur_calender = Calendar.getInstance();
+        DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        int m = monthOfYear + 1;
+                        Calendar calendar = Calendar.getInstance();
+                        Log.d("aaatimey", String.valueOf(year));
+                        Log.d("aaatimem", String.valueOf(m));
+                        Log.d("aaatimed", String.valueOf(dayOfMonth));
+
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, monthOfYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                        long date_ship_millis = calendar.getTimeInMillis();
+                        URL_ptot = "http://18.208.162.97/previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        Log.d("aaaUrl", URL_ptot);
+                        DatePickerDark2();
+
+                    }
+                },
+                cur_calender.get(Calendar.YEAR),
+                cur_calender.get(Calendar.MONTH),
+                cur_calender.get(Calendar.DAY_OF_MONTH)
+
+        );
+        //set dark theme
+        datePicker.setThemeDark(true);
+        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePicker.show(getFragmentManager(), "Datepickerdialog");
+    }
+
+    private void DatePickerDark2() {
+        Calendar cur_calender = Calendar.getInstance();
+        DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        int m = monthOfYear + 1;
+                        Calendar calendar = Calendar.getInstance();
+                        Log.d("aaatimey", String.valueOf(year));
+                        Log.d("aaatimem", String.valueOf(m));
+                        Log.d("aaatimed", String.valueOf(dayOfMonth));
+
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, monthOfYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                        long date_ship_millis = calendar.getTimeInMillis();
+                        URL_ptot2 = "http://18.208.162.97/previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        Log.d("aaaUrl2", URL_ptot2);
+                        getdata(URL_ptot , URL_ptot2);
+
+                    }
+                },
+                cur_calender.get(Calendar.YEAR),
+                cur_calender.get(Calendar.MONTH),
+                cur_calender.get(Calendar.DAY_OF_MONTH)
+
+        );
+        //set dark theme
+        datePicker.setThemeDark(true);
+        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePicker.show(getFragmentManager(), "Datepickerdialog");
+    }
 
 
-    public void plot() {
-        URL_ptot = "http://18.208.162.97/testptot";
+    public void getdata(String URLptot, final String URLptot2) {
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URLptot,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-
-
-                            JSONArray jArray = new JSONArray(response);
-                            for (int i = 0; i < jArray.length(); i++) {
-                                JSONObject jsonObject = jArray.getJSONObject(i);
-                                String ptot = jsonObject.getString("Ptot");
-                                String tstamp = jsonObject.getString("tstamp");
-                                Log.d("Hello1", ptot);
-                                Log.d("Hellodate1", tstamp);
-                                entries1.add(new Entry(i, Float.parseFloat(ptot)));
-
-
-                                String[] parts = tstamp.split(" ");
-                                date2 = parts[0];
-                                String second = parts[1];
-                                String[] timewithoutsec = second.split(":");
-                                String time = timewithoutsec[0] + "." + timewithoutsec[1];
-                                labels.add(time);
-
-                                Log.d("Helloper1", "First is done");
-
-
-                            }
-                            LineDataSet lDataSet1 = new LineDataSet(entries1,date1);
-                            lDataSet1.setDrawCircles(false);
-                            lDataSet1.setValueTextColor(Color.GREEN);
-                            chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-                            dataSets.add(lDataSet1);
-                            plot2();
-                            chart.animateX(2000);
-
-                            Log.d("Helloentries1", String.valueOf(entries1));
-                        } catch (JSONException e) {
-                            Toast.makeText(Comparechart.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
+                        response1 = response;
+                        plot2(URLptot2);
                     }
 
                 }, new Response.ErrorListener() {
@@ -202,52 +222,14 @@ public class Comparechart extends AppCompatActivity {
 
     }
 
-    public void plot2(){
+    public void plot2(String URLptot2){
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String URL_ptot2 = "http://18.208.162.97/testptot2";
-        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URL_ptot2,
+        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URLptot2,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-
-
-                            JSONArray jArray2 = new JSONArray(response);
-                            for (int i = 0; i < jArray2.length(); i++) {
-                                JSONObject jsonObject = jArray2.getJSONObject(i);
-                                String ptot2 = jsonObject.getString("Ptot");
-                                String tstamp2 = jsonObject.getString("tstamp");
-                                Log.d("Hello2", ptot2);
-                                Log.d("Hellodate2", tstamp2);
-                                entries2.add(new Entry(i, Float.parseFloat(ptot2)));
-
-                                String[] parts = tstamp2.split(" ");
-                                date2 = parts[0];
-                            }
-
-
-                            LineDataSet lDataSet2 = new LineDataSet(entries2, date2);
-                            lDataSet2.setColor(Color.RED);
-                            lDataSet2.setCircleColor(Color.RED);
-                            lDataSet2.setDrawCircles(false);
-                            lDataSet2.setValueTextColor(Color.WHITE);
-
-                            Log.d("Helloentries22", String.valueOf(lDataSet2));
-                            dataSets.add(lDataSet2);
-                            chart.resetTracking();
-                            Log.d("Helloentries13", String.valueOf(dataSets));
-                            LineData data = new LineData(dataSets);
-                            chart.setData(data);
-                            chart.invalidate();
-                            chart.animateX(2000);
-
-                            mView.dismiss();
-                            Log.d("Helloentries2", String.valueOf(entries2));
-                        } catch (JSONException e) {
-                            Toast.makeText(Comparechart.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
+                        response2 = response;
                     }
 
                 }, new Response.ErrorListener() {
@@ -257,7 +239,67 @@ public class Comparechart extends AppCompatActivity {
             }
         });
         requestQueue.add(stringRequest2);
+
+        mCountDownTimer = new CountDownTimer(2000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                list.add(new LineChartItem(plot(response2), getApplicationContext()));
+                list.add(new LineChartItem(plot(response1), getApplicationContext()));
+                ChartDataAdapter cda = new ChartDataAdapter(getApplicationContext(), list);
+                lv.setAdapter(cda);
+                mView.dismiss();
+                Log.d("Listarr", String.valueOf(list.size()));
+            }
+        }.start();
     }
+
+    private LineData plot(String resp) {
+
+        ArrayList<Entry> values1 = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+
+        Log.d("Arraylength" , String.valueOf(values1.size()));
+
+        try {
+
+            JSONArray jArray2 = new JSONArray(resp);
+            for (int i = 0; i < jArray2.length(); i++) {
+                JSONObject jsonObject = jArray2.getJSONObject(i);
+                String ptot2 = jsonObject.getString("Ptot");
+                String tstamp2 = jsonObject.getString("tstamp");
+                values1.add(new Entry(i, Float.parseFloat(ptot2)));
+
+                String[] parts = tstamp2.split(" ");
+                String second = parts[1];
+                String[] timewithoutsec = second.split(":");
+                String time = timewithoutsec[0] + "." + timewithoutsec[1];
+                labels.add(time);
+                date2 = parts[0];
+            }
+
+        } catch (JSONException e) {
+            Toast.makeText(Comparechart.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+        Log.d("Arraylength2" , String.valueOf(values1.size()));
+
+        LineDataSet d1 = new LineDataSet(values1, date2);
+        d1.setLineWidth(2.5f);
+        d1.setHighLightColor(Color.rgb(244, 117, 117));
+        d1.setDrawValues(false);
+        d1.setDrawCircles(false);
+        d1.setDrawValues(true);
+
+
+        ArrayList<ILineDataSet> sets = new ArrayList<>();
+        sets.add(d1);
+
+        return new LineData(sets);
+    }
+
 
     @Override
     public void onBackPressed() {

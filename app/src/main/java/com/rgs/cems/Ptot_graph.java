@@ -420,6 +420,7 @@ public class Ptot_graph extends AppCompatActivity {
 
 
                                 entries.add(new Entry(i, Float.parseFloat(ptot)));
+
                                 String[] parts = tstamp.split(" ");
                                 String second = parts[1];
                                 String[] timewithoutsec = second.split(":");

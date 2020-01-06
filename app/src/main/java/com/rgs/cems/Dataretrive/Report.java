@@ -1,6 +1,7 @@
 package com.rgs.cems.Dataretrive;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,10 +10,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.YAxis;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.rgs.cems.Justclasses.MyMarkerView;
 import com.rgs.cems.R;
 
 public class Report extends AppCompatActivity {
@@ -46,6 +52,9 @@ public class Report extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+
     }
 
     public void report_todb() {
@@ -54,5 +63,7 @@ public class Report extends AppCompatActivity {
         databaseReference.child("Report").setValue(report.getText().toString());
         Toast.makeText(this, "ThankYou For the feedback"  , Toast.LENGTH_SHORT).show();
     }
+
+
 
 }
