@@ -504,7 +504,7 @@ public class PreviousUsage extends AppCompatActivity {
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                         long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot = "http://18.208.162.97/previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
                         Log.d("aaaUrl", URL_ptot);
                         makeJsonObjectRequestGraph(URL_ptot);
 
@@ -545,6 +545,9 @@ public class PreviousUsage extends AppCompatActivity {
                                 String second = parts[1];
                                 String[] timewithoutsec = second.split(":");
                                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
+                                Log.d("Timeaaap" , time);
+
+
                                 labels.add(time);
 
                             }

@@ -113,27 +113,27 @@ public class Ptot_graph extends AppCompatActivity {
                 break;
             case 2:
                 Block = "School";
-                URL_ptot = "http://18.208.162.97/ptottoday2";
+                URL_ptot = getString(R.string.URL) + "ptottoday2";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 3:
                 Block = "School Academic Block";
-                URL_ptot = "http://18.208.162.97/ptottoday3";
+                URL_ptot = getString(R.string.URL) + "ptottoday3";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 4:
                 Block = "School Admin Block";
-                URL_ptot = "http://18.208.162.97/ptottoday4";
+                URL_ptot = getString(R.string.URL) + "ptottoday4";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 5:
                 Block = "Girls Hostel";
-                URL_ptot = "http://18.208.162.97/ptottoday5";
+                URL_ptot = getString(R.string.URL) + "ptottoday5";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 6:
                 Block = "Auditorium";
-                URL_ptot = "http://18.208.162.97/ptottoday6";
+                URL_ptot = getString(R.string.URL) + "ptottoday6";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             default:

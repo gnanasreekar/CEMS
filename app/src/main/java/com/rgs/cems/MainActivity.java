@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Integer TEC, Todayscos;
     SharedPreferences sharedPreferences;
     Toolbar toolbar;
-    String generatorusage = "http://18.208.162.97/generatortotal";
+    String generatorusage;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     private LinearLayout generatorLayout;
     static MainActivity instance;
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         instance = this;
 
+        generatorusage = getString(R.string.URL) + "generatortotal";
 
         {
 

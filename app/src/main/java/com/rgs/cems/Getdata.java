@@ -24,6 +24,9 @@ import java.util.Locale;
 public class Getdata {
 
     String url = "http://18.208.162.97/todaysusage";
+
+    //TODO: Url change when needed
+
     SharedPreferences sharedPreferences;
     int val = 0, gen =0;
     RequestQueue queue;

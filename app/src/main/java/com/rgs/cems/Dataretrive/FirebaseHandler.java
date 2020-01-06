@@ -1,8 +1,12 @@
 package com.rgs.cems.Dataretrive;
 
 import android.app.Application;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.CountDownTimer;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -11,7 +15,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.rgs.cems.Auth.Login;
+import com.rgs.cems.MainActivity;
+import com.rgs.cems.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,11 +34,13 @@ import java.util.Locale;
 
 public class FirebaseHandler extends Application {
 
-    String url =  "http://18.208.162.97/todaysusage";
     SharedPreferences sharedPreferences;
     int val = 0 , gen = 0;
     RequestQueue queue;
+    String url;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+    DatabaseReference databaseReference;
+
 
 
 
@@ -35,6 +48,10 @@ public class FirebaseHandler extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+
+        String url =  getString(R.string.URL) + "todaysusage";
+        Log.d("TEMPeee" , String.valueOf(url));
         queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

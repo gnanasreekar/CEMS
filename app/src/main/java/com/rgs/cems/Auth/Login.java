@@ -51,7 +51,7 @@ public class Login extends AppCompatActivity {
     static public String fb_name, fb_uid , fb_email;
     CountDownTimer mCountDownTimer;
     int i=0 ;
-    String auth = "0";
+    String auth = "0", url;
     CatLoadingView mView;
 
 

@@ -137,7 +137,7 @@ public class Comparechart extends AppCompatActivity {
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                         long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot = "http://18.208.162.97/previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
                         Log.d("aaaUrl", URL_ptot);
                         DatePickerDark2();
 
@@ -171,7 +171,7 @@ public class Comparechart extends AppCompatActivity {
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                         long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot2 = "http://18.208.162.97/previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
                         Log.d("aaaUrl2", URL_ptot2);
                         getdata(URL_ptot , URL_ptot2);
 
@@ -266,7 +266,7 @@ public class Comparechart extends AppCompatActivity {
                 String second = parts[1];
                 String[] timewithoutsec = second.split(":");
                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
-                Log.d("timexxx" , time);
+
 
                 labels.add(time);
                 tinydb.putListString("labels", labels);
@@ -300,7 +300,7 @@ public class Comparechart extends AppCompatActivity {
         } else {
             da2 = date2;
         }
-        String subtit = da1 + "," + da2;
+        String subtit = da1 + " , " + da2;
         getSupportActionBar().setSubtitle(subtit);
 
         return new LineData(sets);
