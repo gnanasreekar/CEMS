@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -480,6 +481,7 @@ public class PreviousUsage extends AppCompatActivity {
                 cur_calender.get(Calendar.DAY_OF_MONTH)
 
         );
+        datePicker.setOkColor(Color.WHITE);
         datePicker.show(getFragmentManager(), "Datepickerdialog");
     }
 
@@ -491,10 +493,6 @@ public class PreviousUsage extends AppCompatActivity {
                     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
                         int m = monthOfYear + 1;
                         Calendar calendar = Calendar.getInstance();
-                        Log.d("aaatimey", String.valueOf(year));
-                        Log.d("aaatimem", String.valueOf(m));
-                        Log.d("aaatimed", String.valueOf(dayOfMonth));
-
                         calendar.set(Calendar.YEAR, year);
                         calendar.set(Calendar.MONTH, monthOfYear);
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -514,7 +512,22 @@ public class PreviousUsage extends AppCompatActivity {
         //set dark theme
         datePicker.setThemeDark(true);
         datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePicker.setOkColor(getResources().getColor(R.color.colorAccent));
         datePicker.show(getFragmentManager(), "Datepickerdialog");
+
+        datePicker.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+
+            }
+        });
+
+        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                finish();
+            }
+        });
     }
 
     private void makeJsonObjectRequestGraph(String URL_ptot) {

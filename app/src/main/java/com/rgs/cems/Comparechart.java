@@ -3,13 +3,17 @@ package com.rgs.cems;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -122,6 +126,7 @@ public class Comparechart extends AppCompatActivity {
                         Log.d("aaaUrl", URL_ptot);
                         DatePickerDark2();
 
+
                     }
                 },
                 cur_calender.get(Calendar.YEAR),
@@ -131,8 +136,15 @@ public class Comparechart extends AppCompatActivity {
         );
         //set dark theme
         datePicker.setThemeDark(true);
+        datePicker.setOkColor(Color.WHITE);
         datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
         datePicker.show(getFragmentManager(), "Datepickerdialog");
+        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                finish();
+            }
+        });
     }
 
     private void DatePickerDark2() {
@@ -167,6 +179,12 @@ public class Comparechart extends AppCompatActivity {
         datePicker.setThemeDark(true);
         datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
         datePicker.show(getFragmentManager(), "Datepickerdialog");
+        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                finish();
+            }
+        });
     }
 
     public void getdata(String URLptot, final String URLptot2) {
@@ -177,6 +195,12 @@ public class Comparechart extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d("Temp12" , response);
+                        if (response.equals("[]")){
+                            nodataaval();
+                            Toast.makeText(Comparechart.this, "No Data Available", Toast.LENGTH_SHORT).show();
+
+                        }
                         response1 = response;
                         plot2(URLptot2);
                     }
@@ -291,6 +315,31 @@ public class Comparechart extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
+    public void nodataaval() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.no_data_aval);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
 
 
 }

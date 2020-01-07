@@ -8,16 +8,24 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home_white_24dp"
             android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_compare"
-            android:icon="@drawable/ic_chevron_right_black_24dp"
-            android:title="Compare Usage" />
-        <item
-            android:id="@+id/nav_previous"
-            android:icon="@drawable/ic_chevron_right_black_24dp"
-            android:title="Previous Usage Stats" />
+
 
     </group>
+
+    <item android:title="Analytics"
+        android:iconTint="@color/colorAccent">
+        <menu>
+            <item
+                android:id="@+id/nav_compare"
+                android:icon="@drawable/ic_compare_arrows_black_24dp"
+                android:title="Compare Usage" />
+            <item
+                android:id="@+id/nav_previous"
+                android:icon="@drawable/ic_chevron_right_black_24dp"
+                android:title="Previous Usage Stats" />
+        </menu>
+    </item>
+
 
     <item android:title="Communicate"
         android:iconTint="@color/colorAccent">

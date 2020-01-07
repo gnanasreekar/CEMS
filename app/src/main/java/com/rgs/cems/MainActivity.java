@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         instance = this;
 
-        generatorusage = getString(R.string.URL) + "generatortotal";
 
         {
 
@@ -145,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d("Internet Status", "Off line");
         }
 
-        httpCall(generatorusage);
+        httpCall();
         TEC();
 
 
@@ -476,15 +475,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(new Intent(MainActivity.this, DetailsDisplay.class));
     }
 
-    public void httpCall(String url) {
+    public void httpCall() {
+        generatorusage = getString(R.string.URL) + "generatortotal";
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, generatorusage,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        if (response.equals("[]")){
+                            Toast.makeText(MainActivity.this, "Generator Data not available", Toast.LENGTH_SHORT).show();
+                        }
+
                         try {
                             int gen = numberFormat.parse(response).intValue();
-                            Log.d("Volley", response);
                             ValueAnimator animator = ValueAnimator.ofInt(0, gen);
                             animator.setDuration(1500);
                             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

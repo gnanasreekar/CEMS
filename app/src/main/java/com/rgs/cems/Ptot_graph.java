@@ -403,11 +403,19 @@ public class Ptot_graph extends AppCompatActivity {
 
     private void makeJsonObjectRequestGraph(String URL_ptot) {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        Log.d("Temp12" , response);
+                        if (response.equals("[]")){
+                            nodataaval();
+                            Toast.makeText(Ptot_graph.this, "No Data Available", Toast.LENGTH_SHORT).show();
+
+                        }
+
                         try {
 
 
