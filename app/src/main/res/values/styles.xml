@@ -54,4 +54,11 @@
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
 
+    <style name="yourDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+
+        <item name="android:colorAccent">@color/dark</item>
+        <item name="android:colorPrimary">@color/dark</item>
+
+    </style>
+
 </resources>

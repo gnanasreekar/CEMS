@@ -1,12 +1,9 @@
 package com.rgs.cems.Dataretrive;
 
 import android.app.Application;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.CountDownTimer;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -15,13 +12,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.rgs.cems.Auth.Login;
-import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 
 import org.json.JSONArray;
@@ -37,7 +29,7 @@ public class FirebaseHandler extends Application {
     SharedPreferences sharedPreferences;
     int val = 0 , gen = 0;
     RequestQueue queue;
-    String url;
+    String url,URL_ptot;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     DatabaseReference databaseReference;
 
@@ -100,6 +92,138 @@ public class FirebaseHandler extends Application {
             }
         });
         queue.add(stringRequest);
+warningcheck();
+    }
+
+
+    public void warningcheck(){
+
+               String URL_ptot1 = getString(R.string.URL) + "ptottoday2";
+                String URL_ptot2 = getString(R.string.URL) + "ptottoday3";
+                String URL_ptot3 = getString(R.string.URL) + "ptottoday4";
+                String URL_ptot4 = getString(R.string.URL) + "ptottoday5";
+                String URL_ptot5 = getString(R.string.URL) + "ptottoday6";
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, URL_ptot1,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning1", 1);
+                            editor.apply();Log.d("Warnings" , "Num 1 no data aval");
+                        }
+                        Log.d("Volley" , response);
+
+                            }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+
+        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URL_ptot2,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning2", 1);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 2 no data aval");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+
+        StringRequest stringRequest3 = new StringRequest(Request.Method.GET, URL_ptot3,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning3", 1);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 3 no data aval");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+
+        StringRequest stringRequest4 = new StringRequest(Request.Method.GET, URL_ptot4,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning4", 1);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 4 no data aval");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+
+        StringRequest stringRequest5 = new StringRequest(Request.Method.GET, URL_ptot5,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning5", 1);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 5 no data aval");
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+        queue.add(stringRequest1);
+        queue.add(stringRequest2);
+        queue.add(stringRequest3);
+        queue.add(stringRequest4);
+        queue.add(stringRequest5);
+
+        Log.d("Checkwaring" , "compleer");
 
     }
 

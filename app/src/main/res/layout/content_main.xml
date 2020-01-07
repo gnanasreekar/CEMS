@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     android:background="@color/dark"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -360,7 +361,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="50dp"
                         android:id="@+id/warning_error"
                         android:orientation="horizontal">
 
@@ -376,7 +377,7 @@
 
                             <ImageButton
                                 android:layout_width="?attr/actionBarSize"
-                                android:layout_height="?attr/actionBarSize"
+                                android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
                                 android:tint="@color/grey_20"
                                 android:src="@drawable/ic_error_black_24dp" />
@@ -386,7 +387,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="No Errors"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                                android:textColor="@color/blue_700" />
+                                android:textColor="@color/grey_60" />
 
                         </LinearLayout>
 
@@ -401,13 +402,14 @@
                             android:layout_weight="1"
                             android:background="?attr/selectableItemBackground"
                             android:clickable="true"
+                            android:id="@+id/warning_layout"
                             android:gravity="center"
                             android:orientation="horizontal"
                             android:padding="@dimen/spacing_medium">
 
                             <ImageButton
                                 android:layout_width="?attr/actionBarSize"
-                                android:layout_height="?attr/actionBarSize"
+                                android:layout_height="wrap_content"
                                 android:background="@android:color/transparent"
                                 android:tint="@color/grey_20"
                                 android:src="@drawable/ic_warning_black_24dp" />
@@ -416,8 +418,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="No Warnings"
+                                android:id="@+id/warnings"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                                android:textColor="@color/blue_700" />
+                                android:textColor="@color/grey_60"
+                                 />
 
                         </LinearLayout>
 

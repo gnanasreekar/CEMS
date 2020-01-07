@@ -4,30 +4,40 @@ import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.format.DateFormat;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.vectordrawable.graphics.drawable.ArgbEvaluator;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -43,6 +53,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.Auth.Login;
+import com.rgs.cems.Dataretrive.FirebaseHandler;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
 import com.rgs.cems.NormalStuff.About;
@@ -61,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FloatingActionButton fab;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv;
+    LinearLayout warninglayout;
+    TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings;
     CheckBox temp_status;
     int dpb;
     Integer TEC, Todayscos;
@@ -71,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     private LinearLayout generatorLayout;
     static MainActivity instance;
-
+    CountDownTimer mCountDownTimer;
+    FirebaseHandler firebaseHandler = new FirebaseHandler();
+    View parent_view;
 
 
     @Override
@@ -96,6 +110,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             generator_usagetv = findViewById(R.id.generator_usage);
             date_tv = findViewById(R.id.date_main);
             generatorLayout = (LinearLayout) findViewById(R.id.generator_layout);
+            warnings = findViewById(R.id.warnings);
+            warninglayout = findViewById(R.id.warning_layout);        parent_view = findViewById(android.R.id.content);
+            parent_view = findViewById(R.id.main);
+
 
 
         }
@@ -146,6 +164,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         httpCall();
         TEC();
+
+        mCountDownTimer = new CountDownTimer(2000, 1000)
+        {
+            public void onTick(long millisUntilFinished)
+            {
+            }
+
+            public void onFinish()
+            {
+warning();
+            }
+        }.start();
+
 
 
     }
@@ -323,8 +354,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Toast.makeText(this, "Not dgfdone", Toast.LENGTH_SHORT).show();
+        if (id == R.id.warningcheck) {
+            warningcheck();
             return true;
         }
 
@@ -514,6 +545,281 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         queue.add(stringRequest);
     }
+
+    public void warning(){
+        int warningcount = 0;
+        if(sharedPreferences.getInt("warning1", 0) == 1){
+            warningcount++;
+        }
+
+        if (sharedPreferences.getInt("warning2", 0) == 1){
+            warningcount++;
+        }
+
+        if(sharedPreferences.getInt("warning3", 0) == 1){
+            warningcount++;
+        }
+
+        if (sharedPreferences.getInt("warning4", 0) == 1){
+            warningcount++;
+        }
+
+        if (sharedPreferences.getInt("warning5", 0) == 1){
+            warningcount++;
+        }
+
+
+        ValueAnimator animator = ValueAnimator.ofInt(0, warningcount);
+        animator.setDuration(400);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                warnings.setText(animation.getAnimatedValue().toString() + " Warnings");
+            }
+        });
+        animator.start();
+
+        if (warningcount > 0){
+
+            warninglayout.setBackgroundColor(getResources().getColor(R.color.red_300));
+            warningstatus();
+        }
+
+
+    }
+
+    public void warningstatus() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.warninig_status);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                warninginfo();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    private void warninginfo() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_event);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        final TextView meter2 = (TextView) dialog.findViewById(R.id.meter2);
+        final TextView meter3 = (TextView) dialog.findViewById(R.id.meter3);
+        final TextView meter4 = (TextView) dialog.findViewById(R.id.meter4);
+        final TextView meter5 = (TextView) dialog.findViewById(R.id.meter5);
+        final TextView meter6 = (TextView) dialog.findViewById(R.id.meter6);
+
+        if(sharedPreferences.getInt("warning1", 0) == 1){
+            meter2.setText("Data Not Available");
+            meter2.setTextColor(Color.RED);
+        } else {
+            meter2.setText("Data Available");
+            meter2.setTextColor(getResources().getColor(R.color.green_700));
+        }
+
+        if(sharedPreferences.getInt("warning2", 0) == 1){
+            meter3.setText("Data Not Available");
+            meter3.setTextColor(Color.RED);
+        } else {
+            meter3.setText("Data Available");
+            meter3.setTextColor(getResources().getColor(R.color.green_700));
+        }
+
+        if(sharedPreferences.getInt("warning3", 0) == 1){
+            meter4.setText("Data Not Available");
+            meter4.setTextColor(Color.RED);
+        } else {
+            meter4.setText("Data Available");
+            meter4.setTextColor(getResources().getColor(R.color.green_700));
+        }
+
+        if(sharedPreferences.getInt("warning4", 0) == 1){
+            meter5.setText("Data Not Available");
+            meter5.setTextColor(Color.RED);
+        } else {
+            meter5.setText("Data Available");
+            meter5.setTextColor(getResources().getColor(R.color.green_700));
+        }
+
+        if(sharedPreferences.getInt("warning5", 0) == 1){
+            meter6.setText("Data Not Available");
+            meter6.setTextColor(Color.RED);
+        } else {
+            meter6.setText("Data Available");
+            meter6.setTextColor(getResources().getColor(R.color.green_700));
+        }
+
+        ((ImageButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    public void warningcheck(){
+
+        String URL_ptot1 = getString(R.string.URL) + "ptottoday2";
+        String URL_ptot2 = getString(R.string.URL) + "ptottoday3";
+        String URL_ptot3 = getString(R.string.URL) + "ptottoday4";
+        String URL_ptot4 = getString(R.string.URL) + "ptottoday5";
+        String URL_ptot5 = getString(R.string.URL) + "ptottoday6";
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, URL_ptot1,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning1", 1);
+                            editor.apply();Log.d("Warnings" , "Num 1 no data aval");
+                        }
+                        Log.d("Volley" , response);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+
+        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URL_ptot2,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning2", 1);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 2 no data aval");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+
+        StringRequest stringRequest3 = new StringRequest(Request.Method.GET, URL_ptot3,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning3", 1);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 3 no data aval");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+
+        StringRequest stringRequest4 = new StringRequest(Request.Method.GET, URL_ptot4,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning4", 1);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 4 no data aval");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+
+        StringRequest stringRequest5 = new StringRequest(Request.Method.GET, URL_ptot5,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if (response.equals("[]")){
+                            editor.putInt("warning5", 1);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 5 no data aval");
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley Error", error.toString());
+                NetworkResponse networkResponse = error.networkResponse;
+                if (networkResponse != null) {
+                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                }
+            }
+        });
+        queue.add(stringRequest1);
+        queue.add(stringRequest2);
+        queue.add(stringRequest3);
+        queue.add(stringRequest4);
+        queue.add(stringRequest5);
+
+        Log.d("Checkwaring" , "compleer");
+        warning();
+    }
+
+
+
+
+
 
 
     //SPBdialog goes here

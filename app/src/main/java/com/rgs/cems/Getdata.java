@@ -24,7 +24,7 @@ import java.util.Locale;
 
 public class Getdata {
 
-    String url = "http://54.86.113.199/todaysusage";
+    String url = "http://52.23.205.22/todaysusage";
 
     //TODO: Url change when needed
 
@@ -86,4 +86,6 @@ public class Getdata {
         });
         queue.add(stringRequest);
     }
+
+
 }

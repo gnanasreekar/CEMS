@@ -10,6 +10,11 @@
         />
 
     <item
+        android:id="@+id/warningcheck"
+        android:title="Warning Check"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/raspberrypi_status_button"
         android:title="Status"
         android:onClick="changestatus"
@@ -17,10 +22,6 @@
         app:showAsAction="never"
         />
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
 
 </menu>
