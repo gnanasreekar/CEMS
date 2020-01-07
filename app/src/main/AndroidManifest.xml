@@ -27,7 +27,7 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".About" />
+        <activity android:name=".NormalStuff.About" />
         <activity
             android:name=".Dataretrive.Report"
             android:label="@string/title_activity_report"
@@ -37,7 +37,7 @@
             android:label="@string/title_activity_feedback"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Myinfo"
+            android:name=".NormalStuff.Myinfo"
             android:configChanges="orientation"
             android:label="@string/title_activity_myinfo"
             android:screenOrientation="portrait"

@@ -1,9 +1,8 @@
-package com.rgs.cems;
+package com.rgs.cems.Justclasses;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -14,8 +13,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.rgs.cems.Justclasses.MyMarkerView;
-import com.rgs.cems.Justclasses.TinyDB;
+import com.rgs.cems.R;
 
 import java.util.ArrayList;
 

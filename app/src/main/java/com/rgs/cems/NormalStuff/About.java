@@ -1,4 +1,4 @@
-package com.rgs.cems;
+package com.rgs.cems.NormalStuff;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,7 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.rgs.cems.R;
 
 public class About extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class About extends AppCompatActivity {
         setTitle("About");
 
         //RGS profile
-        LinearLayout profile_rgs = findViewById(R.id.profile_rgs);
+        ImageView profile_rgs = findViewById(R.id.profile_rgs);
         profile_rgs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,4 +1,4 @@
-package com.rgs.cems;
+package com.rgs.cems.NormalStuff;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.rgs.cems.Dataretrive.feedback;
+import com.rgs.cems.R;
 
 public class Myinfo extends AppCompatActivity {
     FloatingActionButton feedbackMyinfo;

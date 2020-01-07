@@ -21,7 +21,7 @@
     <string name="title_activity_myinfo">Myinfo</string>
     <string name="dev_name">Developed by R.Gnana Sreekar</string>
     <string name="used_libraries">Libraries Used</string>
-    <string name="_1_butterknife_n2_volley_n3_picasso">1.ButterKnife  \n2.Volley  \n3.Picasso  \n4.Chrome CustomTabs  \n5.AdMob  \n6.FireBase</string>
+    <string name="_1_butterknife_n2_volley_n3_picasso">1.FireBase  \n2.MpAndroidCharts  \n3.Volley  \n4.Showcase View  \n5.Catloading  \n6.DatePicker</string>
     <string name="linkdin_www_linkedin_com_in_gnana_sreekar">Linkdin : www.linkedin.com/in/gnana-sreekar/</string>
     <string name="youtube_www_youtube_com_rgstech">Youtube : www.youtube.com/rgstech</string>
     <string name="lindin">Linkdin : www.linkedin.com/in/gnana-sreekar/</string>
@@ -40,7 +40,7 @@
     <string name="enter_report_here">Enter Report Here</string>
     <string name="gopi">Gopi</string>
     <string name="android_developer">Android Developer</string>
-    <string name="web_developer_backend">Web Developer, Backend</string>
+    <string name="web_developer_backend">Web Developer, Backend </string>
     <string name="web_developer">Web Developer</string>
     <string name="sai_sumanth">Sai Sumanth</string>
     <string name="vivek_kolasani">Vivek Kolasani</string>
@@ -56,5 +56,6 @@
     <string name="user_nameaaa">User Name</string>
     <string name="create_an_account">Create an Account</string>
     <string name="school">Total School</string>
-    <string name="URL">http://18.208.162.97/</string>
+    <string name="URL">http://54.86.113.199/</string>
+    <string name="android_developer_backend">Android Developer, Backend</string>
 </resources>

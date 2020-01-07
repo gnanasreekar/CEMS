@@ -78,14 +78,12 @@ public class PreviousUsage extends AppCompatActivity {
     private View back_drop;
     private boolean rotate = false;
 
-
     private View steppedLayout;
     private View circlesLayout;
     private View cubicLayout;
     private View tooglePinchLayout;
     private View saveGraphLayout;
     private View date_picker;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -338,7 +336,6 @@ public class PreviousUsage extends AppCompatActivity {
         }
     }
 
-
     private void toggleFabMode(View v) {
         rotate = ViewAnimation.rotateFab(v, !rotate);
         if (rotate) {
@@ -419,7 +416,7 @@ public class PreviousUsage extends AppCompatActivity {
                         mView.show(getSupportFragmentManager(), "");
 
                         long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot = "http://18.208.162.97/previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
                         Log.d("aaaUrl", URL_ptot);
                         makeJsonObjectRequestGraph(URL_ptot);
                         MyMarkerView mv = new MyMarkerView(PreviousUsage.this, R.layout.custom_marker_view);
@@ -486,7 +483,6 @@ public class PreviousUsage extends AppCompatActivity {
         datePicker.show(getFragmentManager(), "Datepickerdialog");
     }
 
-
     private void DatePickerDark() {
         Calendar cur_calender = Calendar.getInstance();
         DatePickerDialog datePicker = DatePickerDialog.newInstance(
@@ -520,7 +516,6 @@ public class PreviousUsage extends AppCompatActivity {
         datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
         datePicker.show(getFragmentManager(), "Datepickerdialog");
     }
-
 
     private void makeJsonObjectRequestGraph(String URL_ptot) {
 
@@ -656,6 +651,7 @@ public class PreviousUsage extends AppCompatActivity {
         }
     }
 
+    //TODO: No data dialogue
     public void nodataaval() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before

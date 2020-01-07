@@ -2,6 +2,7 @@ package com.rgs.cems;
 
 import android.animation.ValueAnimator;
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +45,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
+import com.rgs.cems.NormalStuff.About;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     private LinearLayout generatorLayout;
     static MainActivity instance;
+
 
 
     @Override
