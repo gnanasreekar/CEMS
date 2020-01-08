@@ -2,6 +2,7 @@ package com.rgs.cems;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -16,11 +17,14 @@ import android.icu.util.LocaleData;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -75,6 +79,8 @@ public class PreviousUsage extends AppCompatActivity {
     LineDataSet set;
     LineData data;
     CatLoadingView mView;
+    CountDownTimer mCountDownTimer;
+    int mid;
 
     private View back_drop;
     private boolean rotate = false;
@@ -91,13 +97,11 @@ public class PreviousUsage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_previous_usage);
         lineChart = findViewById(R.id.previous_chart);
-        DatePickerDark();
-
+       // DatePickerDark();
+Basedialog();
         Block = "School";
 
 
-        mView = new CatLoadingView();
-        mView.show(getSupportFragmentManager(), "");
 
 
         back_drop = findViewById(R.id.back_drop);
@@ -336,6 +340,113 @@ public class PreviousUsage extends AppCompatActivity {
             });
         }
     }
+
+    private void Basedialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_previousselectdate);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        final TextView date1 =  dialog.findViewById(R.id.date1);
+        final AppCompatSpinner block = (AppCompatSpinner) dialog.findViewById(R.id.selectblock);
+
+        date1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cur_calender = Calendar.getInstance();
+                DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                int m = monthOfYear + 1;
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(Calendar.YEAR, year);
+                                calendar.set(Calendar.MONTH, monthOfYear);
+                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                long date_ship_millis = calendar.getTimeInMillis();
+                                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                                date1.setText(getFormattedDateSimple(date_ship_millis));
+                                Log.d("aaaUrl", URL_ptot);
+                            }
+                        },
+                        cur_calender.get(Calendar.YEAR),
+                        cur_calender.get(Calendar.MONTH),
+                        cur_calender.get(Calendar.DAY_OF_MONTH)
+
+                );
+                //set dark theme
+                datePicker.setThemeDark(true);
+                datePicker.setOkColor(Color.WHITE);
+                datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+                datePicker.show(getFragmentManager(), "Datepickerdialog");
+                datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        finish();
+                    }
+                });
+            }
+        });
+
+
+        String[] timezones = getResources().getStringArray(R.array.blocks);
+        ArrayAdapter<String> array = new ArrayAdapter<>(this, R.layout.simple_spinner_item, timezones);
+        array.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        block.setAdapter(array);
+        block.setSelection(0);
+
+        ((ImageButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (block.getSelectedItemId() == 1) {
+                    mid = 2;
+                } else if(block.getSelectedItemId() == 2){
+                    mid = 3;
+                } else if(block.getSelectedItemId() == 3){
+                    mid = 4;
+                }else if(block.getSelectedItemId() == 4){
+                    mid = 5;
+                }else if(block.getSelectedItemId() == 5){
+                    mid = 6;
+                }
+
+                URL_ptot = URL_ptot +"&mid="+ mid;
+                Log.d("Selected" , URL_ptot);
+
+                setTitle("Comparing " + block.getSelectedItem() + " on");
+
+                mCountDownTimer = new CountDownTimer(1000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                        makeJsonObjectRequestGraph(URL_ptot);
+                        mView = new CatLoadingView();
+                        mView.show(getSupportFragmentManager(), "");
+                    }
+                }.start();
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+
 
     private void toggleFabMode(View v) {
         rotate = ViewAnimation.rotateFab(v, !rotate);

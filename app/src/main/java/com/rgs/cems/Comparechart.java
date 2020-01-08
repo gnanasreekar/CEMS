@@ -347,12 +347,13 @@ public class Comparechart extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Temp12" , response);
-                        if (response.equals("[]")){
-                            nodataaval();
-                            Toast.makeText(Comparechart.this, "No Data Available", Toast.LENGTH_SHORT).show();
+                        Log.d("nodataresponse1" , response);
 
+                        if (response.equals("[]")){
+                            Log.d("nodataresponse" , "yEp");
+                        } else {
+                            response1 = response;
                         }
-                        response1 = response;
                         plot2(URLptot2);
                     }
 
@@ -361,21 +362,24 @@ public class Comparechart extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(Comparechart.this, error.toString(), LENGTH_LONG).show();
             }
-        }) {
-
-        };
+        });
         requestQueue.add(stringRequest);
 
     }
 
     public void plot2(String URLptot2){
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URLptot2,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        response2 = response;
+                        Log.d("nodataresponse2" , response);
+
+                        if(response.equals("[]")){
+                            Log.d("nodataresponse" , "yEp");
+                        } else {
+                            response2 = response;
+                        }
                     }
 
                 }, new Response.ErrorListener() {

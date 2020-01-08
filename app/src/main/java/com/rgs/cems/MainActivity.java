@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     LinearLayout warninglayout;
     TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings;
     CheckBox temp_status;
-    int dpb;
+    int dpb, flag = 0;
     Integer TEC, Todayscos;
     SharedPreferences sharedPreferences;
     Toolbar toolbar;
@@ -360,6 +360,7 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.warningcheck) {
+            flag = 1;
             warningcheck();
             return true;
         }
@@ -551,6 +552,7 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
         queue.add(stringRequest);
     }
 
+
     public void warning(){
         int warningcount = 0;
         if(sharedPreferences.getInt("warning1", 0) == 1){
@@ -587,11 +589,13 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
             warninglayout.setBackgroundColor(getResources().getColor(R.color.red_300));
             warningstatus();
         } else {
-            warninginfo();
+            if (flag == 1){
+            warninginfo();flag=0;}
         }
 
 
     }
+
 
     public void warningstatus() {
         final Dialog dialog = new Dialog(this);
