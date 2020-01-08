@@ -481,6 +481,7 @@ public class Ptot_graph extends AppCompatActivity {
 
                             chart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
                             chart.setData(data);
+                            chart.getLegend().setTextColor(Color.WHITE);
                             chart.notifyDataSetChanged();
                             chart.invalidate();
                             set.setColor(Color.WHITE);

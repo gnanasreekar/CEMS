@@ -2,6 +2,7 @@ package com.rgs.cems;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,7 +16,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -50,7 +54,7 @@ import static android.widget.Toast.LENGTH_LONG;
 public class Comparechart extends AppCompatActivity {
 
     LineChart chart;
-    int flag = 0, z;
+    int flag = 0, z, mid;
     String date1, date2, response1, response2, da1, da2;
     String URL_ptot , URL_ptot2;
     CatLoadingView mView;
@@ -66,13 +70,160 @@ public class Comparechart extends AppCompatActivity {
         setTitle("Comparing");
 
 
-        DatePickerDark();
-        mView = new CatLoadingView();
-        mView.show(getSupportFragmentManager(), "");
+        //DatePickerDark();
+        //mView = new CatLoadingView();
+       // mView.show(getSupportFragmentManager(), "");
+        showCustomDialog();
         lv = findViewById(R.id.listView1);
         tinydb = new TinyDB(Comparechart.this);
 
     }
+
+    private void showCustomDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_selectdate);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        final TextView date1 =  dialog.findViewById(R.id.date1);
+        final TextView date2 =  dialog.findViewById(R.id.date2);
+        final AppCompatSpinner block = (AppCompatSpinner) dialog.findViewById(R.id.selectblock);
+
+        date1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cur_calender = Calendar.getInstance();
+                DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                int m = monthOfYear + 1;
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(Calendar.YEAR, year);
+                                calendar.set(Calendar.MONTH, monthOfYear);
+                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                long date_ship_millis = calendar.getTimeInMillis();
+                                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                                date1.setText(getFormattedDateSimple(date_ship_millis));
+                                Log.d("aaaUrl", URL_ptot);
+                            }
+                        },
+                        cur_calender.get(Calendar.YEAR),
+                        cur_calender.get(Calendar.MONTH),
+                        cur_calender.get(Calendar.DAY_OF_MONTH)
+
+                );
+                //set dark theme
+                datePicker.setThemeDark(true);
+                datePicker.setOkColor(Color.WHITE);
+                datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+                datePicker.show(getFragmentManager(), "Datepickerdialog");
+                datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        finish();
+                    }
+                });
+            }
+        });
+
+        date2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cur_calender = Calendar.getInstance();
+                DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                int m = monthOfYear + 1;
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(Calendar.YEAR, year);
+                                calendar.set(Calendar.MONTH, monthOfYear);
+                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                long date_ship_millis = calendar.getTimeInMillis();
+                                URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                                Log.d("aaaUrl2", URL_ptot2);
+                                date2.setText(getFormattedDateSimple(date_ship_millis));
+
+
+                            }
+                        },
+                        cur_calender.get(Calendar.YEAR),
+                        cur_calender.get(Calendar.MONTH),
+                        cur_calender.get(Calendar.DAY_OF_MONTH)
+
+                );
+                //set dark theme
+                datePicker.setThemeDark(true);
+                datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+                datePicker.show(getFragmentManager(), "Datepickerdialog");
+                datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        finish();
+                    }
+                });
+            }
+        });
+
+        String[] timezones = getResources().getStringArray(R.array.blocks);
+        ArrayAdapter<String> array = new ArrayAdapter<>(this, R.layout.simple_spinner_item, timezones);
+        array.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        block.setAdapter(array);
+        block.setSelection(0);
+
+        ((ImageButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (block.getSelectedItemId() == 1) {
+                    mid = 2;
+                } else if(block.getSelectedItemId() == 2){
+                    mid = 3;
+                } else if(block.getSelectedItemId() == 3){
+                    mid = 4;
+                }else if(block.getSelectedItemId() == 4){
+                    mid = 5;
+                }else if(block.getSelectedItemId() == 5){
+                    mid = 6;
+                }
+
+                URL_ptot = URL_ptot +"&mid="+ mid;
+                URL_ptot2 = URL_ptot2 +"&mid="+ mid;
+                Log.d("Selected" , URL_ptot);
+
+                setTitle("Comparing " + block.getSelectedItem() + " on");
+
+                mCountDownTimer = new CountDownTimer(1000, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                    }
+
+                    public void onFinish() {
+                        getdata(URL_ptot , URL_ptot2);
+                        mView = new CatLoadingView();
+                        mView.show(getSupportFragmentManager(), "");
+                    }
+                }.start();
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
 
     private class ChartDataAdapter extends ArrayAdapter<ChartItem> {
 
@@ -122,7 +273,7 @@ public class Comparechart extends AppCompatActivity {
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                         long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis)+"&mid=2";
                         Log.d("aaaUrl", URL_ptot);
                         DatePickerDark2();
 
@@ -164,7 +315,7 @@ public class Comparechart extends AppCompatActivity {
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                         long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis)+"&mid=2";
                         Log.d("aaaUrl2", URL_ptot2);
                         getdata(URL_ptot , URL_ptot2);
 
@@ -339,6 +490,8 @@ public class Comparechart extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
+
+
 
 
 

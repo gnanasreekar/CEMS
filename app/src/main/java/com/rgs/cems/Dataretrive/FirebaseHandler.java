@@ -112,9 +112,14 @@ warningcheck();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         if (response.equals("[]")){
                             editor.putInt("warning1", 1);
-                            editor.apply();Log.d("Warnings" , "Num 1 no data aval");
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
+                        }   else {
+                            editor.putInt("warning1", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
-                        Log.d("Volley" , response);
+                        Log.d("warninig1" , response);
 
                             }
                 }, new Response.ErrorListener() {
@@ -137,6 +142,10 @@ warningcheck();
                             editor.putInt("warning2", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 2 no data aval");
+                        } else {
+                            editor.putInt("warning2", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -159,6 +168,10 @@ warningcheck();
                             editor.putInt("warning3", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 3 no data aval");
+                        } else {
+                            editor.putInt("warning3", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -181,6 +194,10 @@ warningcheck();
                             editor.putInt("warning4", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 4 no data aval");
+                        } else {
+                            editor.putInt("warning4", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -203,7 +220,13 @@ warningcheck();
                             editor.putInt("warning5", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 5 no data aval");
+                        } else {
+                            editor.putInt("warning5", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
+
+
 
 
                     }

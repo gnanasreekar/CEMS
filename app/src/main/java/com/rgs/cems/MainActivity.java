@@ -177,7 +177,12 @@ warning();
             }
         }.start();
 
-
+warninglayout.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        warningcheck();
+    }
+});
 
     }
 
@@ -568,7 +573,6 @@ warning();
             warningcount++;
         }
 
-
         ValueAnimator animator = ValueAnimator.ofInt(0, warningcount);
         animator.setDuration(400);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -582,6 +586,8 @@ warning();
 
             warninglayout.setBackgroundColor(getResources().getColor(R.color.red_300));
             warningstatus();
+        } else {
+            warninginfo();
         }
 
 
@@ -701,9 +707,14 @@ warning();
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         if (response.equals("[]")){
                             editor.putInt("warning1", 1);
-                            editor.apply();Log.d("Warnings" , "Num 1 no data aval");
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
+                        }   else {
+                            editor.putInt("warning1", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
-                        Log.d("Volley" , response);
+                        Log.d("warninig1" , response);
 
                     }
                 }, new Response.ErrorListener() {
@@ -726,6 +737,10 @@ warning();
                             editor.putInt("warning2", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 2 no data aval");
+                        } else {
+                            editor.putInt("warning2", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -748,6 +763,10 @@ warning();
                             editor.putInt("warning3", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 3 no data aval");
+                        } else {
+                            editor.putInt("warning3", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -770,6 +789,10 @@ warning();
                             editor.putInt("warning4", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 4 no data aval");
+                        } else {
+                            editor.putInt("warning4", 0);
+                            editor.apply();
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -792,7 +815,13 @@ warning();
                             editor.putInt("warning5", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 5 no data aval");
+                        } else {
+                            editor.putInt("warning5", 0);
+
+                            Log.d("Warnings" , "Num 1 no data aval");
                         }
+
+                        Log.d("TEEEMMMp",  response);
 
 
                     }
@@ -813,7 +842,17 @@ warning();
         queue.add(stringRequest5);
 
         Log.d("Checkwaring" , "compleer");
-        warning();
+        mCountDownTimer = new CountDownTimer(2000, 1000)
+        {
+            public void onTick(long millisUntilFinished)
+            {
+            }
+
+            public void onFinish()
+            {
+                warning();
+            }
+        }.start();
     }
 
 
