@@ -84,6 +84,7 @@ public class PreviousUsage extends AppCompatActivity {
 
     private View back_drop;
     private boolean rotate = false;
+    long date_ship_millis;
 
     private View steppedLayout;
     private View circlesLayout;
@@ -368,7 +369,7 @@ Basedialog();
                                 calendar.set(Calendar.YEAR, year);
                                 calendar.set(Calendar.MONTH, monthOfYear);
                                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                long date_ship_millis = calendar.getTimeInMillis();
+                                date_ship_millis = calendar.getTimeInMillis();
                                 URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
                                 date1.setText(getFormattedDateSimple(date_ship_millis));
                                 Log.d("aaaUrl", URL_ptot);
@@ -421,11 +422,13 @@ Basedialog();
                 }else if(block.getSelectedItemId() == 5){
                     mid = 6;
                 }
+                mView = new CatLoadingView();
+                mView.show(getSupportFragmentManager(), "");
 
                 URL_ptot = URL_ptot +"&mid="+ mid;
                 Log.d("Selected" , URL_ptot);
 
-                setTitle("Comparing " + block.getSelectedItem() + " on");
+                setTitle(block.getSelectedItem() + " on "+ getFormattedDateSimple(date_ship_millis) );
 
                 mCountDownTimer = new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -433,8 +436,7 @@ Basedialog();
 
                     public void onFinish() {
                         makeJsonObjectRequestGraph(URL_ptot);
-                        mView = new CatLoadingView();
-                        mView.show(getSupportFragmentManager(), "");
+
                     }
                 }.start();
 
@@ -445,9 +447,7 @@ Basedialog();
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
-
-
-
+    
     private void toggleFabMode(View v) {
         rotate = ViewAnimation.rotateFab(v, !rotate);
         if (rotate) {

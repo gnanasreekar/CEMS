@@ -111,10 +111,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             date_tv = findViewById(R.id.date_main);
             generatorLayout = (LinearLayout) findViewById(R.id.generator_layout);
             warnings = findViewById(R.id.warnings);
-            warninglayout = findViewById(R.id.warning_layout);        parent_view = findViewById(android.R.id.content);
+            warninglayout = findViewById(R.id.warning_layout);
+            parent_view = findViewById(android.R.id.content);
             parent_view = findViewById(R.id.main);
-
-
 
         }
 
@@ -587,10 +586,12 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
         if (warningcount > 0){
 
             warninglayout.setBackgroundColor(getResources().getColor(R.color.red_300));
+
             warningstatus();
         } else {
             if (flag == 1){
-            warninginfo();flag=0;}
+            warninginfo();flag=0;
+            }
         }
 
 

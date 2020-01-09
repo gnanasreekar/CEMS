@@ -55,6 +55,7 @@ public class Comparechart extends AppCompatActivity {
 
     LineChart chart;
     int flag = 0, z, mid;
+    long date_ship_millis1, date_ship_millis2;
     String date1, date2, response1, response2, da1, da2;
     String URL_ptot , URL_ptot2;
     CatLoadingView mView;
@@ -107,9 +108,9 @@ public class Comparechart extends AppCompatActivity {
                                 calendar.set(Calendar.YEAR, year);
                                 calendar.set(Calendar.MONTH, monthOfYear);
                                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                long date_ship_millis = calendar.getTimeInMillis();
-                                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
-                                date1.setText(getFormattedDateSimple(date_ship_millis));
+                                date_ship_millis1 = calendar.getTimeInMillis();
+                                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis1);
+                                date1.setText(getFormattedDateSimple(date_ship_millis1));
                                 Log.d("aaaUrl", URL_ptot);
                             }
                         },
@@ -145,10 +146,10 @@ public class Comparechart extends AppCompatActivity {
                                 calendar.set(Calendar.YEAR, year);
                                 calendar.set(Calendar.MONTH, monthOfYear);
                                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                long date_ship_millis = calendar.getTimeInMillis();
-                                URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                                date_ship_millis2 = calendar.getTimeInMillis();
+                                URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis2);
                                 Log.d("aaaUrl2", URL_ptot2);
-                                date2.setText(getFormattedDateSimple(date_ship_millis));
+                                date2.setText(getFormattedDateSimple(date_ship_millis2));
 
 
                             }
@@ -204,6 +205,8 @@ public class Comparechart extends AppCompatActivity {
                 Log.d("Selected" , URL_ptot);
 
                 setTitle("Comparing " + block.getSelectedItem() + " on");
+                String subtit =getFormattedDateSimple(date_ship_millis1) + " , " + getFormattedDateSimple(date_ship_millis2);
+                getSupportActionBar().setSubtitle(subtit);
 
                 mCountDownTimer = new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -451,16 +454,6 @@ public class Comparechart extends AppCompatActivity {
 
         ArrayList<ILineDataSet> sets = new ArrayList<>();
         sets.add(d1);
-
-
-        if(flag == 0) {
-            da1 = date2;
-            flag = 1;
-        } else {
-            da2 = date2;
-        }
-        String subtit = da1 + " , " + da2;
-        getSupportActionBar().setSubtitle(subtit);
 
         return new LineData(sets);
     }
