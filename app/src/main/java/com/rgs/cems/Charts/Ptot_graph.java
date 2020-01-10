@@ -1,4 +1,4 @@
-package com.rgs.cems;
+package com.rgs.cems.Charts;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -19,11 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -47,6 +45,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.rgs.cems.Justclasses.MyMarkerView;
 import com.rgs.cems.Justclasses.ViewAnimation;
+import com.rgs.cems.R;
 import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONArray;

@@ -66,4 +66,8 @@
         <item name="android:textColorPrimary">@color/grey_60</item>
     </style>
 
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">6sp</item>
+    </style>
+
 </resources>

@@ -1,7 +1,6 @@
-package com.rgs.cems;
+package com.rgs.cems.Charts;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 
@@ -12,12 +11,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -33,6 +30,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.rgs.cems.Justclasses.Dialogs;
+import com.rgs.cems.R;
 import com.roger.catloadinglibrary.CatLoadingView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -230,6 +228,7 @@ public class Previousdate extends AppCompatActivity {
                 //set dark theme
                 datePicker.setMaxDate(Calendar.getInstance());
                 datePicker.setThemeDark(true);
+                datePicker.vibrate(true);
                 datePicker.setOkColor(Color.WHITE);
                 datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
                 datePicker.show(getFragmentManager(), "Datepickerdialog");
@@ -298,7 +297,6 @@ public class Previousdate extends AppCompatActivity {
                                 editor.putInt("Jsonlength", json.length());
                                 editor.apply();
                                 val++;
-                                Toast.makeText(Previousdate.this, val + "", Toast.LENGTH_SHORT).show();
                             }
                             setdata();
                         } catch (JSONException e) {

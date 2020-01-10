@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
-    tools:context=".Previousdate">
+    tools:context=".Charts.Previousdate">
 
     <com.google.android.material.appbar.AppBarLayout
 
@@ -22,6 +22,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -123,7 +124,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="92776 Units"
+                                android:text="Please Wait.."
                                 android:id="@+id/date_totalpower"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/grey_60"
@@ -190,7 +191,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
-                                android:text="52791"
+                                android:text="Please Wait.."
                                 android:id="@+id/date_totalcost"
                                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
                                 android:textColor="@color/grey_60"
@@ -305,6 +306,32 @@
                                 android:layout_width="@dimen/spacing_large"
                                 android:layout_height="0dp" />
 
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/grey_20" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="match_parent" >
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="7dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_chevron_right_black_24dp" />
+
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="8dp"
+                                    android:background="@color/grey_20" />
+
+                            </LinearLayout>
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -337,6 +364,34 @@
                             <View
                                 android:layout_width="@dimen/spacing_large"
                                 android:layout_height="0dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/grey_20" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="match_parent" >
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="7dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_chevron_right_black_24dp" />
+
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="8dp"
+                                    android:background="@color/grey_20" />
+
+                            </LinearLayout>
+
+
 
                         </LinearLayout>
 
@@ -371,6 +426,32 @@
                                 android:layout_width="@dimen/spacing_large"
                                 android:layout_height="0dp" />
 
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/grey_20" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="match_parent" >
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="7dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_chevron_right_black_24dp" />
+
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="8dp"
+                                    android:background="@color/grey_20" />
+
+                            </LinearLayout>
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -404,6 +485,32 @@
                                 android:layout_width="@dimen/spacing_large"
                                 android:layout_height="0dp" />
 
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/grey_20" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="match_parent" >
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="7dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_chevron_right_black_24dp" />
+
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="8dp"
+                                    android:background="@color/grey_20" />
+
+                            </LinearLayout>
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -436,6 +543,32 @@
                             <View
                                 android:layout_width="@dimen/spacing_large"
                                 android:layout_height="0dp" />
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/grey_20" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="match_parent" >
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="7dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_chevron_right_black_24dp" />
+
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="8dp"
+                                    android:background="@color/grey_20" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 

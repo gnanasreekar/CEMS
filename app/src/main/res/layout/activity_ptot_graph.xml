@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/dark"
     android:layout_height="match_parent"
-    tools:context=".Ptot_graph">
+    tools:context=".Charts.Ptot_graph">
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/chart1"

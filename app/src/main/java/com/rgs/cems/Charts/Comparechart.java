@@ -1,4 +1,4 @@
-package com.rgs.cems;
+package com.rgs.cems.Charts;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +37,7 @@ import com.rgs.cems.Justclasses.ChartItem;
 import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.Justclasses.LineChartItem;
 import com.rgs.cems.Justclasses.TinyDB;
+import com.rgs.cems.R;
 import com.roger.catloadinglibrary.CatLoadingView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 

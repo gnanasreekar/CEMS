@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/dark"
     android:layout_height="match_parent"
-    tools:context=".PreviousUsage">
+    tools:context=".Charts.PreviousUsage">
 
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/previous_chart"

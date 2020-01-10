@@ -1,21 +1,16 @@
-package com.rgs.cems;
+package com.rgs.cems.Charts;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
-import android.icu.util.LocaleData;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -53,6 +48,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.Justclasses.MyMarkerView;
 import com.rgs.cems.Justclasses.ViewAnimation;
+import com.rgs.cems.R;
 import com.roger.catloadinglibrary.CatLoadingView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
