@@ -19,7 +19,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".PreviousUsage"></activity>
+        <activity android:name=".Previousdate"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+
+             </activity>
+        <activity android:name=".PreviousUsage" />
         <activity android:name=".Comparechart" />
         <activity android:name=".Ptot_graph" />
         <activity

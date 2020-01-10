@@ -16,13 +16,17 @@
         android:iconTint="@color/colorAccent">
         <menu>
             <item
+                android:id="@+id/nav_compare_entire"
+                android:icon="@drawable/ic_skip_previous_black_24dp"
+                android:title="Previous Usage" />
+            <item
                 android:id="@+id/nav_compare"
                 android:icon="@drawable/ic_compare_arrows_black_24dp"
-                android:title="Compare Usage" />
+                android:title="Compare Usage Chart" />
             <item
                 android:id="@+id/nav_previous"
                 android:icon="@drawable/ic_chevron_right_black_24dp"
-                android:title="Previous Usage Stats" />
+                android:title="Previous Usage Chart" />
         </menu>
     </item>
 

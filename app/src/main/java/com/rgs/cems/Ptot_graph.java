@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -70,6 +71,7 @@ public class Ptot_graph extends AppCompatActivity {
     LineDataSet set;
     LineData data;
     CatLoadingView mView;
+    SharedPreferences sharedPreferences;
 
     private View back_drop;
     private boolean rotate = false;
@@ -90,7 +92,7 @@ public class Ptot_graph extends AppCompatActivity {
         chart = findViewById(R.id.chart1);
         mView = new CatLoadingView();
         mView.show(getSupportFragmentManager(), "");
-
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         back_drop = findViewById(R.id.back_drop);
 
         steppedLayout = findViewById(R.id.stepped_layout);
@@ -136,6 +138,10 @@ public class Ptot_graph extends AppCompatActivity {
                 URL_ptot = getString(R.string.URL) + "ptottoday6";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
+            case 7:
+                Block = sharedPreferences.getString("date_block" , "Not aval");
+                URL_ptot = sharedPreferences.getString("date_url" , "Nodata");
+                makeJsonObjectRequestGraph(URL_ptot);
             default:
                 nodataaval();
         }

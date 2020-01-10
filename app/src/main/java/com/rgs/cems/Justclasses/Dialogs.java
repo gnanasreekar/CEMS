@@ -1,5 +1,6 @@
 package com.rgs.cems.Justclasses;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -14,7 +15,7 @@ public class Dialogs {
     private Context context;
     private int dialog;
 
-    public Dialogs(Context mcontext, int dia){
+    public Dialogs(final Context mcontext, int dia){
         this.context = mcontext;
         this.dialog = dia;
 
@@ -57,6 +58,7 @@ public class Dialogs {
             dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ((Activity)mcontext).finish();
                     dialog.dismiss();
                 }
             });

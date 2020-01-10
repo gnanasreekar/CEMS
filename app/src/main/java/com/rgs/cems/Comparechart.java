@@ -29,7 +29,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -55,10 +54,9 @@ import static android.widget.Toast.LENGTH_LONG;
 
 public class Comparechart extends AppCompatActivity {
 
-    LineChart chart;
-    int flag = 0,f1, z, mid;
+    int flag = 0,f1, mid;
     long date_ship_millis1, date_ship_millis2;
-    String date1, date2, response1, response2, da1, da2;
+    String date, response1, response2;
     String URL_ptot , URL_ptot2;
     CatLoadingView mView;
     CountDownTimer mCountDownTimer;
@@ -380,7 +378,7 @@ public class Comparechart extends AppCompatActivity {
 
                 labels.add(time);
                 tinydb.putListString("labels", labels);
-                date2 = parts[0];
+                date = parts[0];
             }
 
 
@@ -395,7 +393,7 @@ public class Comparechart extends AppCompatActivity {
 
         Log.d("Arraylength2" , String.valueOf(values1.size()));
 
-        LineDataSet d1 = new LineDataSet(values1, date2);
+        LineDataSet d1 = new LineDataSet(values1, date);
         d1.setLineWidth(1.5f);
         d1.setHighLightColor(Color.rgb(244, 117, 117));
         d1.setDrawValues(false);
