@@ -50,6 +50,7 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.Justclasses.MyMarkerView;
 import com.rgs.cems.Justclasses.ViewAnimation;
 import com.roger.catloadinglibrary.CatLoadingView;
@@ -81,7 +82,7 @@ public class PreviousUsage extends AppCompatActivity {
     LineData data;
     CatLoadingView mView;
     CountDownTimer mCountDownTimer;
-    int mid;
+    int mid, f1;
 
     private View back_drop;
     private boolean rotate = false;
@@ -101,16 +102,12 @@ public class PreviousUsage extends AppCompatActivity {
         lineChart = findViewById(R.id.previous_chart);
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-       // DatePickerDark();
-Basedialog();
-        Block = "School";
-
-
-
+        // DatePickerDark();
+        Basedialog();
 
         back_drop = findViewById(R.id.back_drop);
 
@@ -146,8 +143,6 @@ Basedialog();
 
             // set listeners
             lineChart.setDrawGridBackground(false);
-
-
 
 
             // enable scaling and dragging
@@ -226,13 +221,6 @@ Basedialog();
         // draw legend entries as lines
         l.setForm(Legend.LegendForm.LINE);
 
-        //Checking for Internet
-        if (isNetworkAvailable()) {
-            Log.d("Internet Status", "On line");
-        } else {
-            showCustomDialog();
-            Log.d("Internet Status", "Off line");
-        }
         {
             final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add_previous);
 
@@ -342,8 +330,7 @@ Basedialog();
                     entries.clear();
                     labels.clear();
                     lineChart.clear();
-
-                    dialogDatePickerDark();
+                    Basedialog();
                 }
             });
         }
@@ -371,7 +358,7 @@ Basedialog();
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        final TextView date1 =  dialog.findViewById(R.id.date1);
+        final TextView date1 = dialog.findViewById(R.id.date1);
         final AppCompatSpinner block = (AppCompatSpinner) dialog.findViewById(R.id.selectblock);
 
         date1.setOnClickListener(new View.OnClickListener() {
@@ -432,22 +419,26 @@ Basedialog();
 
                 if (block.getSelectedItemId() == 1) {
                     mid = 2;
-                } else if(block.getSelectedItemId() == 2){
+                } else if (block.getSelectedItemId() == 2) {
                     mid = 3;
-                } else if(block.getSelectedItemId() == 3){
+                } else if (block.getSelectedItemId() == 3) {
                     mid = 4;
-                }else if(block.getSelectedItemId() == 4){
+                } else if (block.getSelectedItemId() == 4) {
                     mid = 5;
-                }else if(block.getSelectedItemId() == 5){
+                } else if (block.getSelectedItemId() == 5) {
                     mid = 6;
                 }
                 mView = new CatLoadingView();
                 mView.show(getSupportFragmentManager(), "");
 
-                URL_ptot = URL_ptot +"&mid="+ mid;
-                Log.d("Selected" , URL_ptot);
+                URL_ptot = URL_ptot + "&mid=" + mid;
+                Log.d("Selected", URL_ptot);
 
-                setTitle(block.getSelectedItem() + " on "+ getFormattedDateSimple(date_ship_millis) );
+                Block = block.getSelectedItem()+"";
+
+                setTitle(block.getSelectedItem() + " Usage on ");
+                String subtit =getFormattedDateSimple(date_ship_millis);
+                getSupportActionBar().setSubtitle(subtit);
 
                 mCountDownTimer = new CountDownTimer(1000, 1000) {
                     public void onTick(long millisUntilFinished) {
@@ -463,11 +454,10 @@ Basedialog();
         });
 
 
-
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
-    
+
     private void toggleFabMode(View v) {
         rotate = ViewAnimation.rotateFab(v, !rotate);
         if (rotate) {
@@ -491,174 +481,9 @@ Basedialog();
         }
     }
 
-    //Checking for internet
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    //No internet dialog
-    private void showCustomDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.nonet_warning);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
-
     public static String getFormattedDateSimple(Long dateTime) {
         SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
         return newFormat.format(new Date(dateTime));
-    }
-
-    private void dialogDatePickerDark() {
-        Calendar cur_calender = Calendar.getInstance();
-        DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        int m = monthOfYear + 1;
-                        Calendar calendar = Calendar.getInstance();
-                        Log.d("aaatimey", String.valueOf(year));
-                        Log.d("aaatimem", String.valueOf(m));
-                        Log.d("aaatimed", String.valueOf(dayOfMonth));
-
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, monthOfYear);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        mView = new CatLoadingView();
-                        mView.show(getSupportFragmentManager(), "");
-
-                        long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
-                        Log.d("aaaUrl", URL_ptot);
-                        makeJsonObjectRequestGraph(URL_ptot);
-                        MyMarkerView mv = new MyMarkerView(PreviousUsage.this, R.layout.custom_marker_view);
-                        mv.setChartView(lineChart);
-                        lineChart.setMarker(mv);
-
-                        {
-                            lineChart.setBackgroundColor(Color.DKGRAY);
-                            lineChart.getDescription().setEnabled(false);
-                            lineChart.setTouchEnabled(true);
-                            lineChart.setDrawGridBackground(false);
-                            lineChart.setDragEnabled(true);
-                            lineChart.setScaleEnabled(true);
-                            lineChart.setPinchZoom(true);
-                        }
-
-                        XAxis xAxis;
-                        {   // // X-Axis Style // //
-                            xAxis = lineChart.getXAxis();
-                            xAxis.enableGridDashedLine(10f, 10f, 0f);
-                        }
-
-                        YAxis yAxis;
-                        {   // // Y-Axis Style // //
-                            yAxis = lineChart.getAxisLeft();
-                            lineChart.getAxisRight().setEnabled(false);
-                            yAxis.enableGridDashedLine(10f, 10f, 0f);
-                            yAxis.setAxisMaximum(200f);
-                            yAxis.setAxisMinimum(-50f);
-                        }
-
-                        {   // // Create Limit Lines // //
-
-                            LimitLine ll1 = new LimitLine(200f, "Upper Limit");
-                            ll1.setLineWidth(4f);
-                            ll1.enableDashedLine(10f, 10f, 0f);
-                            ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-                            ll1.setTextSize(10f);
-                            yAxis.setDrawLimitLinesBehindData(true);
-                            xAxis.setDrawLimitLinesBehindData(true);
-                            yAxis.addLimitLine(ll1);
-
-                        }
-
-
-                        // draw points over time
-                        lineChart.animateX(1500);
-                        lineChart.getXAxis().setTextColor(Color.WHITE);
-                        lineChart.getAxisLeft().setTextColor(Color.WHITE);
-
-                        // get the legend (only possible after setting data)
-                        Legend l = lineChart.getLegend();
-                        // draw legend entries as lines
-                        l.setForm(Legend.LegendForm.LINE);
-
-
-                    }
-                },
-                cur_calender.get(Calendar.YEAR),
-                cur_calender.get(Calendar.MONTH),
-                cur_calender.get(Calendar.DAY_OF_MONTH)
-
-        );
-        datePicker.setOkColor(Color.WHITE);
-        datePicker.show(getFragmentManager(), "Datepickerdialog");
-    }
-
-    private void DatePickerDark() {
-        Calendar cur_calender = Calendar.getInstance();
-        DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        int m = monthOfYear + 1;
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, monthOfYear);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                        long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
-                        Log.d("aaaUrl", URL_ptot);
-                        makeJsonObjectRequestGraph(URL_ptot);
-
-                    }
-                },
-                cur_calender.get(Calendar.YEAR),
-                cur_calender.get(Calendar.MONTH),
-                cur_calender.get(Calendar.DAY_OF_MONTH)
-
-        );
-        //set dark theme
-        datePicker.setThemeDark(true);
-        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
-        datePicker.setOkColor(getResources().getColor(R.color.colorAccent));
-        datePicker.show(getFragmentManager(), "Datepickerdialog");
-
-        datePicker.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-
-            }
-        });
-
-        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
     }
 
     private void makeJsonObjectRequestGraph(String URL_ptot) {
@@ -668,9 +493,17 @@ Basedialog();
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        Log.d("Temp12" , response);
+                        if (response.contains("[]")){
+                            new Dialogs(PreviousUsage.this , 2);
+                            Toast.makeText(PreviousUsage.this, "No Data Available", Toast.LENGTH_SHORT).show();
+
+                        }
+
                         try {
 
-
+                            f1 = 0;
                             JSONArray jArray = new JSONArray(response);
                             for (int i = 0; i < jArray.length(); i++) {
                                 JSONObject jsonObject = jArray.getJSONObject(i);
@@ -684,11 +517,16 @@ Basedialog();
                                 String second = parts[1];
                                 String[] timewithoutsec = second.split(":");
                                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
-                                Log.d("Timeaaap" , time);
 
-
+                                if (time.equals("00.00")) {
+                                    f1++;
+                                }
                                 labels.add(time);
 
+                            }
+                            if (f1 > 1) {
+                                new Dialogs(PreviousUsage.this , 1);
+//                                problemdata();
                             }
 
 
@@ -736,6 +574,7 @@ Basedialog();
                             lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
                             lineChart.setData(data);
                             lineChart.animateX(1500);
+                            lineChart.getLegend().setTextColor(Color.WHITE);
 
                             lineChart.notifyDataSetChanged();
                             lineChart.invalidate();
@@ -795,28 +634,7 @@ Basedialog();
         }
     }
 
-    //TODO: No data dialogue
-    public void nodataaval() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.no_data_aval);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
 
-        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                dialog.dismiss();
-            }
-        });
 
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
 }

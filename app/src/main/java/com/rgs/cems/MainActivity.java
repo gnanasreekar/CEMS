@@ -472,7 +472,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View view) {
         i++;
         if (i == 15) {
-            ///showdpbDialog();
             showdpbDialog();
             i = 0;
         }

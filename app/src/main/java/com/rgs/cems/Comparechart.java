@@ -35,6 +35,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.rgs.cems.Justclasses.ChartItem;
+import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.Justclasses.LineChartItem;
 import com.rgs.cems.Justclasses.TinyDB;
 import com.roger.catloadinglibrary.CatLoadingView;
@@ -55,7 +56,7 @@ import static android.widget.Toast.LENGTH_LONG;
 public class Comparechart extends AppCompatActivity {
 
     LineChart chart;
-    int flag = 0, z, mid;
+    int flag = 0,f1, z, mid;
     long date_ship_millis1, date_ship_millis2;
     String date1, date2, response1, response2, da1, da2;
     String URL_ptot , URL_ptot2;
@@ -97,6 +98,7 @@ public class Comparechart extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private void showCustomDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
@@ -247,7 +249,6 @@ public class Comparechart extends AppCompatActivity {
         dialog.getWindow().setAttributes(lp);
     }
 
-
     private class ChartDataAdapter extends ArrayAdapter<ChartItem> {
 
         ChartDataAdapter(Context context, List<ChartItem> objects) {
@@ -277,88 +278,6 @@ public class Comparechart extends AppCompatActivity {
     public static String getFormattedDateSimple(Long dateTime) {
         SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
         return newFormat.format(new Date(dateTime));
-    }
-
-    private void DatePickerDark() {
-        Calendar cur_calender = Calendar.getInstance();
-        DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        int m = monthOfYear + 1;
-                        Calendar calendar = Calendar.getInstance();
-                        Log.d("aaatimey", String.valueOf(year));
-                        Log.d("aaatimem", String.valueOf(m));
-                        Log.d("aaatimed", String.valueOf(dayOfMonth));
-
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, monthOfYear);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                        long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis)+"&mid=2";
-                        Log.d("aaaUrl", URL_ptot);
-                        DatePickerDark2();
-
-
-                    }
-                },
-                cur_calender.get(Calendar.YEAR),
-                cur_calender.get(Calendar.MONTH),
-                cur_calender.get(Calendar.DAY_OF_MONTH)
-
-        );
-        //set dark theme
-        datePicker.setThemeDark(true);
-        datePicker.setOkColor(Color.WHITE);
-        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
-        datePicker.show(getFragmentManager(), "Datepickerdialog");
-        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
-    }
-
-    private void DatePickerDark2() {
-        Calendar cur_calender = Calendar.getInstance();
-        DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        int m = monthOfYear + 1;
-                        Calendar calendar = Calendar.getInstance();
-                        Log.d("aaatimey", String.valueOf(year));
-                        Log.d("aaatimem", String.valueOf(m));
-                        Log.d("aaatimed", String.valueOf(dayOfMonth));
-
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, monthOfYear);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                        long date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis)+"&mid=2";
-                        Log.d("aaaUrl2", URL_ptot2);
-                        getdata(URL_ptot , URL_ptot2);
-
-                    }
-                },
-                cur_calender.get(Calendar.YEAR),
-                cur_calender.get(Calendar.MONTH),
-                cur_calender.get(Calendar.DAY_OF_MONTH)
-
-        );
-        //set dark theme
-        datePicker.setThemeDark(true);
-        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
-        datePicker.show(getFragmentManager(), "Datepickerdialog");
-        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
-            }
-        });
     }
 
     public void getdata(String URLptot, final String URLptot2) {
@@ -435,8 +354,14 @@ public class Comparechart extends AppCompatActivity {
 
         Log.d("Arraylength" , String.valueOf(values1.size()));
 
-        try {
+        if (resp.contains("[]")){
+            new Dialogs(Comparechart.this , 2);
+            Toast.makeText(Comparechart.this, "No Data Available", Toast.LENGTH_SHORT).show();
 
+        }
+
+        try {
+            f1 = 0;
             JSONArray jArray2 = new JSONArray(resp);
             for (int i = 0; i < jArray2.length(); i++) {
                 JSONObject jsonObject = jArray2.getJSONObject(i);
@@ -449,12 +374,19 @@ public class Comparechart extends AppCompatActivity {
                 String[] timewithoutsec = second.split(":");
                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
 
+                if (time.equals("00.00")) {
+                    f1++;
+                }
 
                 labels.add(time);
                 tinydb.putListString("labels", labels);
                 date2 = parts[0];
             }
 
+
+            if (f1 > 1) {
+                new Dialogs(Comparechart.this , 1);
+            }
 
         } catch (JSONException e) {
             Toast.makeText(Comparechart.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
@@ -484,29 +416,6 @@ public class Comparechart extends AppCompatActivity {
         finish();
     }
 
-    public void nodataaval() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.no_data_aval);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-
-        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
 
 
 
