@@ -29,6 +29,7 @@
             app:contentInsetStartWithNavigation="0dp"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:subtitle="welcome to CEMS"
+            android:onClick="onClick"
             app:subtitleTextAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             app:subtitleTextColor="@color/grey_10"
              />
@@ -93,7 +94,7 @@
                             android:id="@+id/today_power_usage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5 Units"
+                            android:text="Please wait..."
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/green_400"
                             android:textStyle="bold" />
@@ -155,7 +156,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="54.75 Rs"
+                            android:text="Please wait..."
                             android:id="@+id/today_cost"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/green_400"
@@ -202,7 +203,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="325 Units"
+                            android:text="Please wait..."
                             android:id="@+id/months_powerusage_tmep"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/green_400"
@@ -295,6 +296,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Please wait..."
                             android:id="@+id/generator_usage"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                             android:textColor="@color/green_400"

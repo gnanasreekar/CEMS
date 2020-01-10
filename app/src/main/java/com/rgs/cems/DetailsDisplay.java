@@ -59,7 +59,7 @@ public class DetailsDisplay extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Todays Usage");
+        getSupportActionBar().setTitle("Today's Usage");
 
         {
 

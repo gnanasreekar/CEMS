@@ -57,6 +57,7 @@ import com.rgs.cems.Dataretrive.FirebaseHandler;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
 import com.rgs.cems.NormalStuff.About;
+import com.roger.catloadinglibrary.CatLoadingView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     CountDownTimer mCountDownTimer;
     FirebaseHandler firebaseHandler = new FirebaseHandler();
     View parent_view;
+    CatLoadingView mView;
 
 
     @Override
@@ -102,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navView = findViewById(R.id.nav_view);
             drawerLayout = findViewById(R.id.drawer_layout);
             setSupportActionBar(toolbar);
-            temp_status = findViewById(R.id.raspberrypi_status_button);
             today_powerusage_tv = findViewById(R.id.today_power_usage);
             months_powerusage_tv = findViewById(R.id.months_powerusage_tmep);
             today_cost = (TextView) findViewById(R.id.today_cost);
@@ -135,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         }
-        //TODO: warning status
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         date_tv.setText(sharedPreferences.getString("DATE" + 1, "0"));
@@ -164,24 +164,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         httpCall();
         TEC();
 
-        mCountDownTimer = new CountDownTimer(2000, 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            {
+        mCountDownTimer = new CountDownTimer(2000, 1000) {
+            public void onTick(long millisUntilFinished) {
             }
 
-            public void onFinish()
-            {
-warning();
+            public void onFinish() {
+                warning();
             }
         }.start();
 
-warninglayout.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        warningcheck();
-    }
-});
+        warninglayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                warningcheck();
+            }
+        });
 
     }
 
@@ -360,6 +357,8 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
         //noinspection SimplifiableIfStatement
         if (id == R.id.warningcheck) {
             flag = 1;
+            mView = new CatLoadingView();
+            mView.show(getSupportFragmentManager(), "");
             warningcheck();
             return true;
         }
@@ -469,11 +468,37 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
 
     public void onClick(View view) {
         i++;
-        if (i == 5) {
+        if (i == 15) {
             ///showdpbDialog();
-            Toast.makeText(this, "Works", Toast.LENGTH_SHORT).show();
+            showdpbDialog();
             i = 0;
         }
+    }
+
+    public void showdpbDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dpy);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        TextView dp = dialog.findViewById(R.id.dayspast);
+        TextView context = dialog.findViewById(R.id.contentew);
+        dp.setText(String.valueOf(dpb) + "  Days");
+        context.setText(dpb + " days past and many more to go!");
+
+        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     public void showtempmonthssDialog(View view) {
@@ -518,7 +543,7 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.equals("[]")){
+                        if (response.equals("[]")) {
                             Toast.makeText(MainActivity.this, "Generator Data not available", Toast.LENGTH_SHORT).show();
                         }
 
@@ -552,25 +577,25 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
     }
 
 
-    public void warning(){
+    public void warning() {
         int warningcount = 0;
-        if(sharedPreferences.getInt("warning1", 0) == 1){
+        if (sharedPreferences.getInt("warning1", 0) == 1) {
             warningcount++;
         }
 
-        if (sharedPreferences.getInt("warning2", 0) == 1){
+        if (sharedPreferences.getInt("warning2", 0) == 1) {
             warningcount++;
         }
 
-        if(sharedPreferences.getInt("warning3", 0) == 1){
+        if (sharedPreferences.getInt("warning3", 0) == 1) {
             warningcount++;
         }
 
-        if (sharedPreferences.getInt("warning4", 0) == 1){
+        if (sharedPreferences.getInt("warning4", 0) == 1) {
             warningcount++;
         }
 
-        if (sharedPreferences.getInt("warning5", 0) == 1){
+        if (sharedPreferences.getInt("warning5", 0) == 1) {
             warningcount++;
         }
 
@@ -583,14 +608,15 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
         });
         animator.start();
 
-        if (warningcount > 0){
+        if (warningcount > 0) {
 
             warninglayout.setBackgroundColor(getResources().getColor(R.color.red_300));
 
             warningstatus();
         } else {
-            if (flag == 1){
-            warninginfo();flag=0;
+            if (flag == 1) {
+                warninginfo();
+                flag = 0;
             }
         }
 
@@ -638,7 +664,7 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
         final TextView meter5 = (TextView) dialog.findViewById(R.id.meter5);
         final TextView meter6 = (TextView) dialog.findViewById(R.id.meter6);
 
-        if(sharedPreferences.getInt("warning1", 0) == 1){
+        if (sharedPreferences.getInt("warning1", 0) == 1) {
             meter2.setText("Data Not Available");
             meter2.setTextColor(Color.RED);
         } else {
@@ -646,7 +672,7 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
             meter2.setTextColor(getResources().getColor(R.color.green_700));
         }
 
-        if(sharedPreferences.getInt("warning2", 0) == 1){
+        if (sharedPreferences.getInt("warning2", 0) == 1) {
             meter3.setText("Data Not Available");
             meter3.setTextColor(Color.RED);
         } else {
@@ -654,7 +680,7 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
             meter3.setTextColor(getResources().getColor(R.color.green_700));
         }
 
-        if(sharedPreferences.getInt("warning3", 0) == 1){
+        if (sharedPreferences.getInt("warning3", 0) == 1) {
             meter4.setText("Data Not Available");
             meter4.setTextColor(Color.RED);
         } else {
@@ -662,7 +688,7 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
             meter4.setTextColor(getResources().getColor(R.color.green_700));
         }
 
-        if(sharedPreferences.getInt("warning4", 0) == 1){
+        if (sharedPreferences.getInt("warning4", 0) == 1) {
             meter5.setText("Data Not Available");
             meter5.setTextColor(Color.RED);
         } else {
@@ -670,7 +696,7 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
             meter5.setTextColor(getResources().getColor(R.color.green_700));
         }
 
-        if(sharedPreferences.getInt("warning5", 0) == 1){
+        if (sharedPreferences.getInt("warning5", 0) == 1) {
             meter6.setText("Data Not Available");
             meter6.setTextColor(Color.RED);
         } else {
@@ -695,14 +721,14 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
         dialog.getWindow().setAttributes(lp);
     }
 
-    public void warningcheck(){
+    public void warningcheck() {
 
         String URL_ptot1 = getString(R.string.URL) + "ptottoday2";
         String URL_ptot2 = getString(R.string.URL) + "ptottoday3";
         String URL_ptot3 = getString(R.string.URL) + "ptottoday4";
         String URL_ptot4 = getString(R.string.URL) + "ptottoday5";
         String URL_ptot5 = getString(R.string.URL) + "ptottoday6";
-        sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, URL_ptot1,
@@ -710,16 +736,16 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.equals("[]")) {
                             editor.putInt("warning1", 1);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
-                        }   else {
+                            Log.d("Warnings", "Num 1 no data aval");
+                        } else {
                             editor.putInt("warning1", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
+                            Log.d("Warnings", "Num 1 no data aval");
                         }
-                        Log.d("warninig1" , response);
+                        Log.d("warninig1", response);
 
                     }
                 }, new Response.ErrorListener() {
@@ -738,14 +764,14 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.equals("[]")) {
                             editor.putInt("warning2", 1);
                             editor.apply();
-                            Log.d("Warnings" , "Num 2 no data aval");
+                            Log.d("Warnings", "Num 2 no data aval");
                         } else {
                             editor.putInt("warning2", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
+                            Log.d("Warnings", "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -764,14 +790,14 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.equals("[]")) {
                             editor.putInt("warning3", 1);
                             editor.apply();
-                            Log.d("Warnings" , "Num 3 no data aval");
+                            Log.d("Warnings", "Num 3 no data aval");
                         } else {
                             editor.putInt("warning3", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
+                            Log.d("Warnings", "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -790,14 +816,14 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.equals("[]")) {
                             editor.putInt("warning4", 1);
                             editor.apply();
-                            Log.d("Warnings" , "Num 4 no data aval");
+                            Log.d("Warnings", "Num 4 no data aval");
                         } else {
                             editor.putInt("warning4", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
+                            Log.d("Warnings", "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -816,17 +842,17 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.equals("[]")) {
                             editor.putInt("warning5", 1);
                             editor.apply();
-                            Log.d("Warnings" , "Num 5 no data aval");
+                            Log.d("Warnings", "Num 5 no data aval");
                         } else {
                             editor.putInt("warning5", 0);
 
-                            Log.d("Warnings" , "Num 1 no data aval");
+                            Log.d("Warnings", "Num 1 no data aval");
                         }
 
-                        Log.d("TEEEMMMp",  response);
+                        Log.d("TEEEMMMp", response);
 
 
                     }
@@ -846,26 +872,17 @@ warninglayout.setOnClickListener(new View.OnClickListener() {
         queue.add(stringRequest4);
         queue.add(stringRequest5);
 
-        Log.d("Checkwaring" , "compleer");
-        mCountDownTimer = new CountDownTimer(2000, 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            {
+        Log.d("Checkwaring", "compleer");
+        mCountDownTimer = new CountDownTimer(2000, 1000) {
+            public void onTick(long millisUntilFinished) {
             }
 
-            public void onFinish()
-            {
+            public void onFinish() {
+                mView.dismiss();
                 warning();
             }
         }.start();
     }
 
-
-
-
-
-
-
-    //SPBdialog goes here
 }
 

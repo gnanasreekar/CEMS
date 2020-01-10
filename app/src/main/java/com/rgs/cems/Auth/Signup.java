@@ -106,7 +106,6 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("Date").setValue(s);
                                 databaseReference.child("V1").setValue(0);
                                 databaseReference.child("V2").setValue(0);
-                                //TODO: The place where intent should be placed
                                 Log.d("Firebase Signup dsent" , "YYYYYYYYYYYYYYYY");
                                 mView.dismiss();
                                 showaccountcreatedDialog();
@@ -166,7 +165,6 @@ public class Signup extends AppCompatActivity {
         dialog.getWindow().setAttributes(lp);
     }
 
-    //TODO: Make this work
     public void showaccountcreatedDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before

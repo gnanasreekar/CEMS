@@ -42,7 +42,6 @@ public class feedback extends AppCompatActivity {
         nameet = findViewById(R.id.feedback_name);
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
         uid = sharedPreferences.getString("name" , null);
-        Toast.makeText(this, uid, Toast.LENGTH_SHORT).show(); //TODO: Remove Toast
 
 
 

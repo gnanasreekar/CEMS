@@ -181,6 +181,7 @@ public class Comparechart extends AppCompatActivity {
         ((ImageButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 dialog.dismiss();
             }
         });
@@ -203,6 +204,8 @@ public class Comparechart extends AppCompatActivity {
                 URL_ptot = URL_ptot +"&mid="+ mid;
                 URL_ptot2 = URL_ptot2 +"&mid="+ mid;
                 Log.d("Selected" , URL_ptot);
+                mView = new CatLoadingView();
+                mView.show(getSupportFragmentManager(), "");
 
                 setTitle("Comparing " + block.getSelectedItem() + " on");
                 String subtit =getFormattedDateSimple(date_ship_millis1) + " , " + getFormattedDateSimple(date_ship_millis2);
@@ -214,8 +217,7 @@ public class Comparechart extends AppCompatActivity {
 
                     public void onFinish() {
                         getdata(URL_ptot , URL_ptot2);
-                        mView = new CatLoadingView();
-                        mView.show(getSupportFragmentManager(), "");
+
                     }
                 }.start();
 

@@ -1,8 +1,11 @@
 package com.rgs.cems;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -22,11 +25,21 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class Getdata {
+public class Getdata extends Application{
 
     String url = "http://3.6.41.81/todaysusage";
 
     //TODO: Url change when needed
+
+    public static Resources resources;
+
+    @Override
+    public void onCreate() {
+        resources = getResources();
+        Toast.makeText(this, getString(R.string.URL), Toast.LENGTH_SHORT).show();
+        super.onCreate();
+    }
+
 
     SharedPreferences sharedPreferences;
     int val = 0, gen =0;

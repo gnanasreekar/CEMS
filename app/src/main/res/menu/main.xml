@@ -2,26 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/raspberrypi_status"
-        android:title="Status"
-        android:icon="@drawable/ic_raspstatus_signal_cellular_4_bar_black_24dp"
-        app:showAsAction="always"
-        />
 
     <item
         android:id="@+id/warningcheck"
         android:title="Warning Check"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/raspberrypi_status_button"
-        android:title="Status"
-        android:onClick="changestatus"
-        android:icon="@drawable/ic_rasbpi_cellular_off_black_24dp"
-        app:showAsAction="never"
-        />
-
-
 
 </menu>

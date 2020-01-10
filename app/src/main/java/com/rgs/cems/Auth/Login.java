@@ -185,7 +185,6 @@ public class Login extends AppCompatActivity {
                     Log.d("Firebase Name_ALogin" , fb_name);
                     Log.d("Firebase Email_ALogin" , fb_email);
                     Log.d("Firebase UID_ALogin" , fb_uid);
-                    //TODO too much delay sometimes
 
 
                     mCountDownTimer = new CountDownTimer(2000, 1000)
