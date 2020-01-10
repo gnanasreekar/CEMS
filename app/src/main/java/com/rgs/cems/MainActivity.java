@@ -176,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         warninglayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flag = 1;
+                mView = new CatLoadingView();
+                mView.show(getSupportFragmentManager(), "");
                 warningcheck();
             }
         });

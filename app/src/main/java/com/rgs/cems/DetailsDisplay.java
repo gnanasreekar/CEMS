@@ -155,6 +155,11 @@ public class DetailsDisplay extends AppCompatActivity {
             //  barChart.setOnChartValueSelectedListener(DetailsDisplay.this);
 
             barChart.setDrawBarShadow(false);
+            barChart.setTouchEnabled(false);
+            barChart.setDragEnabled(false);
+            barChart.setScaleEnabled(false);
+            barChart.setScaleXEnabled(false);
+            barChart.setScaleYEnabled(false);
             barChart.setDrawValueAboveBar(true);
 
             barChart.getDescription().setEnabled(false);

@@ -49,7 +49,7 @@
         <menu>
             <item
                 android:id="@+id/nav_signout"
-                android:icon="@drawable/ic_info_black_24dp"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
                 android:title="@string/sign_out" />
         </menu>
     </item>
