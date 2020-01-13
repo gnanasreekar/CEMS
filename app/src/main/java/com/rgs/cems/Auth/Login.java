@@ -159,7 +159,6 @@ public class Login extends AppCompatActivity {
                         fb_uid = dataSnapshot.child("UID").getValue().toString();
                         auth = dataSnapshot.child("V1").getValue().toString();
                         admin = dataSnapshot.child("V2").getValue().toString();
-                        Log.d("Firebase Database", "data found");
 
                     } else {
                         fb_name = "NO data found";
@@ -167,7 +166,6 @@ public class Login extends AppCompatActivity {
                         fb_uid = "NO data found";
                         auth = "0";
                         admin = "0";
-                        Log.d("Firebase Database", "No data found");
                     }
                     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -176,9 +174,7 @@ public class Login extends AppCompatActivity {
                     editor.putString("name", fb_name);
                     editor.putString("email", fb_email);
                     editor.apply();
-                    Log.d("Firebase Name_ALogin", fb_name);
-                    Log.d("Firebase Email_ALogin", fb_email);
-                    Log.d("Firebase UID_ALogin", fb_uid);
+
 
 
                     mCountDownTimer = new CountDownTimer(2000, 1000) {
@@ -187,16 +183,13 @@ public class Login extends AppCompatActivity {
 
                         public void onFinish() {
                             if (auth.equals("1")) {
-                                Log.d("AuthLogin", "User Auth");
                                 startActivity(new Intent(Login.this, MainActivity.class));
                                 finish();
 
                             } else if (auth.equals("0")) {
 // Temp for testers
                                 notauthdialog();
-                                Log.d("AuthLogin", "User not Auth");
                             } else {
-                                Log.d("AuthLogin", "Last else");
                             }
 
                         }
@@ -215,7 +208,6 @@ public class Login extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void result) {
-            Log.d("Redirect", "This happened from LOGIN2");
 
         }
     }

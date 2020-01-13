@@ -179,9 +179,7 @@ public class About extends AppCompatActivity {
             }
         });
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
-        TextView uid = findViewById(R.id.uid);
-        uid.setText("UID: " + sharedPreferences.getString("uid","Not aval"));
+
 
     }
 

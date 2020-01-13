@@ -40,7 +40,7 @@ public class Adminactivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        databaseReference.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Users").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         // get total available quest
@@ -54,7 +54,7 @@ public class Adminactivity extends AppCompatActivity {
                     }
                 });
 
-        databaseReference.child("AuthRequest").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("AuthRequest").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // get total available quest
@@ -68,13 +68,11 @@ public class Adminactivity extends AppCompatActivity {
             }
         });
 
-        databaseReference.child("Cost").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Cost").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String rupee = dataSnapshot.getValue().toString();
                 float rs = Float.parseFloat(rupee);
-                Log.d("cosdsodfhsiufdb" , rs+"");
-                Log.d("cosdsodfhsiufdbsss" , rupee);
                 rupeeunit.setText("Rs. "+ rs +"/Unit");
 
             }
@@ -83,6 +81,10 @@ public class Adminactivity extends AppCompatActivity {
 
             }
         });
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+        TextView uid = findViewById(R.id.admin_udi);
+        uid.setText("UID: " + sharedPreferences.getString("uid","Not aval"));
     }
 
     public void Onclick(View view){

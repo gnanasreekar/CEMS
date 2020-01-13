@@ -41,8 +41,6 @@ public class DetailsDisplay extends AppCompatActivity {
     LinearLayout school_details, schoo_acd, schol_admin, girls_hostel, audotirium;
     BarChart barChart;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,7 +216,6 @@ public class DetailsDisplay extends AppCompatActivity {
 
     }
 
-
     private void setDataBar() {
 
         float start = 1f;
@@ -314,8 +311,6 @@ public class DetailsDisplay extends AppCompatActivity {
                 .build()
                 .show();
     }
-
-
 
     private void settingtext() {
 

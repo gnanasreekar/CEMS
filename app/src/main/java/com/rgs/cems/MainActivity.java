@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     LinearLayout warninglayout;
     TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings, generator_today,costfortodat;
-    CheckBox temp_status;
     int dpb, flag = 0;
     Integer TEC;
     float Todayscos;
@@ -80,10 +79,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     String generatorusage;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-    private LinearLayout generatorLayout;
     static MainActivity instance;
     CountDownTimer mCountDownTimer;
-    FirebaseHandler firebaseHandler = new FirebaseHandler();
     View parent_view;
     RelativeLayout nav_layout;
     CatLoadingView mView;
@@ -94,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
-
 
         {
 
@@ -109,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             month_cost = (TextView) findViewById(R.id.month_cost);
             generator_usagetv = findViewById(R.id.generator_usage);
             date_tv = findViewById(R.id.date_main);
-            generatorLayout = (LinearLayout) findViewById(R.id.generator_layout);
             warnings = findViewById(R.id.warnings);
             warninglayout = findViewById(R.id.warning_layout);
             parent_view = findViewById(android.R.id.content);
@@ -119,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             costfortodat = findViewById(R.id.costfortoday);
 
         }
-
 
         {
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -157,10 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Checking for Internet
         if (isNetworkAvailable()) {
-            Log.d("Internet Status", "On line");
         } else {
             showCustomDialog();
-            Log.d("Internet Status", "Off line");
         }
 
         httpCall();
@@ -267,7 +259,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             long difference = dateAfter.getTime() - dateBefore.getTime();
             float daysBetween = (difference / (1000 * 60 * 60 * 24));
             dpb = (int) daysBetween + 1;
-            Log.d("Datebw", String.valueOf(dpb));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -287,8 +278,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_namec = nav_view.findViewById(R.id.nav_name);
         String fb_name_main = sharedPreferences.getString("name", "NO data found");
         String fb_email_main = sharedPreferences.getString("email", "NO data found");
-        Log.d("Firebase DB_Name_Login", fb_name_main);
-        Log.d("Firebase DB_Email_Login", fb_email_main);
         nav_namec.setText(fb_name_main);
         nav_emailc.setText(fb_email_main);
         setTitle("Hi, " + fb_name_main);
@@ -736,13 +725,13 @@ i = 0;
                         if (response.equals("[]")) {
                             editor.putInt("warning1", 1);
                             editor.apply();
-                            Log.d("Warnings", "Num 1 no data aval");
                         } else {
                             editor.putInt("warning1", 0);
                             editor.apply();
                             Log.d("Warnings", "Num 1 no data aval");
                         }
-                        Log.d("warninig1", response);
+
+
 
                     }
                 }, new Response.ErrorListener() {
@@ -764,11 +753,9 @@ i = 0;
                         if (response.equals("[]")) {
                             editor.putInt("warning2", 1);
                             editor.apply();
-                            Log.d("Warnings", "Num 2 no data aval");
                         } else {
                             editor.putInt("warning2", 0);
                             editor.apply();
-                            Log.d("Warnings", "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -790,11 +777,9 @@ i = 0;
                         if (response.equals("[]")) {
                             editor.putInt("warning3", 1);
                             editor.apply();
-                            Log.d("Warnings", "Num 3 no data aval");
                         } else {
                             editor.putInt("warning3", 0);
                             editor.apply();
-                            Log.d("Warnings", "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -816,7 +801,6 @@ i = 0;
                         if (response.equals("[]")) {
                             editor.putInt("warning4", 1);
                             editor.apply();
-                            Log.d("Warnings", "Num 4 no data aval");
                         } else {
                             editor.putInt("warning4", 0);
                             editor.apply();
@@ -849,8 +833,6 @@ i = 0;
                             Log.d("Warnings", "Num 1 no data aval");
                         }
 
-                        Log.d("TEEEMMMp", response);
-
 
                     }
                 }, new Response.ErrorListener() {
@@ -869,7 +851,6 @@ i = 0;
         queue.add(stringRequest4);
         queue.add(stringRequest5);
 
-        Log.d("Checkwaring", "compleer");
         mCountDownTimer = new CountDownTimer(2000, 1000) {
             public void onTick(long millisUntilFinished) {
             }
