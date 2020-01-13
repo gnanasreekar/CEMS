@@ -1,6 +1,7 @@
 package com.rgs.cems.NormalStuff;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.rgs.cems.R;
 
 public class About extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +178,10 @@ public class About extends AppCompatActivity {
                 startActivity(Intent.createChooser(emailIntent, "Send email..."));
             }
         });
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+        TextView uid = findViewById(R.id.uid);
+        uid.setText("UID: " + sharedPreferences.getString("uid","Not aval"));
 
     }
 

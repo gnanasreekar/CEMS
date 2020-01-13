@@ -1,9 +1,15 @@
 package com.rgs.cems.Dataretrive;
 
 import android.app.Application;
+import android.app.admin.DeviceAdminInfo;
 import android.content.SharedPreferences;
+import android.os.CountDownTimer;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -12,8 +18,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.rgs.cems.Justclasses.Dialogs;
+import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
 
 import org.json.JSONArray;
@@ -22,6 +35,9 @@ import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class FirebaseHandler extends Application {
@@ -33,13 +49,39 @@ public class FirebaseHandler extends Application {
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     DatabaseReference databaseReference;
 
-
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
+    private String Date;
+    long date_ship_millis;
+    CountDownTimer mCountDownTimer;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Cost");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String rupee = dataSnapshot.getValue().toString();
+                float rs = Float.parseFloat(rupee);
+                Log.d("cosdsodfhsiufdb" , rs+"");
+                Log.d("cosdsodfhsiufdbsss" , rupee);
+
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putFloat("cost", rs);
+                editor.apply();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         String url =  getString(R.string.URL) + "todaysusage";
@@ -49,8 +91,9 @@ public class FirebaseHandler extends Application {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Volley" , response);
-
+                        Log.d("dateVolley" , response);
+                        Calendar calendar = Calendar.getInstance();
+                        date_ship_millis = calendar.getTimeInMillis();
                         JSONArray json = null;
                         try {
                             json = new JSONArray(response);
@@ -59,7 +102,7 @@ public class FirebaseHandler extends Application {
 
                                 sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                                String Date =  e.getString("DATE");
+                                Date =  e.getString("DATE");
                                 String EC = e.getString("Energy Consumed");
                                 String MID = e.getString("Meter ID");
                                 gen = gen +  numberFormat.parse(EC).intValue();
@@ -72,8 +115,30 @@ public class FirebaseHandler extends Application {
                                 editor.apply();
                                 val++;
                             }
+
+
+                            mCountDownTimer = new CountDownTimer(2000, 1000) {
+                                public void onTick(long millisUntilFinished) {
+                                }
+
+                                public void onFinish() {
+                                    if(MainActivity.getInstance()!= null){
+                                        MainActivity.getInstance().TEC();
+                                    } else {
+                                        Toast.makeText(FirebaseHandler.this, "New data might be available", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }.start();
+
+
+                            Log.d("Date from json" , Date);
+                            Log.d("Date from device" , getFormattedDateSimple(date_ship_millis));
+                            if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
+                                new Dialogs(MainActivity.getInstance(), 1);
+                            }
+
                         } catch (JSONException e) {
-                            Log.d("HEllo" , e.getMessage());
+                            Log.d("Json exception fb" , e.getMessage());
                             e.printStackTrace();
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -95,6 +160,10 @@ public class FirebaseHandler extends Application {
 warningcheck();
     }
 
+    public static String getFormattedDateSimple(Long dateTime) {
+        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return newFormat.format(new Date(dateTime));
+    }
 
     public void warningcheck(){
 
@@ -110,14 +179,14 @@ warningcheck();
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.contains("[]")){
                             editor.putInt("warning1", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 1 no data aval");
                         }   else {
                             editor.putInt("warning1", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
+                            Log.d("Warnings" , "Num 1 data aval");
                         }
                         Log.d("warninig1" , response);
 
@@ -138,15 +207,16 @@ warningcheck();
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.contains("[]")){
                             editor.putInt("warning2", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 2 no data aval");
                         } else {
                             editor.putInt("warning2", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
-                        }
+                            Log.d("Warnings" , "Num 2 data aval");
+                        }                        Log.d("warninig2" , response);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -164,15 +234,16 @@ warningcheck();
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.contains("[]")){
                             editor.putInt("warning3", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 3 no data aval");
                         } else {
                             editor.putInt("warning3", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
-                        }
+                            Log.d("Warnings" , "Num 3 data aval");
+                        }                        Log.d("warninig3" , response);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -190,15 +261,16 @@ warningcheck();
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.contains("[]")){
                             editor.putInt("warning4", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 4 no data aval");
                         } else {
                             editor.putInt("warning4", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
-                        }
+                            Log.d("Warnings" , "Num 4 data aval");
+                        }                        Log.d("warninig4" , response);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -216,19 +288,16 @@ warningcheck();
                     @Override
                     public void onResponse(String response) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")){
+                        if (response.contains("[]")){
                             editor.putInt("warning5", 1);
                             editor.apply();
                             Log.d("Warnings" , "Num 5 no data aval");
                         } else {
                             editor.putInt("warning5", 0);
                             editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
+                            Log.d("Warnings" , "Num 5 data aval");
                         }
-
-
-
-
+                        Log.d("warninig5" , response);
                     }
                 }, new Response.ErrorListener() {
             @Override

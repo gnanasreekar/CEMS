@@ -384,6 +384,7 @@ public class PreviousUsage extends AppCompatActivity {
                 //set dark theme
                 datePicker.setThemeDark(true);
                 datePicker.setOkColor(Color.WHITE);
+                datePicker.setMaxDate(Calendar.getInstance());
                 datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
                 datePicker.show(getFragmentManager(), "Datepickerdialog");
                 datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -499,7 +500,7 @@ public class PreviousUsage extends AppCompatActivity {
 
                         try {
 
-                            f1 = 0;
+
                             JSONArray jArray = new JSONArray(response);
                             for (int i = 0; i < jArray.length(); i++) {
                                 JSONObject jsonObject = jArray.getJSONObject(i);
@@ -514,7 +515,7 @@ public class PreviousUsage extends AppCompatActivity {
                                 String[] timewithoutsec = second.split(":");
                                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
 
-                                if (time.equals("00.00")) {
+                                if (time.equals("01.00")) {
                                     f1++;
                                 }
                                 labels.add(time);
@@ -522,6 +523,7 @@ public class PreviousUsage extends AppCompatActivity {
                             }
                             if (f1 > 1) {
                                 new Dialogs(PreviousUsage.this , 1);
+                                f1 = 0;
 //                                problemdata();
                             }
 

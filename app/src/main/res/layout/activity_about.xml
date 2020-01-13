@@ -155,7 +155,7 @@
                             android:layout_height="@dimen/spacing_xmlarge"
                             android:background="@android:color/transparent"
                             android:tint="@color/grey_40"
-                            android:src="@drawable/ic_sync_black_24dp" />
+                            android:src="@drawable/ic_person_outline" />
 
                         <View
                             android:layout_width="@dimen/spacing_mlarge"
@@ -164,7 +164,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/changelog"
+                            android:text="UID"
+                            android:id="@+id/uid"
                             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                             android:textColor="@color/grey_80" />
 

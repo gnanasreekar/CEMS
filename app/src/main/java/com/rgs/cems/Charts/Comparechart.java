@@ -141,6 +141,7 @@ public class Comparechart extends AppCompatActivity {
                 //set dark theme
                 datePicker.setThemeDark(true);
                 datePicker.setOkColor(Color.WHITE);
+                datePicker.setMaxDate(Calendar.getInstance());
                 datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
                 datePicker.show(getFragmentManager(), "Datepickerdialog");
                 datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -180,6 +181,7 @@ public class Comparechart extends AppCompatActivity {
                 );
                 //set dark theme
                 datePicker.setThemeDark(true);
+                datePicker.setMaxDate(Calendar.getInstance());
                 datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
                 datePicker.show(getFragmentManager(), "Datepickerdialog");
                 datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {

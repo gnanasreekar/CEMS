@@ -40,7 +40,7 @@ public class Myinfo extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "😁😁😁😁😁😁😁😁😁", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "😁😁😁😁😁😁😁😁😁 Made u click", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

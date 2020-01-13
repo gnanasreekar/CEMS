@@ -43,6 +43,7 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.Justclasses.MyMarkerView;
 import com.rgs.cems.Justclasses.ViewAnimation;
 import com.rgs.cems.R;
@@ -71,7 +72,7 @@ public class Ptot_graph extends AppCompatActivity {
     LineData data;
     CatLoadingView mView;
     SharedPreferences sharedPreferences;
-
+int f1;
     private View back_drop;
     private boolean rotate = false;
 
@@ -438,8 +439,18 @@ public class Ptot_graph extends AppCompatActivity {
                                 String second = parts[1];
                                 String[] timewithoutsec = second.split(":");
                                 String time = timewithoutsec[0] + "." + timewithoutsec[1];
+
+                                if (time.equals("01.00")) {
+                                    f1++;
+                                }
+
                                 labels.add(time);
 
+                            }
+
+                            if (f1 > 1) {
+                                new Dialogs(Ptot_graph.this , 1);
+                                f1 = 0;
                             }
 
 

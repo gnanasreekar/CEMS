@@ -48,8 +48,7 @@ import java.util.Locale;
 
 public class Previousdate extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private NestedScrollView nestedScrollView;
+
     private TextView dateTotalpower;
     private TextView dateTotalcost;
     private TextView dateDateactivity;
@@ -57,19 +56,13 @@ public class Previousdate extends AppCompatActivity {
     private TextView dateSchAcad;
     private TextView dateSchAdmin;
     private TextView dateGenerator;
-    private LinearLayout datePtotSchool;
-    private LinearLayout datePtotSchoolAcad;
-    private LinearLayout datePtotSchoolAdmin;
-    private LinearLayout datePtotGirlshostel;
-    private LinearLayout datePtotAudi;
-
 
 
     private TextView dateGirlshostel;
     private TextView dateAuditorium;
     RequestQueue queue;
     long date_ship_millis, val;
-    String URL_ptot,Date;
+    String URL_ptot,Date,datedialog;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     CollapsingToolbarLayout collapsingToolbarLayout;
     SharedPreferences.Editor editor;
@@ -88,8 +81,12 @@ public class Previousdate extends AppCompatActivity {
         collapsingToolbarLayout.setTitle("Previous Usage");
 
 
+        LinearLayout datePtotSchool;
+        LinearLayout datePtotSchoolAcad;
+        LinearLayout datePtotSchoolAdmin;
+        LinearLayout datePtotGirlshostel;
+        LinearLayout datePtotAudi;
         {
-            nestedScrollView = (NestedScrollView) findViewById(R.id.nested_scroll_view);
             dateTotalpower = (TextView) findViewById(R.id.date_totalpower);
             dateTotalcost = (TextView) findViewById(R.id.date_totalcost);
             dateDateactivity = (TextView) findViewById(R.id.date_dateactivity);
@@ -114,8 +111,8 @@ public class Previousdate extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                 intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis) + "&mid=" + 2;
-                editor.putString("date_block", "School on " + getFormattedDateSimple(date_ship_millis));
+                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 2;
+                editor.putString("date_block", "School on " + datedialog);
                 editor.putString("date_url", URL_ptot);
                 editor.apply();
                 startActivity(intent);
@@ -127,8 +124,8 @@ public class Previousdate extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                 intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis) + "&mid=" + 3;
-                editor.putString("date_block", "School Academic Block on " + getFormattedDateSimple(date_ship_millis));
+                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 3;
+                editor.putString("date_block", "School Academic Block on " + datedialog);
                 editor.putString("date_url", URL_ptot);
                 editor.apply();
                 startActivity(intent);
@@ -140,8 +137,8 @@ public class Previousdate extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                 intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis) + "&mid=" + 4;
-                editor.putString("date_block", "School Admin Block on " + getFormattedDateSimple(date_ship_millis));
+                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 4;
+                editor.putString("date_block", "School Admin Block on " + datedialog);
                 editor.putString("date_url", URL_ptot);
                 editor.apply();
                 startActivity(intent);
@@ -153,8 +150,8 @@ public class Previousdate extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                 intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis) + "&mid=" + 5;
-                editor.putString("date_block", "Girls Hostel on " + getFormattedDateSimple(date_ship_millis));
+                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 5;
+                editor.putString("date_block", "Girls Hostel on " + datedialog);
                 editor.putString("date_url", URL_ptot);
                 editor.apply();
                 startActivity(intent);
@@ -166,8 +163,8 @@ public class Previousdate extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                 intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis) + "&mid=" + 6;
-                editor.putString("date_block", "Auditorium on " + getFormattedDateSimple(date_ship_millis));
+                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 6;
+                editor.putString("date_block", "Auditorium on " + datedialog);
                 editor.putString("date_url", URL_ptot);
                 editor.apply();
                 startActivity(intent);
@@ -214,10 +211,12 @@ public class Previousdate extends AppCompatActivity {
                                 calendar.set(Calendar.MONTH, monthOfYear);
                                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                                 date_ship_millis = calendar.getTimeInMillis();
-                                URL_ptot = getString(R.string.URL) + "dateprevious?date=" + getFormattedDateSimple(date_ship_millis);
-                                date1.setText(getFormattedDateSimple(date_ship_millis));
+                                datedialog = getFormattedDateSimple(date_ship_millis);
+                                URL_ptot = getString(R.string.URL) + "dateprevious?date=" + datedialog;
+                                date1.setText(datedialog);
                                 Log.d("aaaUrl", URL_ptot);
-                                collapsingToolbarLayout.setTitle("Usage on "+  getFormattedDateSimple(date_ship_millis));
+                                collapsingToolbarLayout.setTitle("Usage on "+  datedialog);
+                                dateDateactivity.setText(datedialog+"'s Activity");
                             }
                         },
                         cur_calender.get(Calendar.YEAR),
@@ -291,9 +290,9 @@ public class Previousdate extends AppCompatActivity {
                                 String EC = e.getString("Energy Consumed");
                                 String MID = e.getString("Meter ID");
 
-                                editor.putString("DATE" + val, Date);
-                                editor.putString("Energy Consumed" + val, EC);
-                                editor.putString("Meter ID" + val, MID);
+                                editor.putString("date_DATE" + val, Date);
+                                editor.putString("date_Energy Consumed" + val, EC);
+                                editor.putString("date_Meter ID" + val, MID);
                                 editor.putInt("Jsonlength", json.length());
                                 editor.apply();
                                 val++;
@@ -322,12 +321,12 @@ public class Previousdate extends AppCompatActivity {
     public void setdata() {
 
         try {
-            M1 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 0, "1")).intValue();
-            M2 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 1, "1")).intValue();
-            M3 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 2, "1")).intValue();
-            M4 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 3, "1")).intValue();
-            M5 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 4, "1")).intValue();
-            M6 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 5, "1")).intValue();
+            M1 = numberFormat.parse(sharedPreferences.getString("date_Energy Consumed" + 0, "1")).intValue();
+            M2 = numberFormat.parse(sharedPreferences.getString("date_Energy Consumed" + 1, "1")).intValue();
+            M3 = numberFormat.parse(sharedPreferences.getString("date_Energy Consumed" + 2, "1")).intValue();
+            M4 = numberFormat.parse(sharedPreferences.getString("date_Energy Consumed" + 3, "1")).intValue();
+            M5 = numberFormat.parse(sharedPreferences.getString("date_Energy Consumed" + 4, "1")).intValue();
+            M6 = numberFormat.parse(sharedPreferences.getString("date_Energy Consumed" + 5, "1")).intValue();
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -413,9 +412,6 @@ public class Previousdate extends AppCompatActivity {
 //            }
 //        });
 //        Todayscost.start();
-
-        String date = sharedPreferences.getString("DATE" + 0, "Not aval");
-
     }
 
 }

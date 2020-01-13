@@ -46,11 +46,11 @@ public class Login extends AppCompatActivity {
     TextView signup;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, databaseReference2;
     static public String fb_name, fb_uid, fb_email;
     CountDownTimer mCountDownTimer;
     int i = 0;
-    String auth = "0", url;
+    String auth = "0",admin, rupee;
     CatLoadingView mView;
 
 
@@ -158,6 +158,7 @@ public class Login extends AppCompatActivity {
                         fb_email = dataSnapshot.child("Email").getValue().toString();
                         fb_uid = dataSnapshot.child("UID").getValue().toString();
                         auth = dataSnapshot.child("V1").getValue().toString();
+                        admin = dataSnapshot.child("V2").getValue().toString();
                         Log.d("Firebase Database", "data found");
 
                     } else {
@@ -165,10 +166,12 @@ public class Login extends AppCompatActivity {
                         fb_email = "NO data found";
                         fb_uid = "NO data found";
                         auth = "0";
+                        admin = "0";
                         Log.d("Firebase Database", "No data found");
                     }
                     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("admin" , admin);
                     editor.putString("uid", fb_uid);
                     editor.putString("name", fb_name);
                     editor.putString("email", fb_email);
@@ -206,6 +209,7 @@ public class Login extends AppCompatActivity {
                     databaseError.toException();
                 }
             });
+
             return null;
         }
 

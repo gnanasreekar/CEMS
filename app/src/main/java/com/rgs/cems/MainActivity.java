@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,10 +71,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navView;
     DrawerLayout drawerLayout;
     LinearLayout warninglayout;
-    TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings;
+    TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings, generator_today,costfortodat;
     CheckBox temp_status;
     int dpb, flag = 0;
-    Integer TEC, Todayscos;
+    Integer TEC;
+    float Todayscos;
     SharedPreferences sharedPreferences;
     Toolbar toolbar;
     String generatorusage;
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     CountDownTimer mCountDownTimer;
     FirebaseHandler firebaseHandler = new FirebaseHandler();
     View parent_view;
+    RelativeLayout nav_layout;
     CatLoadingView mView;
 
 
@@ -111,6 +114,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             warninglayout = findViewById(R.id.warning_layout);
             parent_view = findViewById(android.R.id.content);
             parent_view = findViewById(R.id.main);
+            generator_today = findViewById(R.id.generator_usage_today);
+            nav_layout = findViewById(R.id.nav_layout);
+            costfortodat = findViewById(R.id.costfortoday);
 
         }
 
@@ -223,7 +229,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Todayscos = TEC * 7;
+
+
+        Todayscos = TEC * sharedPreferences.getFloat("cost" , (float) 7.65);
+        costfortodat.setText("Rs. "+ String.valueOf(sharedPreferences.getFloat("cost" , 7)) +"/Unit");
+
         ValueAnimator animator = ValueAnimator.ofInt(0, TEC);
         animator.setDuration(1500);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -236,23 +246,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DecimalFormat decim = new DecimalFormat("#,###.##");
         today_cost.setText("₹ " + decim.format(Todayscos));
 
-
-//        ValueAnimator Todayscost = ValueAnimator.ofInt(0, Todayscos);
-//        Todayscost.setDuration(1500);
-//        Todayscost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            public void onAnimationUpdate(ValueAnimator animation) {
-//                today_cost.setText("₹ " + animation.getAnimatedValue().toString());
-//            }
-//        });
-//        Todayscost.start();
+        generator_today.setText(sharedPreferences.getString("Energy Consumed" + 5, "1") + " Units");
 
         String date = sharedPreferences.getString("DATE" + 0, "Not aval");
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Values/Totalpower/" + date);
         databaseReference.child("Total Power used").setValue(TEC + " Units");
-
-
-        Log.d("TEC", String.valueOf(TEC));
 
     }
 
@@ -467,6 +466,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     static int i = 0;
 
+    public void onClick_nav(View view) {
+        i++;
+        if (i == 3) {
+
+            if(sharedPreferences.getString("admin" , "0").equals("1")){
+                startActivity(new Intent(MainActivity.this , Adminactivity.class));
+            } else {notauthdialog();}
+i = 0;
+        }
+    }
+
+    public void notauthdialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.auth_failed);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "You do not have admin rights", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
     public void onClick(View view) {
         i++;
         if (i == 15) {
@@ -499,37 +529,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
-    }
-
-    public void showtempmonthssDialog(View view) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.edit);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        final EditText editText = dialog.findViewById(R.id.edittext_powernumber);
-        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                months_powerusage_tv.setText(editText.getText().toString() + " Units");
-
-                int finalValue = Integer.parseInt(editText.getText().toString());
-                float temp = (float) (finalValue * 5.43);
-                month_cost.setText(String.valueOf(temp));
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
-
-    public void changestatus(MenuItem item) {
-        Toast.makeText(this, "ewefsfd", Toast.LENGTH_SHORT).show();
     }
 
     public void changeactivity(View view) {
@@ -576,7 +575,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         queue.add(stringRequest);
     }
 
-
     public void warning() {
         int warningcount = 0;
         if (sharedPreferences.getInt("warning1", 0) == 1) {
@@ -622,7 +620,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
 
     public void warningstatus() {
         final Dialog dialog = new Dialog(this);
