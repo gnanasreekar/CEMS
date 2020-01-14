@@ -5,8 +5,11 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.widget.NestedScrollView;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -14,9 +17,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +34,7 @@ public class Adminactivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     float costperunuit;
     TextView rupeeunit;
+    View parentview;
 
 
     @Override
@@ -37,7 +43,7 @@ public class Adminactivity extends AppCompatActivity {
         setContentView(R.layout.activity_adminactivity);
 
         rupeeunit = findViewById(R.id.rupeeperunit);
-
+        parentview = findViewById(R.id.adminmain);
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         databaseReference.child("Users").addValueEventListener(new ValueEventListener() {
@@ -85,7 +91,11 @@ public class Adminactivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         TextView uid = findViewById(R.id.admin_udi);
         uid.setText("UID: " + sharedPreferences.getString("uid","Not aval"));
+
+
     }
+
+
 
     public void Onclick(View view){
         finish();
@@ -106,12 +116,12 @@ public class Adminactivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 EditText rupee = dialog.findViewById(R.id.rupeeunit);
-
                 costperunuit = Float.parseFloat(rupee.getText().toString());
-                Toast.makeText(Adminactivity.this, costperunuit+"", Toast.LENGTH_SHORT).show();
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Cost/");
                 databaseReference.setValue(costperunuit);
                 rupeeunit.setText("Rs. "+ costperunuit +"/Unit");
+                Snackbar.make(parentview, "Changed to Rs. "+ costperunuit +"/Unit", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 dialog.dismiss();
             }
         });

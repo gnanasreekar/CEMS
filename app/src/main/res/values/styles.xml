@@ -61,6 +61,21 @@
 
     </style>
 
+    <style name="MonthPickerDialogStyle" >
+        <item name="monthBgColor">@color/dark</item>
+        <item name="monthBgSelectedColor">@color/grey_90</item>
+        <item name="monthFontColorSelected">@color/colorAccent</item>
+        <item name="monthFontColorNormal">@color/colorAccent</item>
+        <item name="monthFontColorDisabled">@color/colorAccent</item>
+
+        <item name="headerBgColor">@color/grey_300</item>
+        <item name="headerFontColorSelected">@color/dark</item>
+        <item name="headerFontColorNormal">@color/dark</item>
+        <item name="headerTitleColor">@color/dark</item>
+
+        <item name="dialogActionButtonColor">@color/colorAccent</item>
+    </style>
+
     <style name="Toolbar.Light" parent="@style/AppTheme">
         <item name="colorControlNormal">@color/grey_60</item>
         <item name="android:textColorPrimary">@color/grey_60</item>

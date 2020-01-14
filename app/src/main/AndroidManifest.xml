@@ -13,7 +13,6 @@
         android:name=".Dataretrive.FirebaseHandler"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
-        android:icon="@mipmap/ic_electry_round"
         android:label="@string/app_name"
         android:roundIcon="@drawable/electric"
         android:supportsRtl="true"

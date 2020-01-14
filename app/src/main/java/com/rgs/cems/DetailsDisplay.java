@@ -1,17 +1,28 @@
 package com.rgs.cems;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -23,14 +34,22 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.model.GradientColor;
 import com.rgs.cems.Charts.Ptot_graph;
+import com.whiteelephant.monthpicker.MonthPickerDialog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class DetailsDisplay extends AppCompatActivity {
 
@@ -39,7 +58,9 @@ public class DetailsDisplay extends AppCompatActivity {
     Integer a1, b1, c1, d1, n1, a1c, b1c, c1c, d1c, n1c, cost = 7, total_cost_value, total_power_value;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     LinearLayout school_details, schoo_acd, schol_admin, girls_hostel, audotirium;
-    BarChart barChart;
+    BarChart barChart,genusagebar;
+    ProgressBar progressBar;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +88,8 @@ public class DetailsDisplay extends AppCompatActivity {
             schoo_acd = findViewById(R.id.school_acadamic_block_details);
             girls_hostel = findViewById(R.id.girlshostel_details);
             audotirium = findViewById(R.id.auditotium_details);
+            genusagebar = findViewById(R.id.genusagechart);
+            view = findViewById(R.id.viewview);
 
         }
 
@@ -203,6 +226,67 @@ public class DetailsDisplay extends AppCompatActivity {
 //            barChart.setMarker(mv);
         }
 
+        {
+            //  genusagebar.setOnChartValueSelectedListener(DetailsDisplay.this);
+
+            genusagebar.setDrawBarShadow(false);
+            genusagebar.setScaleYEnabled(false);
+            genusagebar.getAxisRight().setEnabled(false);
+            genusagebar.getAxisLeft().setEnabled(false);
+
+
+
+            genusagebar.setDrawValueAboveBar(true);
+
+            genusagebar.getDescription().setEnabled(false);
+
+            // if more than 60 entries are displayed in the genusagebar, no values will be
+            // drawn
+            genusagebar.setMaxVisibleValueCount(60);
+
+            // scaling can now only be done on x- and y-axis separately
+            genusagebar.setPinchZoom(false);
+
+            genusagebar.setDrawGridBackground(false);
+            // genusagebar.setDrawYLabels(false);
+
+            //    ValueFormatter xAxisFormatter = new DayAxisValueFormatter(genusagebar);
+
+            XAxis xAxis = genusagebar.getXAxis();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setDrawGridLines(false);
+            xAxis.setGranularity(1f); // only intervals of 1 day
+            xAxis.setLabelCount(7);
+            //   xAxis.setValueFormatter(xAxisFormatter);
+
+            //   ValueFormatter custom = new MyValueFormatter("$");
+
+            YAxis leftAxis = genusagebar.getAxisLeft();
+            leftAxis.setLabelCount(8, false);
+            //  leftAxis.setValueFormatter(custom);
+            leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+            leftAxis.setSpaceTop(15f);
+            leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+            YAxis rightAxis = genusagebar.getAxisRight();
+            rightAxis.setDrawGridLines(false);
+            rightAxis.setLabelCount(8, false);
+            //  rightAxis.setValueFormatter(custom);
+            rightAxis.setSpaceTop(15f);
+            rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+            Legend l = genusagebar.getLegend();
+            l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+            l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+            l.setDrawInside(false);
+            l.setForm(Legend.LegendForm.SQUARE);
+            l.setFormSize(9f);
+            l.setTextSize(11f);
+            l.setXEntrySpace(4f);
+
+        }
+
         if (!sharedPreferences.getBoolean("firstTime2", false)) {
             ShowIntro("Graphs", "Click here to view the power usage in realtime", R.id.graph_tutorial, 1);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -213,6 +297,181 @@ public class DetailsDisplay extends AppCompatActivity {
 
 
         setDataBar();
+        //GendataBar();
+        makeJsonObjectRequestGraph("http://3.6.41.81/genusagemonth?m=1&y=2020");
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.dispdet, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.genmonth) {
+            month();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void month(){
+
+        final Calendar today = Calendar.getInstance();
+        MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(DetailsDisplay.this, new MonthPickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(int selectedMonth, int selectedYear) {
+                int mon = selectedMonth+1;
+                String URL_ptot = getString(R.string.URL) + "genusagemonth?m="+mon+"&y=" +selectedYear;
+                makeJsonObjectRequestGraph(URL_ptot);
+                Toast.makeText(DetailsDisplay.this, "Loading...", Toast.LENGTH_SHORT).show();
+
+
+
+            }
+        }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
+
+        builder.setActivatedMonth(Calendar.JULY)
+                .setMinYear(2018)
+                .setActivatedYear(2019)
+                .setMaxYear(2030)
+                .setTitle("Select month")
+                //.showMonthOnly()
+                // .showYearOnly()
+                .build()
+                .show();
+    }
+
+    private void makeJsonObjectRequestGraph(String URL_ptot) {
+        progressBar = new ProgressBar(DetailsDisplay.this, null, android.R.attr.progressBarStyleSmall);
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        ArrayList<BarEntry> values = new ArrayList<>();
+                        ArrayList<String> xAxisLabel = new ArrayList<>();
+
+                        Log.d("Temp12" , response);
+                        if (response.equals("[]")){
+                            nodataaval();
+                            Toast.makeText(DetailsDisplay.this, "No Data Available", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        try {
+
+
+                            JSONArray jArray = new JSONArray(response);
+                            for (int i = 0; i < jArray.length(); i++) {
+                                JSONObject jsonObject = jArray.getJSONObject(i);
+                                String EnergyConsumed = jsonObject.getString("Energy Consumed");
+                                String MONTH = jsonObject.getString("MONTH");
+                                Log.d("Hello", EnergyConsumed);
+                                values.add(new BarEntry(i, Float.parseFloat(EnergyConsumed)));
+
+                            //    values.add(new Entry(i, Float.parseFloat(EnergyConsumed)));
+
+                                String[] parts = MONTH.split("-");
+                                String second = parts[2];
+
+//                                String[] timewithoutsec = second.split(":");
+//                                String time = timewithoutsec[0] + "." + timewithoutsec[1];
+
+//                                if (time.equals("01.00")) {
+//                                    f1++;
+//                                }
+                                xAxisLabel.add(second);
+
+                            //    labels.add(time);
+
+                            }
+
+                            Log.d("values" , String.valueOf(values));
+
+
+                            genusagebar.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
+
+
+                            BarDataSet set1;
+
+                            if (genusagebar.getData() != null &&
+                                    genusagebar.getData().getDataSetCount() > 0) {
+                                set1 = (BarDataSet) genusagebar.getData().getDataSetByIndex(0);
+                                set1.setValues(values);
+                                genusagebar.getData().notifyDataChanged();
+                                genusagebar.notifyDataSetChanged();
+
+                            } else {
+                                set1 = new BarDataSet(values, "Generator usage by month");
+
+                                set1.setDrawIcons(false);
+
+//            set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
+            /*int startColor = ContextCompat.getColor(this, android.R.color.holo_blue_dark);
+            int endColor = ContextCompat.getColor(this, android.R.color.holo_blue_bright);
+            set1.setGradientColor(startColor, endColor);*/
+
+                                int startColor1 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_orange_light);
+                                int startColor2 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_blue_light);
+                                int startColor3 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_orange_light);
+                                int startColor4 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_green_light);
+                                int startColor5 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_red_light);
+                                int endColor1 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_blue_dark);
+                                int endColor2 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_purple);
+                                int endColor3 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_green_dark);
+                                int endColor4 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_red_dark);
+                                int endColor5 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_orange_dark);
+
+                                List<GradientColor> gradientColors = new ArrayList<>();
+                                gradientColors.add(new GradientColor(startColor1, endColor1));
+                                gradientColors.add(new GradientColor(startColor2, endColor2));
+                                gradientColors.add(new GradientColor(startColor3, endColor3));
+                                gradientColors.add(new GradientColor(startColor4, endColor4));
+                                gradientColors.add(new GradientColor(startColor5, endColor5));
+
+                                set1.setGradientColors(gradientColors);
+
+                                ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+                                dataSets.add(set1);
+                                Log.d("values" , String.valueOf(set1));
+
+                                BarData data = new BarData(dataSets);
+                                data.setValueTextSize(10f);
+                                data.setBarWidth(0.9f);
+                                genusagebar.invalidate();
+                                genusagebar.setData(data);
+                                genusagebar.animateXY(2000, 2000);
+
+
+
+                            }} catch (JSONException e) {
+                            Toast.makeText(DetailsDisplay.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(DetailsDisplay.this, error.toString(), LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(stringRequest);
+    }
+
+    public void nodataaval() {
 
     }
 

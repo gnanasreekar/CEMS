@@ -242,9 +242,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String date = sharedPreferences.getString("DATE" + 0, "Not aval");
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Values/Totalpower/" + date);
-        databaseReference.child("Total Power used").setValue(TEC + " Units");
-
     }
 
     public void Dpb() {
@@ -418,7 +415,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 finish();
-                //  System.exit(0);
                 dialog.dismiss();
             }
         });
@@ -458,7 +454,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick_nav(View view) {
         i++;
         if (i == 3) {
-
             if(sharedPreferences.getString("admin" , "0").equals("1")){
                 startActivity(new Intent(MainActivity.this , Adminactivity.class));
             } else {notauthdialog();}
@@ -469,7 +464,7 @@ i = 0;
     public void notauthdialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.auth_failed);
+        dialog.setContentView(R.layout.notpermited);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -478,40 +473,9 @@ i = 0;
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "You do not have admin rights", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
-    }
-
-    public void onClick(View view) {
-        i++;
-        if (i == 15) {
-            showdpbDialog();
-            i = 0;
-        }
-    }
-
-    public void showdpbDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dpy);
-        dialog.setCancelable(true);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        TextView dp = dialog.findViewById(R.id.dayspast);
-        TextView context = dialog.findViewById(R.id.contentew);
-        dp.setText(String.valueOf(dpb) + "  Days");
-        context.setText(dpb + " days past and many more to go!");
-
-        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Adminaccess/" + sharedPreferences.getString("uid","Not aval"));
+                databaseReference.child("Name").setValue(sharedPreferences.getString("name", "NO data found"));
                 dialog.dismiss();
             }
         });

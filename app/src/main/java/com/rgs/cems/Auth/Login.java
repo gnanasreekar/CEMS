@@ -26,6 +26,7 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,6 +55,7 @@ public class Login extends AppCompatActivity {
     CatLoadingView mView;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +76,8 @@ public class Login extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Toast.makeText(Login.this, "Please wait until login", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(Login.this, "Please wait until logged in", Toast.LENGTH_SHORT).show();
                     Log.d("Redirect", "This happened from LOGIN authstate listner");
 
                     mView.show(getSupportFragmentManager(), "");
