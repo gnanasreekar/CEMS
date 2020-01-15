@@ -144,12 +144,6 @@ public class Comparechart extends AppCompatActivity {
                 datePicker.setMaxDate(Calendar.getInstance());
                 datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
                 datePicker.show(getFragmentManager(), "Datepickerdialog");
-                datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        finish();
-                    }
-                });
             }
         });
 
@@ -184,12 +178,6 @@ public class Comparechart extends AppCompatActivity {
                 datePicker.setMaxDate(Calendar.getInstance());
                 datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
                 datePicker.show(getFragmentManager(), "Datepickerdialog");
-                datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        finish();
-                    }
-                });
             }
         });
 
@@ -210,39 +198,52 @@ public class Comparechart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (block.getSelectedItemId() == 1) {
-                    mid = 2;
-                } else if(block.getSelectedItemId() == 2){
-                    mid = 3;
-                } else if(block.getSelectedItemId() == 3){
-                    mid = 4;
-                }else if(block.getSelectedItemId() == 4){
-                    mid = 5;
-                }else if(block.getSelectedItemId() == 5){
-                    mid = 6;
+                if(URL_ptot != null && URL_ptot2 != null ){
+                    if (block.getSelectedItemId() == 1) {
+                        mid = 2;
+                    } else if(block.getSelectedItemId() == 2){
+                        mid = 3;
+                    } else if(block.getSelectedItemId() == 3){
+                        mid = 4;
+                    }else if(block.getSelectedItemId() == 4){
+                        mid = 5;
+                    }else if(block.getSelectedItemId() == 5){
+                        mid = 6;
+                    }
+
+                    if(mid!=0){
+                        URL_ptot = URL_ptot +"&mid="+ mid;
+                        URL_ptot2 = URL_ptot2 +"&mid="+ mid;
+                        Log.d("Selected" , URL_ptot);
+                        mView = new CatLoadingView();
+                        mView.show(getSupportFragmentManager(), "");
+
+                        setTitle("Comparing " + block.getSelectedItem() + " on");
+                        String subtit =getFormattedDateSimple(date_ship_millis1) + " , " + getFormattedDateSimple(date_ship_millis2);
+                        getSupportActionBar().setSubtitle(subtit);
+
+                        mCountDownTimer = new CountDownTimer(1000, 1000) {
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            public void onFinish() {
+                                getdata(URL_ptot , URL_ptot2);
+
+                            }
+                        }.start();
+
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(Comparechart.this, "Select Block", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } else {
+                    Toast.makeText(Comparechart.this, "Select date", Toast.LENGTH_SHORT).show();
                 }
 
-                URL_ptot = URL_ptot +"&mid="+ mid;
-                URL_ptot2 = URL_ptot2 +"&mid="+ mid;
-                Log.d("Selected" , URL_ptot);
-                mView = new CatLoadingView();
-                mView.show(getSupportFragmentManager(), "");
 
-                setTitle("Comparing " + block.getSelectedItem() + " on");
-                String subtit =getFormattedDateSimple(date_ship_millis1) + " , " + getFormattedDateSimple(date_ship_millis2);
-                getSupportActionBar().setSubtitle(subtit);
 
-                mCountDownTimer = new CountDownTimer(1000, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                    }
-
-                    public void onFinish() {
-                        getdata(URL_ptot , URL_ptot2);
-
-                    }
-                }.start();
-
-                dialog.dismiss();
             }
         });
 

@@ -414,6 +414,62 @@ public class PreviousUsage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
+
+                if(URL_ptot != null){
+                    if (block.getSelectedItemId() == 1) {
+                        mid = 2;
+                    } else if(block.getSelectedItemId() == 2){
+                        mid = 3;
+                    } else if(block.getSelectedItemId() == 3){
+                        mid = 4;
+                    }else if(block.getSelectedItemId() == 4){
+                        mid = 5;
+                    }else if(block.getSelectedItemId() == 5){
+                        mid = 6;
+                    }
+
+                    if(mid!=0){
+                        mView = new CatLoadingView();
+                        mView.show(getSupportFragmentManager(), "");
+
+                        URL_ptot = URL_ptot + "&mid=" + mid;
+                        Log.d("Selected", URL_ptot);
+
+                        Block = block.getSelectedItem()+"";
+
+                        setTitle(block.getSelectedItem() + " Usage on ");
+                        String subtit =getFormattedDateSimple(date_ship_millis);
+                        getSupportActionBar().setSubtitle(subtit);
+
+                        mCountDownTimer = new CountDownTimer(1000, 1000) {
+                            public void onTick(long millisUntilFinished) {
+                            }
+
+                            public void onFinish() {
+                                makeJsonObjectRequestGraph(URL_ptot);
+
+                            }
+                        }.start();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(PreviousUsage.this, "Select Block", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                } else {
+                    Toast.makeText(PreviousUsage.this, "Select date", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+
+
+
+
+
                 if (block.getSelectedItemId() == 1) {
                     mid = 2;
                 } else if (block.getSelectedItemId() == 2) {
@@ -425,28 +481,7 @@ public class PreviousUsage extends AppCompatActivity {
                 } else if (block.getSelectedItemId() == 5) {
                     mid = 6;
                 }
-                mView = new CatLoadingView();
-                mView.show(getSupportFragmentManager(), "");
 
-                URL_ptot = URL_ptot + "&mid=" + mid;
-                Log.d("Selected", URL_ptot);
-
-                Block = block.getSelectedItem()+"";
-
-                setTitle(block.getSelectedItem() + " Usage on ");
-                String subtit =getFormattedDateSimple(date_ship_millis);
-                getSupportActionBar().setSubtitle(subtit);
-
-                mCountDownTimer = new CountDownTimer(1000, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                    }
-
-                    public void onFinish() {
-                        makeJsonObjectRequestGraph(URL_ptot);
-
-                    }
-                }.start();
-                dialog.dismiss();
             }
         });
 

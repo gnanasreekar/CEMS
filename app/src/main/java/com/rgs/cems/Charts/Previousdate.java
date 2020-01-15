@@ -251,14 +251,16 @@ public class Previousdate extends AppCompatActivity {
         ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+if(URL_ptot != null){
+    mView = new CatLoadingView();
+    mView.show(getSupportFragmentManager(), "");
+    Log.d("Selected", URL_ptot);
+    getdate(URL_ptot);
+    dialog.dismiss();
+} else {
+    Toast.makeText(Previousdate.this, "Select date", Toast.LENGTH_SHORT).show();
+}
 
-                mView = new CatLoadingView();
-                mView.show(getSupportFragmentManager(), "");
-
-                Log.d("Selected", URL_ptot);
-
-                getdate(URL_ptot);
-                dialog.dismiss();
             }
         });
 

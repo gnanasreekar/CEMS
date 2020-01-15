@@ -3,7 +3,11 @@ package com.rgs.cems;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +40,7 @@ import com.github.mikephil.charting.model.GradientColor;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.rgs.cems.Charts.Ptot_graph;
 import com.rgs.cems.Justclasses.MyValueFormatter;
+import com.rgs.cems.Justclasses.ViewAnimation;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import org.json.JSONArray;
@@ -66,6 +71,7 @@ public class DetailsDisplay extends AppCompatActivity {
     View view;
     String second;
     String[] parts;
+    CountDownTimer mCountDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +101,11 @@ public class DetailsDisplay extends AppCompatActivity {
             audotirium = findViewById(R.id.auditotium_details);
             genusagebar = findViewById(R.id.genusagechart);
             view = findViewById(R.id.viewview);
-
+            progressBar = findViewById(R.id.progress_indeterminate);
         }
+
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
 
@@ -343,9 +352,9 @@ public class DetailsDisplay extends AppCompatActivity {
             }
         }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
-        builder.setActivatedMonth(Calendar.JULY)
-                .setMinYear(2018)
-                .setActivatedYear(2019)
+        builder.setActivatedMonth(Calendar.JANUARY)
+                .setMinYear(2019)
+                .setActivatedYear(2020)
                 .setMaxYear(2030)
                 .setTitle("Select month")
                 //.showMonthOnly()
@@ -355,7 +364,11 @@ public class DetailsDisplay extends AppCompatActivity {
     }
 
     private void makeJsonObjectRequestGraph(String URL_ptot) {
-        progressBar = new ProgressBar(DetailsDisplay.this, null, android.R.attr.progressBarStyleSmall);
+        final LinearLayout lyt_progress = (LinearLayout) findViewById(R.id.lyt_progress);
+        lyt_progress.setVisibility(View.VISIBLE);
+        lyt_progress.setAlpha(1.0f);
+        genusagebar.setVisibility(View.GONE);
+
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_ptot,
                 new Response.Listener<String>() {
@@ -397,6 +410,8 @@ public class DetailsDisplay extends AppCompatActivity {
                                 set1.setValues(values);
                                 genusagebar.getData().notifyDataChanged();
                                 genusagebar.notifyDataSetChanged();
+                                genusagebar.setVisibility(View.VISIBLE);
+                                lyt_progress.setVisibility(View.GONE);
 
                             } else {
                                 set1 = new BarDataSet(values, "Generator usage by month");
@@ -434,8 +449,18 @@ public class DetailsDisplay extends AppCompatActivity {
                                 data.setValueTextSize(10f);
                                 data.setBarWidth(0.9f);
                                 genusagebar.invalidate();
+
                                 genusagebar.setData(data);
-                                genusagebar.animateXY(2000, 2000);
+                                mCountDownTimer = new CountDownTimer(2000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+                                    }
+
+                                    public void onFinish() {
+                                        genusagebar.animateXY(2000, 2000);
+                                        genusagebar.setVisibility(View.VISIBLE);
+                                        lyt_progress.setVisibility(View.GONE);
+                                    }
+                                }.start();
 
 
                             }
@@ -453,7 +478,6 @@ public class DetailsDisplay extends AppCompatActivity {
         });
         requestQueue.add(stringRequest);
     }
-
 
     public void nodataaval() {
 
@@ -649,4 +673,3 @@ public class DetailsDisplay extends AppCompatActivity {
 
     }
 }
-
