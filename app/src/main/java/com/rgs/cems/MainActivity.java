@@ -457,7 +457,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(sharedPreferences.getString("admin" , "0").equals("1")){
                 startActivity(new Intent(MainActivity.this , Adminactivity.class));
             } else {notauthdialog();}
-i = 0;
+            i = 0;
         }
     }
 

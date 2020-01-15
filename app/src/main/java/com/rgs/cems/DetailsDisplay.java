@@ -33,13 +33,16 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.model.GradientColor;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.rgs.cems.Charts.Ptot_graph;
+import com.rgs.cems.Justclasses.MyValueFormatter;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -58,9 +61,11 @@ public class DetailsDisplay extends AppCompatActivity {
     Integer a1, b1, c1, d1, n1, a1c, b1c, c1c, d1c, n1c, cost = 7, total_cost_value, total_power_value;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     LinearLayout school_details, schoo_acd, schol_admin, girls_hostel, audotirium;
-    BarChart barChart,genusagebar;
+    BarChart barChart, genusagebar;
     ProgressBar progressBar;
     View view;
+    String second;
+    String[] parts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +112,7 @@ public class DetailsDisplay extends AppCompatActivity {
             d1c = d1 * cost;
             n1c = n1 * cost;
 
-            total_cost_value =  b1c + c1c + d1c + n1c;
+            total_cost_value = b1c + c1c + d1c + n1c;
             total_power_value = b1 + c1 + d1 + n1;
 
         } catch (ParseException e) {
@@ -235,7 +240,6 @@ public class DetailsDisplay extends AppCompatActivity {
             genusagebar.getAxisLeft().setEnabled(false);
 
 
-
             genusagebar.setDrawValueAboveBar(true);
 
             genusagebar.getDescription().setEnabled(false);
@@ -295,7 +299,6 @@ public class DetailsDisplay extends AppCompatActivity {
         }
 
 
-
         setDataBar();
         //GendataBar();
         makeJsonObjectRequestGraph("http://3.6.41.81/genusagemonth?m=1&y=2020");
@@ -325,17 +328,16 @@ public class DetailsDisplay extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void month(){
+    public void month() {
 
         final Calendar today = Calendar.getInstance();
         MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(DetailsDisplay.this, new MonthPickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(int selectedMonth, int selectedYear) {
-                int mon = selectedMonth+1;
-                String URL_ptot = getString(R.string.URL) + "genusagemonth?m="+mon+"&y=" +selectedYear;
+                int mon = selectedMonth + 1;
+                String URL_ptot = getString(R.string.URL) + "genusagemonth?m=" + mon + "&y=" + selectedYear;
                 makeJsonObjectRequestGraph(URL_ptot);
                 Toast.makeText(DetailsDisplay.this, "Loading...", Toast.LENGTH_SHORT).show();
-
 
 
             }
@@ -362,8 +364,8 @@ public class DetailsDisplay extends AppCompatActivity {
                         ArrayList<BarEntry> values = new ArrayList<>();
                         ArrayList<String> xAxisLabel = new ArrayList<>();
 
-                        Log.d("Temp12" , response);
-                        if (response.equals("[]")){
+                        Log.d("Temp12", response);
+                        if (response.contains("[]")) {
                             nodataaval();
                             Toast.makeText(DetailsDisplay.this, "No Data Available", Toast.LENGTH_SHORT).show();
 
@@ -371,37 +373,21 @@ public class DetailsDisplay extends AppCompatActivity {
 
                         try {
 
-
+                            int a = 0;
                             JSONArray jArray = new JSONArray(response);
                             for (int i = 0; i < jArray.length(); i++) {
                                 JSONObject jsonObject = jArray.getJSONObject(i);
                                 String EnergyConsumed = jsonObject.getString("Energy Consumed");
                                 String MONTH = jsonObject.getString("MONTH");
-                                Log.d("Hello", EnergyConsumed);
+
                                 values.add(new BarEntry(i, Float.parseFloat(EnergyConsumed)));
-
-                            //    values.add(new Entry(i, Float.parseFloat(EnergyConsumed)));
-
-                                String[] parts = MONTH.split("-");
-                                String second = parts[2];
-
-//                                String[] timewithoutsec = second.split(":");
-//                                String time = timewithoutsec[0] + "." + timewithoutsec[1];
-
-//                                if (time.equals("01.00")) {
-//                                    f1++;
-//                                }
+                                parts = MONTH.split("-");
+                                second = parts[2];
                                 xAxisLabel.add(second);
-
-                            //    labels.add(time);
 
                             }
 
-                            Log.d("values" , String.valueOf(values));
-
-
                             genusagebar.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
-
 
                             BarDataSet set1;
 
@@ -418,10 +404,6 @@ public class DetailsDisplay extends AppCompatActivity {
                                 set1.setDrawIcons(false);
 
 //            set1.setColors(ColorTemplate.MATERIAL_COLORS);
-
-            /*int startColor = ContextCompat.getColor(this, android.R.color.holo_blue_dark);
-            int endColor = ContextCompat.getColor(this, android.R.color.holo_blue_bright);
-            set1.setGradientColor(startColor, endColor);*/
 
                                 int startColor1 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_orange_light);
                                 int startColor2 = ContextCompat.getColor(DetailsDisplay.this, android.R.color.holo_blue_light);
@@ -445,9 +427,10 @@ public class DetailsDisplay extends AppCompatActivity {
 
                                 ArrayList<IBarDataSet> dataSets = new ArrayList<>();
                                 dataSets.add(set1);
-                                Log.d("values" , String.valueOf(set1));
+                                Log.d("values", String.valueOf(set1));
 
                                 BarData data = new BarData(dataSets);
+                                data.setValueFormatter(new MyValueFormatter());
                                 data.setValueTextSize(10f);
                                 data.setBarWidth(0.9f);
                                 genusagebar.invalidate();
@@ -455,8 +438,8 @@ public class DetailsDisplay extends AppCompatActivity {
                                 genusagebar.animateXY(2000, 2000);
 
 
-
-                            }} catch (JSONException e) {
+                            }
+                        } catch (JSONException e) {
                             Toast.makeText(DetailsDisplay.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
@@ -470,6 +453,7 @@ public class DetailsDisplay extends AppCompatActivity {
         });
         requestQueue.add(stringRequest);
     }
+
 
     public void nodataaval() {
 
@@ -555,7 +539,7 @@ public class DetailsDisplay extends AppCompatActivity {
         new GuideView.Builder(this)
                 .setTitle(title)
                 .setContentText(text)
-                .setTargetView((LinearLayout)findViewById(viewId))
+                .setTargetView((LinearLayout) findViewById(viewId))
                 .setContentTextSize(12)//optional
                 .setTitleTextSize(14)//optional
                 .setDismissType(GuideView.DismissType.anywhere) //optional - default dismissible by TargetView
@@ -665,3 +649,4 @@ public class DetailsDisplay extends AppCompatActivity {
 
     }
 }
+

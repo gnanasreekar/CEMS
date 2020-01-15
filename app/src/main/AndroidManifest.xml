@@ -13,7 +13,9 @@
         android:name=".Dataretrive.FirebaseHandler"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
+        android:icon="@mipmap/ic_electry_foreground"
         android:label="@string/app_name"
+        tools:replace="android:icon"
         android:roundIcon="@drawable/electric"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -27,7 +29,7 @@
             android:name=".Charts.Previousdate"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Charts.PreviousUsage" />
         <activity android:name=".Charts.Comparechart" />
         <activity android:name=".Charts.Ptot_graph" />
