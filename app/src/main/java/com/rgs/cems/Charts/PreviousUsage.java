@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -21,6 +22,8 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +52,6 @@ import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.Justclasses.MyMarkerView;
 import com.rgs.cems.Justclasses.ViewAnimation;
 import com.rgs.cems.R;
-import com.roger.catloadinglibrary.CatLoadingView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
@@ -76,7 +78,6 @@ public class PreviousUsage extends AppCompatActivity {
     ArrayList<String> labels = new ArrayList<>();
     LineDataSet set;
     LineData data;
-    CatLoadingView mView;
     CountDownTimer mCountDownTimer;
     int mid, f1;
 
@@ -91,11 +92,19 @@ public class PreviousUsage extends AppCompatActivity {
     private View saveGraphLayout;
     private View date_picker;
 
+    LinearLayout lyt_progress;
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_previous_usage);
         lineChart = findViewById(R.id.previous_chart);
+
+        lyt_progress = (LinearLayout) findViewById(R.id.prevusage_loading);
+        progressBar = findViewById(R.id.progress_previousuasge);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
 
         // add back arrow to toolbar
         if (getSupportActionBar() != null) {
@@ -431,8 +440,9 @@ public class PreviousUsage extends AppCompatActivity {
                     }
 
                     if(mid!=0){
-                        mView = new CatLoadingView();
-                        mView.show(getSupportFragmentManager(), "");
+                        lyt_progress.setVisibility(View.VISIBLE);
+                        lyt_progress.setAlpha(1.0f);
+                        lineChart.setVisibility(View.GONE);
 
                         URL_ptot = URL_ptot + "&mid=" + mid;
                         Log.d("Selected", URL_ptot);
@@ -462,14 +472,6 @@ public class PreviousUsage extends AppCompatActivity {
                     Toast.makeText(PreviousUsage.this, "Select date", Toast.LENGTH_SHORT).show();
                 }
 
-
-
-
-
-
-
-
-
                 if (block.getSelectedItemId() == 1) {
                     mid = 2;
                 } else if (block.getSelectedItemId() == 2) {
@@ -485,6 +487,12 @@ public class PreviousUsage extends AppCompatActivity {
             }
         });
 
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
 
         dialog.show();
         dialog.getWindow().setAttributes(lp);
@@ -612,7 +620,9 @@ public class PreviousUsage extends AppCompatActivity {
                             lineChart.notifyDataSetChanged();
                             lineChart.invalidate();
                             set.setColor(Color.WHITE);
-                            mView.dismiss();
+
+                            lineChart.setVisibility(View.VISIBLE);
+                            lyt_progress.setVisibility(View.GONE);
 
 
                             //Collections.sort(entries, new EntryXComparator());
@@ -668,6 +678,9 @@ public class PreviousUsage extends AppCompatActivity {
     }
 
 
-
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 }

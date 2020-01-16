@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,6 +8,32 @@
     android:orientation="vertical"
     tools:context=".Charts.Comparechart">
 
+    <LinearLayout
+        android:id="@+id/compare_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="340dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_margin="@dimen/spacing_medium"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:text="Plotting.."
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/colorAccent" />
+
+        <ProgressBar
+            android:id="@+id/progress_compare"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
@@ -15,4 +41,4 @@
     </ListView>
 
 
-</LinearLayout>
+</RelativeLayout>

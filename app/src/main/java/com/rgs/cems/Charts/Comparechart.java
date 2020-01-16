@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -19,7 +20,9 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +41,6 @@ import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.Justclasses.LineChartItem;
 import com.rgs.cems.Justclasses.TinyDB;
 import com.rgs.cems.R;
-import com.roger.catloadinglibrary.CatLoadingView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
@@ -59,17 +61,25 @@ public class Comparechart extends AppCompatActivity {
     long date_ship_millis1, date_ship_millis2;
     String date, response1, response2;
     String URL_ptot , URL_ptot2;
-    CatLoadingView mView;
     CountDownTimer mCountDownTimer;
     ArrayList<ChartItem> list = new ArrayList<>();
     ListView lv;
     TinyDB tinydb;
+    LinearLayout lyt_progress;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comparechart);
         setTitle("Comparing");
+        lv = findViewById(R.id.listView1);
+
+        lyt_progress = (LinearLayout) findViewById(R.id.compare_loading);
+        progressBar = findViewById(R.id.progress_compare);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
+
 
         // toolbar
         // add back arrow to toolbar
@@ -83,7 +93,6 @@ public class Comparechart extends AppCompatActivity {
         //mView = new CatLoadingView();
        // mView.show(getSupportFragmentManager(), "");
         showCustomDialog();
-        lv = findViewById(R.id.listView1);
         tinydb = new TinyDB(Comparechart.this);
 
     }
@@ -197,7 +206,6 @@ public class Comparechart extends AppCompatActivity {
         ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(URL_ptot != null && URL_ptot2 != null ){
                     if (block.getSelectedItemId() == 1) {
                         mid = 2;
@@ -215,8 +223,9 @@ public class Comparechart extends AppCompatActivity {
                         URL_ptot = URL_ptot +"&mid="+ mid;
                         URL_ptot2 = URL_ptot2 +"&mid="+ mid;
                         Log.d("Selected" , URL_ptot);
-                        mView = new CatLoadingView();
-                        mView.show(getSupportFragmentManager(), "");
+                        lyt_progress.setVisibility(View.VISIBLE);
+                        lyt_progress.setAlpha(1.0f);
+                        lv.setVisibility(View.GONE);
 
                         setTitle("Comparing " + block.getSelectedItem() + " on");
                         String subtit =getFormattedDateSimple(date_ship_millis1) + " , " + getFormattedDateSimple(date_ship_millis2);
@@ -241,9 +250,13 @@ public class Comparechart extends AppCompatActivity {
                 } else {
                     Toast.makeText(Comparechart.this, "Select date", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
 
-
-
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
             }
         });
 
@@ -343,7 +356,8 @@ public class Comparechart extends AppCompatActivity {
                 list.add(new LineChartItem(plot(response1), getApplicationContext()));
                 ChartDataAdapter cda = new ChartDataAdapter(getApplicationContext(), list);
                 lv.setAdapter(cda);
-                mView.dismiss();
+                lv.setVisibility(View.VISIBLE);
+                lyt_progress.setVisibility(View.GONE);
                 Log.d("Listarr", String.valueOf(list.size()));
             }
         }.start();
@@ -417,10 +431,4 @@ public class Comparechart extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
-
-
-
-
-
-
 }

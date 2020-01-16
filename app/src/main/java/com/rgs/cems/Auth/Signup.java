@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +34,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
-import com.roger.catloadinglibrary.CatLoadingView;
 
 import java.util.Date;
 
@@ -42,7 +45,8 @@ public class Signup extends AppCompatActivity {
     Button buttom_signup;
     TextView signIn;
     FirebaseAuth firebaseAuth;
-    CatLoadingView mView;
+    LinearLayout lyt_progress,signup;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +60,18 @@ public class Signup extends AppCompatActivity {
         setTitle("SignUp");
         buttom_signup = findViewById(R.id.button_signup);
         signIn = findViewById(R.id.signin_signup);
-        mView = new CatLoadingView();
+        lyt_progress = (LinearLayout) findViewById(R.id.signup_loading);
+        progressBar = findViewById(R.id.progress_signup);
+        signup = findViewById(R.id.signup_layout);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        lyt_progress.setVisibility(View.GONE);
 
         buttom_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mView.show(getSupportFragmentManager(), "");
-
+                lyt_progress.setVisibility(View.VISIBLE);
+                lyt_progress.setAlpha(1.0f);
+                signup.setVisibility(View.GONE);
                 final String emailID = emailId.getText().toString();
                 String paswd = password.getText().toString();
                 final String name = username.getText().toString();
@@ -107,7 +116,6 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("V1").setValue(0);
                                 databaseReference.child("V2").setValue(0);
                                 Log.d("Firebase Signup dsent" , "YYYYYYYYYYYYYYYY");
-                                mView.dismiss();
                                 showaccountcreatedDialog();
 
                             }

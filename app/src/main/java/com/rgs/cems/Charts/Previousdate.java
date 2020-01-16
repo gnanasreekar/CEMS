@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +33,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.R;
-import com.roger.catloadinglibrary.CatLoadingView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
@@ -62,13 +63,15 @@ public class Previousdate extends AppCompatActivity {
     private TextView dateAuditorium;
     RequestQueue queue;
     long date_ship_millis, val;
-    String URL_ptot,Date,datedialog;
+    String URL_ptot, Date, datedialog;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     CollapsingToolbarLayout collapsingToolbarLayout;
     SharedPreferences.Editor editor;
     Integer M1, M2, M3, M4, M5, M6, Todayscos, TEC;
     SharedPreferences sharedPreferences;
-    CatLoadingView mView;
+    LinearLayout lyt_progress;
+    ProgressBar progressBar;
+    NestedScrollView nestedScrollView;
 
 
     @Override
@@ -79,6 +82,13 @@ public class Previousdate extends AppCompatActivity {
         setSupportActionBar(toolbar);
         collapsingToolbarLayout = findViewById(R.id.date_collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Previous Usage");
+
+
+        nestedScrollView = findViewById(R.id.nested_scroll_view);
+        lyt_progress = (LinearLayout) findViewById(R.id.prevdate_loading);
+        progressBar = findViewById(R.id.progress_prevdate);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+
 
 
         LinearLayout datePtotSchool;
@@ -106,72 +116,72 @@ public class Previousdate extends AppCompatActivity {
         editor = sharedPreferences.edit();
         {
 
-        datePtotSchool.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
-                intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 2;
-                editor.putString("date_block", "School on " + datedialog);
-                editor.putString("date_url", URL_ptot);
-                editor.apply();
-                startActivity(intent);
-            }
-        });
+            datePtotSchool.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
+                    intent.putExtra("value", 7);
+                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 2;
+                    editor.putString("date_block", "School on " + datedialog);
+                    editor.putString("date_url", URL_ptot);
+                    editor.apply();
+                    startActivity(intent);
+                }
+            });
 
-        datePtotSchoolAcad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
-                intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 3;
-                editor.putString("date_block", "School Academic Block on " + datedialog);
-                editor.putString("date_url", URL_ptot);
-                editor.apply();
-                startActivity(intent);
-            }
-        });
+            datePtotSchoolAcad.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
+                    intent.putExtra("value", 7);
+                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 3;
+                    editor.putString("date_block", "School Academic Block on " + datedialog);
+                    editor.putString("date_url", URL_ptot);
+                    editor.apply();
+                    startActivity(intent);
+                }
+            });
 
-        datePtotSchoolAdmin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
-                intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 4;
-                editor.putString("date_block", "School Admin Block on " + datedialog);
-                editor.putString("date_url", URL_ptot);
-                editor.apply();
-                startActivity(intent);
-            }
-        });
+            datePtotSchoolAdmin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
+                    intent.putExtra("value", 7);
+                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 4;
+                    editor.putString("date_block", "School Admin Block on " + datedialog);
+                    editor.putString("date_url", URL_ptot);
+                    editor.apply();
+                    startActivity(intent);
+                }
+            });
 
-        datePtotGirlshostel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
-                intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 5;
-                editor.putString("date_block", "Girls Hostel on " + datedialog);
-                editor.putString("date_url", URL_ptot);
-                editor.apply();
-                startActivity(intent);
-            }
-        });
+            datePtotGirlshostel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
+                    intent.putExtra("value", 7);
+                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 5;
+                    editor.putString("date_block", "Girls Hostel on " + datedialog);
+                    editor.putString("date_url", URL_ptot);
+                    editor.apply();
+                    startActivity(intent);
+                }
+            });
 
-        datePtotAudi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
-                intent.putExtra("value", 7);
-                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 6;
-                editor.putString("date_block", "Auditorium on " + datedialog);
-                editor.putString("date_url", URL_ptot);
-                editor.apply();
-                startActivity(intent);
-            }
-        });
+            datePtotAudi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
+                    intent.putExtra("value", 7);
+                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 6;
+                    editor.putString("date_block", "Auditorium on " + datedialog);
+                    editor.putString("date_url", URL_ptot);
+                    editor.apply();
+                    startActivity(intent);
+                }
+            });
 
-    }
+        }
 
         Basedialog();
 
@@ -215,8 +225,8 @@ public class Previousdate extends AppCompatActivity {
                                 URL_ptot = getString(R.string.URL) + "dateprevious?date=" + datedialog;
                                 date1.setText(datedialog);
                                 Log.d("aaaUrl", URL_ptot);
-                                collapsingToolbarLayout.setTitle("Usage on "+  datedialog);
-                                dateDateactivity.setText(datedialog+"'s Activity");
+                                collapsingToolbarLayout.setTitle("Usage on " + datedialog);
+                                dateDateactivity.setText(datedialog + "'s Activity");
                             }
                         },
                         cur_calender.get(Calendar.YEAR),
@@ -251,15 +261,16 @@ public class Previousdate extends AppCompatActivity {
         ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-if(URL_ptot != null){
-    mView = new CatLoadingView();
-    mView.show(getSupportFragmentManager(), "");
-    Log.d("Selected", URL_ptot);
-    getdate(URL_ptot);
-    dialog.dismiss();
-} else {
-    Toast.makeText(Previousdate.this, "Select date", Toast.LENGTH_SHORT).show();
-}
+                if (URL_ptot != null) {
+                    lyt_progress.setVisibility(View.VISIBLE);
+                    lyt_progress.setAlpha(1.0f);
+                    nestedScrollView.setVisibility(View.GONE);
+                    Log.d("Selected", URL_ptot);
+                    getdate(URL_ptot);
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(Previousdate.this, "Select date", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -277,8 +288,8 @@ if(URL_ptot != null){
                     @Override
                     public void onResponse(String response) {
 
-                        if (response.contains("[]")){
-                            new Dialogs(Previousdate.this , 2);
+                        if (response.contains("[]")) {
+                            new Dialogs(Previousdate.this, 2);
                             Toast.makeText(Previousdate.this, "No Data Available", Toast.LENGTH_SHORT).show();
 
                         }
@@ -404,8 +415,8 @@ if(URL_ptot != null){
         generator.start();
 
 
-
-        mView.dismiss();
+        nestedScrollView.setVisibility(View.VISIBLE);
+        lyt_progress.setVisibility(View.GONE);
 //        ValueAnimator Todayscost = ValueAnimator.ofInt(0, Todayscos);
 //        Todayscost.setDuration(1500);
 //        Todayscost.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

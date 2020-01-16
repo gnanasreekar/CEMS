@@ -1,11 +1,10 @@
 package com.rgs.cems.Auth;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,6 +16,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,6 @@ import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,7 +37,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
-import com.roger.catloadinglibrary.CatLoadingView;
 
 
 public class Login extends AppCompatActivity {
@@ -52,7 +51,9 @@ public class Login extends AppCompatActivity {
     CountDownTimer mCountDownTimer;
     int i = 0;
     String auth = "0",admin, rupee;
-    CatLoadingView mView;
+    LinearLayout linearLayout,lyt_progress;
+    ProgressBar progressBar;
+
 
 
 
@@ -67,9 +68,15 @@ public class Login extends AppCompatActivity {
         login_password = findViewById(R.id.password);
         button_login = findViewById(R.id.button_login);
         signup = findViewById(R.id.signup);
+        linearLayout = findViewById(R.id.login);
+        lyt_progress = (LinearLayout) findViewById(R.id.login_loading);
+        progressBar = findViewById(R.id.progress_login);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        lyt_progress.setVisibility(View.GONE);
 
-        final String fbuid = firebaseAuth.getUid();
-        mView = new CatLoadingView();
+
+
+    final String fbuid = firebaseAuth.getUid();
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -80,7 +87,11 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Please wait until logged in", Toast.LENGTH_SHORT).show();
                     Log.d("Redirect", "This happened from LOGIN authstate listner");
 
-                    mView.show(getSupportFragmentManager(), "");
+                    lyt_progress.setVisibility(View.VISIBLE);
+                    lyt_progress.setAlpha(1.0f);
+                    linearLayout.setVisibility(View.GONE);
+
+                  // mView.show(getSupportFragmentManager(), "");
                     new Firebaseretrive().execute();
                 } else {
                     firebaseAuth.removeAuthStateListener(authStateListener);
@@ -122,7 +133,10 @@ public class Login extends AppCompatActivity {
                                 Toast.makeText(Login.this, "Not successful", Toast.LENGTH_SHORT).show();
                             } else {
                                 Log.d("Redirect", "This happned from LOGIN normal sign in");
-                                mView.show(getSupportFragmentManager(), "");
+                              //  mView.show(getSupportFragmentManager(), "");
+                                lyt_progress.setVisibility(View.VISIBLE);
+                                lyt_progress.setAlpha(1.0f);
+                                linearLayout.setVisibility(View.GONE);
                                 new Firebaseretrive().execute();
                             }
                         }
@@ -186,6 +200,8 @@ public class Login extends AppCompatActivity {
 
                         public void onFinish() {
                             if (auth.equals("1")) {
+
+
                                 startActivity(new Intent(Login.this, MainActivity.class));
                                 finish();
 
@@ -243,6 +259,7 @@ public class Login extends AppCompatActivity {
                 databaseReference.child("Name").setValue(fb_email);
                 finish();
                 Toast.makeText(Login.this, "Please contact the Admin or wait for some time", Toast.LENGTH_SHORT).show();
+                FirebaseAuth.getInstance().signOut();
                 dialog.dismiss();
             }
         });

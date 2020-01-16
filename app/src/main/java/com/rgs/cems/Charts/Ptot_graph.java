@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +50,6 @@ import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.Justclasses.MyMarkerView;
 import com.rgs.cems.Justclasses.ViewAnimation;
 import com.rgs.cems.R;
-import com.roger.catloadinglibrary.CatLoadingView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +72,6 @@ public class Ptot_graph extends AppCompatActivity {
     ArrayList<String> labels = new ArrayList<>();
     LineDataSet set;
     LineData data;
-    CatLoadingView mView;
     SharedPreferences sharedPreferences;
 int f1;
     private View back_drop;
@@ -82,6 +83,8 @@ int f1;
     private View cubicLayout;
     private View tooglePinchLayout;
     private View saveGraphLayout;
+    LinearLayout lyt_progress;
+    ProgressBar progressBar;
 
 
     @Override
@@ -90,10 +93,15 @@ int f1;
         setContentView(R.layout.activity_ptot_graph);
         getSupportActionBar().hide();
         chart = findViewById(R.id.chart1);
-        mView = new CatLoadingView();
-        mView.show(getSupportFragmentManager(), "");
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         back_drop = findViewById(R.id.back_drop);
+        lyt_progress = (LinearLayout) findViewById(R.id.ptot_loading);
+        progressBar = findViewById(R.id.progress_ptot);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        lyt_progress.setVisibility(View.VISIBLE);
+        lyt_progress.setAlpha(1.0f);
+        chart.setVisibility(View.GONE);
+
 
         steppedLayout = findViewById(R.id.stepped_layout);
         TextView stepped = findViewById(R.id.stepped);
@@ -501,9 +509,8 @@ int f1;
                             chart.notifyDataSetChanged();
                             chart.invalidate();
                             set.setColor(Color.WHITE);
-                            mView.dismiss();
-
-
+                            chart.setVisibility(View.VISIBLE);
+                            lyt_progress.setVisibility(View.GONE);
                             //Collections.sort(entries, new EntryXComparator());
 
 

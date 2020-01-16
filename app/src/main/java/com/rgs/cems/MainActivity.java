@@ -54,7 +54,6 @@ import com.rgs.cems.Dataretrive.FirebaseHandler;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
 import com.rgs.cems.NormalStuff.About;
-import com.roger.catloadinglibrary.CatLoadingView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -83,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     CountDownTimer mCountDownTimer;
     View parent_view;
     RelativeLayout nav_layout;
-    CatLoadingView mView;
 
 
     @Override
@@ -171,8 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 flag = 1;
-                mView = new CatLoadingView();
-                mView.show(getSupportFragmentManager(), "");
+                Toast.makeText(MainActivity.this, "Please Wait..", Toast.LENGTH_SHORT).show();
                 warningcheck();
             }
         });
@@ -341,8 +338,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.warningcheck) {
             flag = 1;
-            mView = new CatLoadingView();
-            mView.show(getSupportFragmentManager(), "");
+            Toast.makeText(instance, "Please Wait..", Toast.LENGTH_SHORT).show();
             warningcheck();
             return true;
         }
@@ -820,7 +816,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             public void onFinish() {
-                mView.dismiss();
                 warning();
             }
         }.start();
