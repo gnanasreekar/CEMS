@@ -93,7 +93,7 @@ public class PreviousUsage extends AppCompatActivity {
     private View date_picker;
 
     LinearLayout lyt_progress;
-    ProgressBar progressBar;
+   // ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,8 +102,8 @@ public class PreviousUsage extends AppCompatActivity {
         lineChart = findViewById(R.id.previous_chart);
 
         lyt_progress = (LinearLayout) findViewById(R.id.prevusage_loading);
-        progressBar = findViewById(R.id.progress_previousuasge);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+      //  progressBar = findViewById(R.id.progress_previousuasge);
+       // progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
 
 
         // add back arrow to toolbar
@@ -484,13 +484,6 @@ public class PreviousUsage extends AppCompatActivity {
                     mid = 6;
                 }
 
-            }
-        });
-
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                finish();
             }
         });
 

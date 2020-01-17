@@ -9,6 +9,8 @@
     <color name="kindablue">#87ceeb</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FF9800</color>    //Textinput outline colour
 
+    <color name="loading">#2c2d32</color>
+
 
     <color name="overlay_dark_10">#1A000000</color>
     <color name="overlay_dark_20">#33000000</color>

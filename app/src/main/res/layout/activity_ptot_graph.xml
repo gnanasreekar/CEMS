@@ -3,33 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/dark"
+    android:background="@color/colorPrimaryDark"
     android:layout_height="match_parent"
     tools:context=".Charts.Ptot_graph">
 
     <LinearLayout
         android:id="@+id/ptot_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="340dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:layout_margin="@dimen/spacing_medium"
+        android:background="@color/loading"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_large"
-            android:text="Plotting.."
+            android:text="Plotting..."
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorAccent" />
 
-        <ProgressBar
-            android:id="@+id/progress_ptot"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true" />
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="97dp"
+            android:layout_height="92dp"
+            android:src="@drawable/gif" />
+
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progress_ptot"-->
+<!--            style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:indeterminate="true" />-->
 
     </LinearLayout>
 

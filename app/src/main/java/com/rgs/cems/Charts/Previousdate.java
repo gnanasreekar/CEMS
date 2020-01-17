@@ -70,7 +70,7 @@ public class Previousdate extends AppCompatActivity {
     Integer M1, M2, M3, M4, M5, M6, Todayscos, TEC;
     SharedPreferences sharedPreferences;
     LinearLayout lyt_progress;
-    ProgressBar progressBar;
+  //  ProgressBar progressBar;
     NestedScrollView nestedScrollView;
 
 
@@ -86,8 +86,8 @@ public class Previousdate extends AppCompatActivity {
 
         nestedScrollView = findViewById(R.id.nested_scroll_view);
         lyt_progress = (LinearLayout) findViewById(R.id.prevdate_loading);
-        progressBar = findViewById(R.id.progress_prevdate);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+       // progressBar = findViewById(R.id.progress_prevdate);
+       // progressBar.getIndeterminateDrawable().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
 
 
 

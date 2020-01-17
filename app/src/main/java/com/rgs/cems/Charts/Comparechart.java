@@ -66,7 +66,7 @@ public class Comparechart extends AppCompatActivity {
     ListView lv;
     TinyDB tinydb;
     LinearLayout lyt_progress;
-    ProgressBar progressBar;
+    //ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +76,8 @@ public class Comparechart extends AppCompatActivity {
         lv = findViewById(R.id.listView1);
 
         lyt_progress = (LinearLayout) findViewById(R.id.compare_loading);
-        progressBar = findViewById(R.id.progress_compare);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+       // progressBar = findViewById(R.id.progress_compare);
+       // progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
 
 
 
@@ -250,13 +250,6 @@ public class Comparechart extends AppCompatActivity {
                 } else {
                     Toast.makeText(Comparechart.this, "Select date", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                finish();
             }
         });
 

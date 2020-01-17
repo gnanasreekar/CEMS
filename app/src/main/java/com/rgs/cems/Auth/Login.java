@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
     int i = 0;
     String auth = "0",admin, rupee;
     LinearLayout linearLayout,lyt_progress;
-    ProgressBar progressBar;
+  //  ProgressBar progressBar;
 
 
 
@@ -70,21 +70,15 @@ public class Login extends AppCompatActivity {
         signup = findViewById(R.id.signup);
         linearLayout = findViewById(R.id.login);
         lyt_progress = (LinearLayout) findViewById(R.id.login_loading);
-        progressBar = findViewById(R.id.progress_login);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+      //  progressBar = findViewById(R.id.progress_login);
+      //  progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         lyt_progress.setVisibility(View.GONE);
-
-
-
-    final String fbuid = firebaseAuth.getUid();
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-
-                    Toast.makeText(Login.this, "Please wait until logged in", Toast.LENGTH_SHORT).show();
                     Log.d("Redirect", "This happened from LOGIN authstate listner");
 
                     lyt_progress.setVisibility(View.VISIBLE);

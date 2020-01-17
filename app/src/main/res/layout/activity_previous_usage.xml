@@ -9,11 +9,11 @@
 
     <LinearLayout
         android:id="@+id/prevusage_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="340dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:background="@color/loading"
         android:gravity="center"
-        android:layout_margin="@dimen/spacing_medium"
         android:orientation="vertical">
 
         <TextView
@@ -24,12 +24,17 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorAccent" />
 
-        <ProgressBar
-            android:id="@+id/progress_previousuasge"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true" />
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="97dp"
+            android:layout_height="92dp"
+            android:src="@drawable/gif" />
+
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progress_previousuasge"-->
+<!--            style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:indeterminate="true" />-->
 
     </LinearLayout>
 

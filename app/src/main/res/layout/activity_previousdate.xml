@@ -34,8 +34,6 @@
                 android:src="@drawable/world_map"
                 app:layout_collapseMode="parallax" />
 
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,11 +53,11 @@
 
     <LinearLayout
         android:id="@+id/prevdate_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="846dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_margin="@dimen/spacing_medium"
         android:gravity="center"
+        android:background="@color/loading"
         android:layout_gravity="center"
         android:orientation="vertical">
 
@@ -69,14 +67,12 @@
             android:layout_marginBottom="@dimen/spacing_large"
             android:text="Getting data.."
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/grey_90" />
+            android:textColor="@color/colorAccent" />
 
-        <ProgressBar
-            android:id="@+id/progress_prevdate"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:indeterminate="true" />
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="97dp"
+            android:layout_height="92dp"
+            android:src="@drawable/gif" />
 
     </LinearLayout>
 

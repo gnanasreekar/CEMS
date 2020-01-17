@@ -84,7 +84,7 @@ int f1;
     private View tooglePinchLayout;
     private View saveGraphLayout;
     LinearLayout lyt_progress;
-    ProgressBar progressBar;
+   // ProgressBar progressBar;
 
 
     @Override
@@ -96,8 +96,8 @@ int f1;
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         back_drop = findViewById(R.id.back_drop);
         lyt_progress = (LinearLayout) findViewById(R.id.ptot_loading);
-        progressBar = findViewById(R.id.progress_ptot);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+       // progressBar = findViewById(R.id.progress_ptot);
+       // progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         lyt_progress.setVisibility(View.VISIBLE);
         lyt_progress.setAlpha(1.0f);
         chart.setVisibility(View.GONE);
