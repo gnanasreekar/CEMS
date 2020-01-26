@@ -46,7 +46,7 @@ public class Login extends AppCompatActivity {
     TextView signup;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
-    DatabaseReference databaseReference, databaseReference2;
+    DatabaseReference databaseReference;
     static public String fb_name, fb_uid, fb_email;
     CountDownTimer mCountDownTimer;
     int i = 0;
@@ -254,6 +254,40 @@ public class Login extends AppCompatActivity {
                 finish();
                 Toast.makeText(Login.this, "Please contact the Admin or wait for some time", Toast.LENGTH_SHORT).show();
                 FirebaseAuth.getInstance().signOut();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+
+    //Forgot password Dialog
+    public void forgotpassword(View view) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.forgotpass);
+        dialog.setCancelable(true);
+
+
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText email = dialog.findViewById(R.id.passemail);
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(Login.this, "Please Check your mail!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                 dialog.dismiss();
             }
         });

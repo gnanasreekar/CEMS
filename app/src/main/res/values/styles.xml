@@ -13,26 +13,6 @@
     </style>
 
 
-
-    <style name="ProgressBarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorAccent">@color/dark</item>
-    </style>
-
-    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">  //Textinput outline colour
-        <item name="boxStrokeColor">#fff</item>
-        <item name="boxStrokeWidth">2dp</item>
-    </style>
-
-    <style name="generalnotitle" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
-    <style name="EditText.Grey" parent="@style/AppTheme">
-        <item name="colorControlActivated">@color/grey_60</item>
-        <item name="colorControlHighlight">@color/grey_60</item>
-        <item name="colorControlNormal">@color/grey_40</item>
-    </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -41,25 +21,6 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="cart_dialog"
-        parent="@android:style/Theme.Holo.Light.Dialog">
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.6</item>
-    </style>
-
-    <style name="yourDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-
-        <item name="android:colorAccent">@color/dark</item>
-        <item name="android:colorPrimary">@color/dark</item>
-
-    </style>
 
     <style name="MonthPickerDialogStyle" >
         <item name="monthBgColor">@color/dark</item>
@@ -74,11 +35,6 @@
         <item name="headerTitleColor">@color/dark</item>
 
         <item name="dialogActionButtonColor">@color/colorAccent</item>
-    </style>
-
-    <style name="Toolbar.Light" parent="@style/AppTheme">
-        <item name="colorControlNormal">@color/grey_60</item>
-        <item name="android:textColorPrimary">@color/grey_60</item>
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

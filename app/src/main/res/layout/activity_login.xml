@@ -152,6 +152,20 @@
 
     </LinearLayout>
 
+        <TextView
+            android:id="@+id/forgotpass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="forgotpassword"
+            android:layout_marginTop="20dp"
+            android:text="Forgot Password?"
+            android:layout_gravity="center"
+            android:textSize="13sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/orange_500"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
 </RelativeLayout>

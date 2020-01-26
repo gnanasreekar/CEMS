@@ -398,6 +398,110 @@
                 android:layout_width="0dp"
                 android:layout_height="5dp" />
 
+            <!--            Sunny-->
+            <androidx.cardview.widget.CardView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="2dp"
+                app:cardUseCompatPadding="true">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <com.mikhaellopez.circularimageview.CircularImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="@dimen/spacing_xlarge"
+                        android:src="@mipmap/ic_sunny_round"
+                        app:civ_border="true"
+                        app:civ_border_color="@color/blue_700"
+                        app:civ_border_width="1dp"
+                        app:civ_shadow="true"
+                        app:civ_shadow_radius="0" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:text="@string/sai_sumanth"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                        android:textColor="@color/grey_90" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/web_developer"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/grey_40" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_large"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:padding="15dp"
+                            android:id="@+id/linkedin_sunny"
+                            android:layout_width="?attr/actionBarSize"
+                            android:layout_height="?attr/actionBarSize"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:tint="@color/grey_20"
+                            android:src="@drawable/ic_linkedin_logo" />
+
+
+                        <View
+                            android:layout_width="@dimen/spacing_xlarge"
+                            android:layout_height="0dp" />
+
+                        <ImageView
+                            android:padding="15dp"
+                            android:layout_width="?attr/actionBarSize"
+                            android:layout_height="?attr/actionBarSize"
+                            android:id="@+id/github_sunny"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:tint="@color/grey_20"
+                            android:src="@drawable/ic_github" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_xlarge"
+                            android:layout_height="0dp" />
+
+                        <ImageButton
+                            android:layout_width="?attr/actionBarSize"
+                            android:layout_height="?attr/actionBarSize"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:tint="@color/grey_20"
+                            android:id="@+id/mail_sunny"
+                            android:src="@drawable/ic_mail_outline_black_24dp" />
+
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/spacing_middle"
+                        android:background="@color/grey_20" />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="5dp" />
+
 <!--            Mounica-->
             <androidx.cardview.widget.CardView
 
@@ -595,110 +699,6 @@
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/spacing_middle"
                         android:background="@color/grey_20" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="5dp" />
-
-<!--            Sunny-->
-            <androidx.cardview.widget.CardView
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:cardCornerRadius="6dp"
-                app:cardElevation="2dp"
-                app:cardUseCompatPadding="true">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <com.mikhaellopez.circularimageview.CircularImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_marginTop="@dimen/spacing_xlarge"
-                        android:src="@mipmap/ic_sunny_round"
-                        app:civ_border="true"
-                        app:civ_border_color="@color/blue_700"
-                        app:civ_border_width="1dp"
-                        app:civ_shadow="true"
-                        app:civ_shadow_radius="0" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:text="@string/sai_sumanth"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                        android:textColor="@color/grey_90" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/web_developer"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/grey_40" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_large"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:padding="15dp"
-                            android:id="@+id/linkedin_sunny"
-                            android:layout_width="?attr/actionBarSize"
-                            android:layout_height="?attr/actionBarSize"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:tint="@color/grey_20"
-                            android:src="@drawable/ic_linkedin_logo" />
-
-
-                        <View
-                            android:layout_width="@dimen/spacing_xlarge"
-                            android:layout_height="0dp" />
-
-                        <ImageView
-                            android:padding="15dp"
-                            android:layout_width="?attr/actionBarSize"
-                            android:layout_height="?attr/actionBarSize"
-                            android:id="@+id/github_sunny"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:tint="@color/grey_20"
-                            android:src="@drawable/ic_github" />
-
-                        <View
-                            android:layout_width="@dimen/spacing_xlarge"
-                            android:layout_height="0dp" />
-
-                        <ImageButton
-                            android:layout_width="?attr/actionBarSize"
-                            android:layout_height="?attr/actionBarSize"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:tint="@color/grey_20"
-                            android:id="@+id/mail_sunny"
-                            android:src="@drawable/ic_mail_outline_black_24dp" />
-
-
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/spacing_middle"
-                        android:background="@color/grey_20" />
-
 
                 </LinearLayout>
 

@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
@@ -78,9 +79,9 @@ public class DetailsDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_display);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Today's Usage");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Today's Usage");
 
         {
 
@@ -310,7 +311,7 @@ public class DetailsDisplay extends AppCompatActivity {
 
         setDataBar();
         //GendataBar();
-        makeJsonObjectRequestGraph("http://3.6.41.81/genusagemonth?m=1&y=2020");
+        makeJsonObjectRequestGraph(getString(R.string.URL) + "genusagemonth?m=1&y=2020");
 
     }
 

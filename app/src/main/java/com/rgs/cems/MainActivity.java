@@ -1,6 +1,7 @@
 package com.rgs.cems;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -216,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return instance;
     }
 
+    @SuppressLint("SetTextI18n")
     public void TEC() {
 
         try {
@@ -228,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         Todayscos = TEC * sharedPreferences.getFloat("cost" , (float) 7.65);
-        costfortodat.setText("Rs. "+ String.valueOf(sharedPreferences.getFloat("cost" , 7)) +"/Unit");
+        costfortodat.setText("Rs. "+ sharedPreferences.getFloat("cost" , 7) +"/Unit");
 
         ValueAnimator animator = ValueAnimator.ofInt(0, TEC);
         animator.setDuration(1500);
@@ -563,6 +565,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ValueAnimator animator = ValueAnimator.ofInt(0, warningcount);
         animator.setDuration(400);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @SuppressLint("SetTextI18n")
             public void onAnimationUpdate(ValueAnimator animation) {
                 warnings.setText(animation.getAnimatedValue().toString() + " Warnings");
             }
@@ -606,6 +609,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.getWindow().setAttributes(lp);
     }
 
+    @SuppressLint("SetTextI18n")
     private void warninginfo() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
