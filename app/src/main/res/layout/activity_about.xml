@@ -176,7 +176,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="16 Jan 2019 11:30 PM"
+                                android:text="17 Jan 2020 11:30 AM"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/grey_40" />
 
@@ -275,12 +275,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="@dimen/spacing_middle" />
-
-
 
             <View
                 android:layout_width="0dp"

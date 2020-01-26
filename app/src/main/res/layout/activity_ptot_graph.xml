@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:background="@color/loading"
+        android:background="@color/black"
         android:orientation="vertical">
 
         <TextView
@@ -25,9 +25,9 @@
             android:textColor="@color/colorAccent" />
 
         <pl.droidsonroids.gif.GifImageView
-            android:layout_width="97dp"
-            android:layout_height="92dp"
-            android:src="@drawable/gif" />
+            android:layout_width="226dp"
+            android:layout_height="222dp"
+            android:src="@drawable/chart" />
 
 <!--        <ProgressBar-->
 <!--            android:id="@+id/progress_ptot"-->

@@ -85,7 +85,6 @@ public class FirebaseHandler extends Application {
 
 
         String url =  getString(R.string.URL) + "todaysusage";
-        Log.d("TEMPeee" , String.valueOf(url));
         queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -116,6 +115,9 @@ public class FirebaseHandler extends Application {
                                 val++;
                             }
 
+                            if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
+                                new Dialogs(MainActivity.getInstance(), 1);
+                            }
 
                             mCountDownTimer = new CountDownTimer(2000, 1000) {
                                 public void onTick(long millisUntilFinished) {
@@ -131,11 +133,6 @@ public class FirebaseHandler extends Application {
                             }.start();
 
 
-                            Log.d("Date from json" , Date);
-                            Log.d("Date from device" , getFormattedDateSimple(date_ship_millis));
-                            if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
-                                new Dialogs(MainActivity.getInstance(), 1);
-                            }
 
                         } catch (JSONException e) {
                             Log.d("Json exception fb" , e.getMessage());

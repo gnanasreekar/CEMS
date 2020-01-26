@@ -449,16 +449,16 @@ public class DetailsDisplay extends AppCompatActivity {
                                 data.setValueTextSize(10f);
                                 data.setBarWidth(0.9f);
                                 genusagebar.invalidate();
-
                                 genusagebar.setData(data);
                                 mCountDownTimer = new CountDownTimer(2000, 1000) {
                                     public void onTick(long millisUntilFinished) {
                                     }
 
                                     public void onFinish() {
-                                        genusagebar.animateXY(2000, 2000);
                                         genusagebar.setVisibility(View.VISIBLE);
                                         lyt_progress.setVisibility(View.GONE);
+                                        genusagebar.animateXY(2000, 2000);
+
                                     }
                                 }.start();
 

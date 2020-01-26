@@ -333,7 +333,7 @@ int f1;
                 @Override
                 public void onClick(View v) {
                     if (ContextCompat.checkSelfPermission(Ptot_graph.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        saveToGallery(chart, "LineChartActivity1");
+                        saveToGallery(chart, Block);
                     } else {
                         requestStoragePermission(chart);
                     }

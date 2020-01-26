@@ -17,9 +17,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -50,18 +49,23 @@ import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Charts.Comparechart;
 import com.rgs.cems.Charts.PreviousUsage;
 import com.rgs.cems.Charts.Previousdate;
-import com.rgs.cems.Dataretrive.FirebaseHandler;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
+import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.NormalStuff.About;
+import com.richpath.RichPath;
+import com.richpath.RichPathView;
+import com.richpathanimator.RichPathAnimator;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import pl.droidsonroids.gif.GifImageView;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -81,7 +85,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     static MainActivity instance;
     CountDownTimer mCountDownTimer;
     View parent_view;
+    long date_ship_millis;
     RelativeLayout nav_layout;
+
 
 
     @Override
@@ -110,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             generator_today = findViewById(R.id.generator_usage_today);
             nav_layout = findViewById(R.id.nav_layout);
             costfortodat = findViewById(R.id.costfortoday);
-
         }
 
         {
@@ -132,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
-        date_tv.setText(sharedPreferences.getString("DATE" + 1, "0"));
+
 
         if (!sharedPreferences.getBoolean("firstTime", false)) {
             showintroDialog();
@@ -174,7 +179,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+
     }
+
 
     private void ShowIntro(String title, String text, int viewId, final int type) {
 
@@ -237,7 +244,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         generator_today.setText(sharedPreferences.getString("Energy Consumed" + 5, "1") + " Units");
 
-        String date = sharedPreferences.getString("DATE" + 0, "Not aval");
+        Calendar calendar = Calendar.getInstance();
+        date_ship_millis = calendar.getTimeInMillis();
+        String date = sharedPreferences.getString("DATE" + 1, "Please refresh");
+        date_tv.setText(date);
+
+        if (!date.equals(getFormattedDateSimple(date_ship_millis))){
+            Toast.makeText(instance, "Please Refresh", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -819,6 +833,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 warning();
             }
         }.start();
+    }
+
+    public static String getFormattedDateSimple(Long dateTime) {
+        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return newFormat.format(new Date(dateTime));
     }
 
 }
