@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -52,11 +51,7 @@ import com.rgs.cems.Charts.PreviousUsage;
 import com.rgs.cems.Charts.Previousdate;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
-import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.NormalStuff.About;
-import com.richpath.RichPath;
-import com.richpath.RichPathView;
-import com.richpathanimator.RichPathAnimator;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -66,7 +61,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import pl.droidsonroids.gif.GifImageView;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -154,8 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Dpb();
 
         //Checking for Internet
-        if (isNetworkAvailable()) {
-        } else {
+        if (!isNetworkAvailable()) {
             showCustomDialog();
         }
 
@@ -332,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-//            super.onBackPressed();
+//            super.onBackPressed();l
             showexitDialog();
         }
     }
@@ -706,7 +699,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         } else {
                             editor.putInt("warning1", 0);
                             editor.apply();
-                            Log.d("Warnings", "Num 1 no data aval");
                         }
 
 
@@ -782,7 +774,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         } else {
                             editor.putInt("warning4", 0);
                             editor.apply();
-                            Log.d("Warnings", "Num 1 no data aval");
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -804,11 +795,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (response.equals("[]")) {
                             editor.putInt("warning5", 1);
                             editor.apply();
-                            Log.d("Warnings", "Num 5 no data aval");
                         } else {
                             editor.putInt("warning5", 0);
-
-                            Log.d("Warnings", "Num 1 no data aval");
                         }
 
 

@@ -115,7 +115,6 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("Date").setValue(s);
                                 databaseReference.child("V1").setValue(0);
                                 databaseReference.child("V2").setValue(0);
-                                Log.d("Firebase Signup dsent" , "YYYYYYYYYYYYYYYY");
                                 showaccountcreatedDialog();
 
                             }
@@ -134,11 +133,8 @@ public class Signup extends AppCompatActivity {
         });
 
         //For interent dialog
-        if(isNetworkAvailable()){
-            Log.d("Internet Status Login" , "On line");
-        } else {
+        if(!isNetworkAvailable()){
             showCustomDialog();
-            Log.d("Internet Status Login" , "Off line");
         }
     }
 

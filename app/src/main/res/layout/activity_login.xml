@@ -24,6 +24,7 @@
             android:layout_marginBottom="@dimen/spacing_large"
             android:gravity="center"
             android:text="Logging in..."
+            android:id="@+id/login_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorAccent" />
 
@@ -31,13 +32,6 @@
             android:layout_width="97dp"
             android:layout_height="92dp"
             android:src="@drawable/gif" />
-
-<!--        <ProgressBar-->
-<!--            android:id="@+id/progress_login"-->
-<!--            style="@style/Widget.AppCompat.ProgressBar.Horizontal"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:indeterminate="true" />-->
 
     </LinearLayout>
 

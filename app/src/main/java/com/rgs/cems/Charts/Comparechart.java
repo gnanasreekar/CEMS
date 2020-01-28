@@ -139,7 +139,6 @@ public class Comparechart extends AppCompatActivity {
                                 date_ship_millis1 = calendar.getTimeInMillis();
                                 URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis1);
                                 date1.setText(getFormattedDateSimple(date_ship_millis1));
-                                Log.d("aaaUrl", URL_ptot);
                             }
                         },
                         cur_calender.get(Calendar.YEAR),
@@ -171,7 +170,6 @@ public class Comparechart extends AppCompatActivity {
                                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                                 date_ship_millis2 = calendar.getTimeInMillis();
                                 URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis2);
-                                Log.d("aaaUrl2", URL_ptot2);
                                 date2.setText(getFormattedDateSimple(date_ship_millis2));
 
 
@@ -222,7 +220,6 @@ public class Comparechart extends AppCompatActivity {
                     if(mid!=0){
                         URL_ptot = URL_ptot +"&mid="+ mid;
                         URL_ptot2 = URL_ptot2 +"&mid="+ mid;
-                        Log.d("Selected" , URL_ptot);
                         lyt_progress.setVisibility(View.VISIBLE);
                         lyt_progress.setAlpha(1.0f);
                         lv.setVisibility(View.GONE);
@@ -296,15 +293,13 @@ public class Comparechart extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Temp12" , response);
-                        Log.d("nodataresponse1" , response);
-
-                        if (response.equals("[]")){
-                            Log.d("nodataresponse" , "yEp");
+                        if (response.contains("[]")){
+                            new Dialogs(Comparechart.this, 2);
+                            Toast.makeText(Comparechart.this, "No Data available in day 1", Toast.LENGTH_SHORT).show();
                         } else {
                             response1 = response;
+                            plot2(URLptot2);
                         }
-                        plot2(URLptot2);
                     }
 
                 }, new Response.ErrorListener() {
@@ -323,12 +318,24 @@ public class Comparechart extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("nodataresponse2" , response);
-
-                        if(response.equals("[]")){
-                            Log.d("nodataresponse" , "yEp");
+                        if(response.contains("[]")){
+                            new Dialogs(Comparechart.this, 2);
+                            Toast.makeText(Comparechart.this, "No Data available in day 2", Toast.LENGTH_SHORT).show();
                         } else {
                             response2 = response;
+                            mCountDownTimer = new CountDownTimer(2000, 1000) {
+                                public void onTick(long millisUntilFinished) {
+                                }
+
+                                public void onFinish() {
+                                    list.add(new LineChartItem(plot(response2), getApplicationContext()));
+                                    list.add(new LineChartItem(plot(response1), getApplicationContext()));
+                                    ChartDataAdapter cda = new ChartDataAdapter(getApplicationContext(), list);
+                                    lv.setAdapter(cda);
+                                    lv.setVisibility(View.VISIBLE);
+                                    lyt_progress.setVisibility(View.GONE);
+                                }
+                            }.start();
                         }
                     }
 
@@ -340,34 +347,13 @@ public class Comparechart extends AppCompatActivity {
         });
         requestQueue.add(stringRequest2);
 
-        mCountDownTimer = new CountDownTimer(2000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
 
-            public void onFinish() {
-                list.add(new LineChartItem(plot(response2), getApplicationContext()));
-                list.add(new LineChartItem(plot(response1), getApplicationContext()));
-                ChartDataAdapter cda = new ChartDataAdapter(getApplicationContext(), list);
-                lv.setAdapter(cda);
-                lv.setVisibility(View.VISIBLE);
-                lyt_progress.setVisibility(View.GONE);
-                Log.d("Listarr", String.valueOf(list.size()));
-            }
-        }.start();
     }
 
     private LineData plot(String resp) {
 
         ArrayList<Entry> values1 = new ArrayList<>();
         ArrayList<String> labels = new ArrayList<>();
-
-        Log.d("Arraylength" , String.valueOf(values1.size()));
-
-        if (resp.contains("[]")){
-            new Dialogs(Comparechart.this , 2);
-            Toast.makeText(Comparechart.this, "No Data Available", Toast.LENGTH_SHORT).show();
-
-        }
 
         try {
             f1 = 0;
@@ -401,8 +387,6 @@ public class Comparechart extends AppCompatActivity {
             Toast.makeText(Comparechart.this, "Fetch failed!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-
-        Log.d("Arraylength2" , String.valueOf(values1.size()));
 
         LineDataSet d1 = new LineDataSet(values1, date);
         d1.setLineWidth(1.5f);

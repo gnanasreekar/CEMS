@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -68,9 +69,6 @@ public class FirebaseHandler extends Application {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String rupee = dataSnapshot.getValue().toString();
                 float rs = Float.parseFloat(rupee);
-                Log.d("cosdsodfhsiufdb" , rs+"");
-                Log.d("cosdsodfhsiufdbsss" , rupee);
-
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putFloat("cost", rs);
@@ -153,6 +151,10 @@ public class FirebaseHandler extends Application {
                 }
             }
         });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                500,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
 warningcheck();
     }

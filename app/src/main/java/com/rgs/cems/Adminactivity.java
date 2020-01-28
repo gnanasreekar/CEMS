@@ -29,19 +29,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rgs.cems.Justclasses.ViewAnimation;
 
+import java.util.Date;
+
 public class Adminactivity extends AppCompatActivity {
 
     DatabaseReference databaseReference;
     float costperunuit;
     TextView rupeeunit;
     View parentview;
+    SharedPreferences sharedPreferences;
+    CharSequence s;
+
 
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adminactivity);
-
+        Date d = new Date();
+        s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         rupeeunit = findViewById(R.id.rupeeperunit);
         parentview = findViewById(R.id.adminmain);
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -88,20 +95,17 @@ public class Adminactivity extends AppCompatActivity {
             }
         });
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         TextView uid = findViewById(R.id.admin_udi);
         uid.setText("UID: " + sharedPreferences.getString("uid","Not aval"));
 
 
     }
 
-
-
     public void Onclick(View view){
         finish();
     }
 
-    public void showtempmonthssDialog(View view) {
+    public void costchangedialog(View view) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.edit);
@@ -119,8 +123,13 @@ public class Adminactivity extends AppCompatActivity {
                 costperunuit = Float.parseFloat(rupee.getText().toString());
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Cost/");
                 databaseReference.setValue(costperunuit);
+                DatabaseReference costedit = FirebaseDatabase.getInstance().getReference("CostEdit/");
+                costedit.child("UID").setValue(sharedPreferences.getString("uid","Not aval"));
+                costedit.child("Name").setValue(sharedPreferences.getString("name","Not aval"));
+                costedit.child("Date").setValue(s);
+                //TODO: make all in one
                 rupeeunit.setText("Rs. "+ costperunuit +"/Unit");
-                Snackbar.make(parentview, "Changed to Rs. "+ costperunuit +"/Unit", Snackbar.LENGTH_LONG)
+                Snackbar.make(parentview, "Changed to Rs. "+ costperunuit +"/Unit by "+sharedPreferences.getString("name","Not aval")+" on " + s , Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 dialog.dismiss();
             }
@@ -129,8 +138,4 @@ public class Adminactivity extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
-
-
-
-
 }

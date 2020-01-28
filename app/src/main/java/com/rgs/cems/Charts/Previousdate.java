@@ -224,7 +224,6 @@ public class Previousdate extends AppCompatActivity {
                                 datedialog = getFormattedDateSimple(date_ship_millis);
                                 URL_ptot = getString(R.string.URL) + "dateprevious?date=" + datedialog;
                                 date1.setText(datedialog);
-                                Log.d("aaaUrl", URL_ptot);
                                 collapsingToolbarLayout.setTitle("Usage on " + datedialog);
                                 dateDateactivity.setText(datedialog + "'s Activity");
                             }
@@ -265,7 +264,6 @@ public class Previousdate extends AppCompatActivity {
                     lyt_progress.setVisibility(View.VISIBLE);
                     lyt_progress.setAlpha(1.0f);
                     nestedScrollView.setVisibility(View.GONE);
-                    Log.d("Selected", URL_ptot);
                     getdate(URL_ptot);
                     dialog.dismiss();
                 } else {
@@ -281,7 +279,6 @@ public class Previousdate extends AppCompatActivity {
     }
 
     public void getdate(String url) {
-        Log.d("TEMPeee", String.valueOf(url));
         queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -312,7 +309,6 @@ public class Previousdate extends AppCompatActivity {
                             }
                             setdata();
                         } catch (JSONException e) {
-                            Log.d("HEllo", e.getMessage());
                             e.printStackTrace();
                         }
 

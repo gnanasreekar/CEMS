@@ -45,8 +45,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
             android:hint="Enter Mail here!"
+            android:inputType="textEmailAddress"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textSize="15sp"
             android:textColor="@color/grey_60" />
 
     </LinearLayout>

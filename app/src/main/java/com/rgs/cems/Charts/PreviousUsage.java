@@ -382,7 +382,6 @@ public class PreviousUsage extends AppCompatActivity {
                                 date_ship_millis = calendar.getTimeInMillis();
                                 URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
                                 date1.setText(getFormattedDateSimple(date_ship_millis));
-                                Log.d("aaaUrl", URL_ptot);
                             }
                         },
                         cur_calender.get(Calendar.YEAR),
@@ -445,7 +444,6 @@ public class PreviousUsage extends AppCompatActivity {
                         lineChart.setVisibility(View.GONE);
 
                         URL_ptot = URL_ptot + "&mid=" + mid;
-                        Log.d("Selected", URL_ptot);
 
                         Block = block.getSelectedItem()+"";
 
@@ -527,7 +525,6 @@ public class PreviousUsage extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d("Temp12" , response);
                         if (response.contains("[]")){
                             new Dialogs(PreviousUsage.this , 2);
                             Toast.makeText(PreviousUsage.this, "No Data Available", Toast.LENGTH_SHORT).show();
@@ -542,7 +539,6 @@ public class PreviousUsage extends AppCompatActivity {
                                 JSONObject jsonObject = jArray.getJSONObject(i);
                                 String ptot = jsonObject.getString("Ptot");
                                 String tstamp = jsonObject.getString("tstamp");
-                                Log.d("Hello", ptot);
 
 
                                 entries.add(new Entry(i, Float.parseFloat(ptot)));

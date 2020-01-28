@@ -252,12 +252,10 @@ int f1;
         l.setForm(Legend.LegendForm.LINE);
 
         //Checking for Internet
-        if (isNetworkAvailable()) {
-            Log.d("Internet Status", "On line");
-        } else {
+        if (!isNetworkAvailable()) {
             showCustomDialog();
-            Log.d("Internet Status", "Off line");
         }
+
         {
             final FloatingActionButton fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
 
@@ -423,7 +421,6 @@ int f1;
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d("Temp12" , response);
                         if (response.equals("[]")){
                             nodataaval();
                             Toast.makeText(Ptot_graph.this, "No Data Available", Toast.LENGTH_SHORT).show();
@@ -438,7 +435,6 @@ int f1;
                                 JSONObject jsonObject = jArray.getJSONObject(i);
                                 String ptot = jsonObject.getString("Ptot");
                                 String tstamp = jsonObject.getString("tstamp");
-                                Log.d("Hello", ptot);
 
 
                                 entries.add(new Entry(i, Float.parseFloat(ptot)));

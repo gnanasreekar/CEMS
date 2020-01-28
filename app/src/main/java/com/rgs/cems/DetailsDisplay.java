@@ -377,8 +377,6 @@ public class DetailsDisplay extends AppCompatActivity {
                     public void onResponse(String response) {
                         ArrayList<BarEntry> values = new ArrayList<>();
                         ArrayList<String> xAxisLabel = new ArrayList<>();
-
-                        Log.d("Temp12", response);
                         if (response.contains("[]")) {
                             nodataaval();
                             Toast.makeText(DetailsDisplay.this, "No Data Available", Toast.LENGTH_SHORT).show();
@@ -443,8 +441,6 @@ public class DetailsDisplay extends AppCompatActivity {
 
                                 ArrayList<IBarDataSet> dataSets = new ArrayList<>();
                                 dataSets.add(set1);
-                                Log.d("values", String.valueOf(set1));
-
                                 BarData data = new BarData(dataSets);
                                 data.setValueFormatter(new MyValueFormatter());
                                 data.setValueTextSize(10f);

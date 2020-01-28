@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -54,8 +53,6 @@ public class Getdata extends Application{
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Volley" , response);
-
                         JSONArray json = null;
                         try {
                             json = new JSONArray(response);
@@ -68,9 +65,6 @@ public class Getdata extends Application{
                                 String Date =  e.getString("DATE");
                                 String EC = e.getString("Energy Consumed");
                                 String MID = e.getString("Meter ID");
-                                Log.d("HEllo DATE other calss" , Date);
-                                Log.d("HEllo EC other calss" , String.valueOf(EC));
-                                Log.d("HEllo MID other calss" , MID);
                                 editor.putString("DATE" +val ,Date);
                                 editor.putString("Energy Consumed" + val, EC);
                                 editor.putString("Meter ID" + val , MID);
@@ -81,7 +75,6 @@ public class Getdata extends Application{
                                 mainActivity.TEC();
                             }
                         } catch (JSONException e) {
-                            Log.d("HEllo" , e.getMessage());
                             e.printStackTrace();
                         }
 
@@ -90,10 +83,10 @@ public class Getdata extends Application{
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                 NetworkResponse networkResponse = error.networkResponse;
                 if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
+                    Toast.makeText(context, String.valueOf(networkResponse.statusCode), Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -43,16 +43,16 @@ public class Login extends AppCompatActivity {
 
     public EditText login_username, login_password;
     Button button_login;
-    TextView signup;
+    TextView signup, logintext;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     DatabaseReference databaseReference;
     static public String fb_name, fb_uid, fb_email;
-    CountDownTimer mCountDownTimer;
+    CountDownTimer mCountDownTimer, mnCountDownTimer;
     int i = 0;
     String auth = "0",admin, rupee;
     LinearLayout linearLayout,lyt_progress;
-  //  ProgressBar progressBar;
+    String userEmail;
 
 
 
@@ -70,22 +70,18 @@ public class Login extends AppCompatActivity {
         signup = findViewById(R.id.signup);
         linearLayout = findViewById(R.id.login);
         lyt_progress = (LinearLayout) findViewById(R.id.login_loading);
-      //  progressBar = findViewById(R.id.progress_login);
-      //  progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         lyt_progress.setVisibility(View.GONE);
+        logintext = findViewById(R.id.login_text);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d("Redirect", "This happened from LOGIN authstate listner");
-
                     lyt_progress.setVisibility(View.VISIBLE);
                     lyt_progress.setAlpha(1.0f);
                     linearLayout.setVisibility(View.GONE);
 
-                  // mView.show(getSupportFragmentManager(), "");
                     new Firebaseretrive().execute();
                 } else {
                     firebaseAuth.removeAuthStateListener(authStateListener);
@@ -96,8 +92,6 @@ public class Login extends AppCompatActivity {
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Login", "Login");
-                Log.d("Redirect", "This happned from LOGIN1");
                 Intent I = new Intent(Login.this, Signup.class);
                 startActivity(I);
                 finish();
@@ -106,10 +100,8 @@ public class Login extends AppCompatActivity {
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userEmail = login_username.getText().toString();
+                userEmail = login_username.getText().toString();
                 String userPaswd = login_password.getText().toString();
-                // TempDialog.show();
-
 
                 if (userEmail.isEmpty()) {
                     login_username.setError("Provide your Email first!");
@@ -124,10 +116,8 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (!task.isSuccessful()) {
-                                Toast.makeText(Login.this, "Not successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             } else {
-                                Log.d("Redirect", "This happned from LOGIN normal sign in");
-                              //  mView.show(getSupportFragmentManager(), "");
                                 lyt_progress.setVisibility(View.VISIBLE);
                                 lyt_progress.setAlpha(1.0f);
                                 linearLayout.setVisibility(View.GONE);
@@ -186,21 +176,18 @@ public class Login extends AppCompatActivity {
                     editor.putString("email", fb_email);
                     editor.apply();
 
-
-
-                    mCountDownTimer = new CountDownTimer(2000, 1000) {
+                    mCountDownTimer = new CountDownTimer(4000, 1000) {
                         public void onTick(long millisUntilFinished) {
+                            if ((millisUntilFinished / 1000) == 2){
+                                logintext.setText("Getting Data..");
+                            }
                         }
 
                         public void onFinish() {
                             if (auth.equals("1")) {
-
-
                                 startActivity(new Intent(Login.this, MainActivity.class));
                                 finish();
-
                             } else if (auth.equals("0")) {
-// Temp for testers
                                 notauthdialog();
                             } else {
                             }
@@ -269,8 +256,8 @@ public class Login extends AppCompatActivity {
         dialog.setContentView(R.layout.forgotpass);
         dialog.setCancelable(true);
 
-
-
+        final EditText email = dialog.findViewById(R.id.passemail);
+        email.setText(userEmail);
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -278,13 +265,15 @@ public class Login extends AppCompatActivity {
         ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText email = dialog.findViewById(R.id.passemail);
+
                 FirebaseAuth.getInstance().sendPasswordResetEmail(email.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(Login.this, "Please Check your mail!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "Please Check your mail!", Toast.LENGTH_SHORT).show(); 
+                                } else {
+                                    Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
