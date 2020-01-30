@@ -47,17 +47,22 @@ public class Signup extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     LinearLayout lyt_progress,signup;
     ProgressBar progressBar;
+    String name;
+    CharSequence s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         getSupportActionBar().hide();
+        setTitle("SignUp");
+
         firebaseAuth = FirebaseAuth.getInstance();
+
+        {
         emailId = findViewById(R.id.email_signup);
         username = findViewById(R.id.username_signup);
         password = findViewById(R.id.password_signup);
-        setTitle("SignUp");
         buttom_signup = findViewById(R.id.button_signup);
         signIn = findViewById(R.id.signin_signup);
         lyt_progress = (LinearLayout) findViewById(R.id.signup_loading);
@@ -65,6 +70,8 @@ public class Signup extends AppCompatActivity {
         signup = findViewById(R.id.signup_layout);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         lyt_progress.setVisibility(View.GONE);
+
+    }
 
         buttom_signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +81,7 @@ public class Signup extends AppCompatActivity {
                 signup.setVisibility(View.GONE);
                 final String emailID = emailId.getText().toString();
                 String paswd = password.getText().toString();
-                final String name = username.getText().toString();
+                name = username.getText().toString();
 
                 if (emailID.isEmpty()) {
                     username.setError("Set your Username");
@@ -95,9 +102,9 @@ public class Signup extends AppCompatActivity {
                                         Toast.LENGTH_SHORT).show();
                             } else {
 
-                                //Data
+                                //Date
                                 Date d = new Date();
-                                CharSequence s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
+                                s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
 
                                 //Storing data to display in the Nav bar and in the app
                                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
@@ -171,7 +178,7 @@ public class Signup extends AppCompatActivity {
 
     public void showaccountcreatedDialog() {
         final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.acc_confirmed);
         dialog.setCancelable(true);
 
@@ -183,7 +190,9 @@ public class Signup extends AppCompatActivity {
         ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity( new Intent(Signup.this, MainActivity.class));
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AuthRequest/" + firebaseAuth.getUid());
+                databaseReference.child("Name").setValue(name);
+                databaseReference.child("Date").setValue(s);
                 finish();
                 dialog.dismiss();
             }
@@ -192,6 +201,5 @@ public class Signup extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
-
 }
 

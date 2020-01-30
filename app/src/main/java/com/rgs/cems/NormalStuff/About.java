@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.rgs.cems.R;
 
 import java.text.SimpleDateFormat;
@@ -26,12 +28,15 @@ import java.util.Date;
 
 public class About extends AppCompatActivity {
     int dpb;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         setTitle("About");
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+
 
         {
 
@@ -226,6 +231,11 @@ Dpb();
     public void onClick(View view) {
         i++;
         if (i == 15) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Easter/" + sharedPreferences.getString("uid", "No data"));
+            databaseReference.child("Name").setValue(sharedPreferences.getString("name", "No data"));
+            Date d = new Date();
+            CharSequence s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
+            databaseReference.child("Date").setValue(s);
             showdpbDialog();
             i = 0;
         }

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.format.DateFormat;
@@ -43,8 +44,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Charts.Comparechart;
 import com.rgs.cems.Charts.PreviousUsage;
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings, generator_today,costfortodat;
     int dpb, flag = 0;
     Integer TEC;
-    float Todayscos;
+    float Todayscos, Version;
     SharedPreferences sharedPreferences;
     Toolbar toolbar;
     String generatorusage;
@@ -82,14 +86,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     View parent_view;
     long date_ship_millis;
     RelativeLayout nav_layout;
-
-
+    Menu menuList;
+    MenuItem item;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         {
 
@@ -106,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             date_tv = findViewById(R.id.date_main);
             warnings = findViewById(R.id.warnings);
             warninglayout = findViewById(R.id.warning_layout);
-            parent_view = findViewById(android.R.id.content);
             parent_view = findViewById(R.id.main);
             generator_today = findViewById(R.id.generator_usage_today);
             nav_layout = findViewById(R.id.nav_layout);
@@ -132,8 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
-
-
         if (!sharedPreferences.getBoolean("firstTime", false)) {
             showintroDialog();
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -173,9 +176,65 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        databaseReference.child("Version").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    if (item != null) {
+                        item.setVisible(false);
+                    }
+                    Version = numberFormat.parse(dataSnapshot.getValue().toString()).floatValue();
+                    mCountDownTimer = new CountDownTimer(1000, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                        }
+
+                        public void onFinish() {
+                            try {
+                                update(Version);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }.start();
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
     }
 
+    private void update(float version) throws ParseException {
+
+        if (version > numberFormat.parse(getString(R.string.versionName)).floatValue()) {
+            Snackbar.make(parent_view, "Update available!", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Download", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Uri uri = Uri.parse("https://drive.google.com/open?id=1oBPYNUW_p_LufNtp1FFYE29VtsOlG1i2"); // missing 'http://' will cause crashed
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        }
+                    }).show();
+            if (item != null) {
+                item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                item.setVisible(true);
+            }
+        } else {
+            if (item != null) {
+                item.setVisible(false);
+            }
+        }
+
+    }
 
     private void ShowIntro(String title, String text, int viewId, final int type) {
 
@@ -334,6 +393,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        this.menuList = menu;
+        item = menuList.findItem(R.id.updateaval);
         return true;
     }
 
@@ -350,6 +411,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(instance, "Please Wait..", Toast.LENGTH_SHORT).show();
             warningcheck();
             return true;
+        } else if(id == R.id.updateaval){
+            Uri uri = Uri.parse("https://drive.google.com/open?id=1oBPYNUW_p_LufNtp1FFYE29VtsOlG1i2"); // missing 'http://' will cause crashed
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -479,7 +544,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "You do not have admin rights", Toast.LENGTH_SHORT).show();
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Adminaccess/" + sharedPreferences.getString("uid","Not aval"));
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AdminAccessRequest/" + sharedPreferences.getString("uid","Not aval"));
                 databaseReference.child("Name").setValue(sharedPreferences.getString("name", "NO data found"));
                 dialog.dismiss();
             }

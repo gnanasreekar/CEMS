@@ -54,9 +54,6 @@ public class Login extends AppCompatActivity {
     LinearLayout linearLayout,lyt_progress;
     String userEmail;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,6 +164,15 @@ public class Login extends AppCompatActivity {
                         fb_uid = "NO data found";
                         auth = "0";
                         admin = "0";
+                    }
+
+                    if (admin.equals("1")){
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Admins/" + firebaseAuth.getUid());
+                        databaseReference.child("Name").setValue(fb_name);
+                        databaseReference.child("UID").setValue(fb_uid);
+                    } else {
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Admins/" + firebaseAuth.getUid());
+                        databaseReference.removeValue();
                     }
                     SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
