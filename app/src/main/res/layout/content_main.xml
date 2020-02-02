@@ -27,6 +27,7 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentInsetStartWithNavigation="0dp"
+            android:onClick="falcon"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:subtitle="welcome to CEMS"
             app:subtitleTextAppearance="@style/Base.TextAppearance.AppCompat.Caption"

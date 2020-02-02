@@ -1,5 +1,15 @@
 package com.rgs.cems.Auth;
 
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
+
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -184,7 +194,7 @@ public class Login extends AppCompatActivity {
 
                     mCountDownTimer = new CountDownTimer(4000, 1000) {
                         public void onTick(long millisUntilFinished) {
-                            if ((millisUntilFinished / 1000) == 2){
+                            if ((millisUntilFinished / 1000) == 1){
                                 logintext.setText("Getting Data..");
                             }
                         }

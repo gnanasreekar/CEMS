@@ -1,5 +1,14 @@
 package com.rgs.cems.Charts;
 
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
@@ -305,7 +314,7 @@ public class Comparechart extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Comparechart.this, error.toString(), LENGTH_LONG).show();
+                Toast.makeText(Comparechart.this, error.toString()+" CC 1", LENGTH_LONG).show();
             }
         });
         requestQueue.add(stringRequest);
@@ -342,9 +351,11 @@ public class Comparechart extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Comparechart.this, error.toString(), LENGTH_LONG).show();
+                Toast.makeText(Comparechart.this, error.toString()+" CC 1", LENGTH_LONG).show();
             }
         });
+
+
         requestQueue.add(stringRequest2);
 
 

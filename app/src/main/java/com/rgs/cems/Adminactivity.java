@@ -1,21 +1,20 @@
 package com.rgs.cems;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.widget.NestedScrollView;
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.service.autofill.FieldClassification;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -23,28 +22,24 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
+
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.Constants;
 import com.rgs.cems.Justclasses.Users;
-import com.rgs.cems.Justclasses.ViewAnimation;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Adminactivity extends AppCompatActivity {
 
@@ -181,7 +176,7 @@ public class Adminactivity extends AppCompatActivity {
         finish();
     }
 
-    public void security(View view){
+    public void security(final View view){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.password);
@@ -205,7 +200,12 @@ public class Adminactivity extends AppCompatActivity {
                             versionchangedialog();
                         }else {
                             Snackbar.make(parentview, "Wrong Password", Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+                                    .setAction("Retry", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            security(view);
+                                        }
+                                    }).show();
                         }
                     }
                     @Override

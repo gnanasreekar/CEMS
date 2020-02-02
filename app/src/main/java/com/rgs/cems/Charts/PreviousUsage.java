@@ -1,5 +1,14 @@
 package com.rgs.cems.Charts;
 
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.core.app.ActivityCompat;
@@ -27,6 +36,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -185,25 +195,20 @@ public class PreviousUsage extends AppCompatActivity {
 
 
         {   // // Create Limit Lines // //
-            LimitLine llXAxis = new LimitLine(9f, "Index 10");
-            llXAxis.setLineWidth(4f);
-            llXAxis.enableDashedLine(10f, 10f, 0f);
-            llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-            llXAxis.setTextSize(10f);
 
-
-            LimitLine ll1 = new LimitLine(200f, "Upper Limit");
+            LimitLine ll1 = new LimitLine(200f, "Warning");
             ll1.setLineWidth(4f);
             ll1.enableDashedLine(10f, 10f, 0f);
             ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
             ll1.setTextSize(10f);
 
 
-            LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-            ll2.setLineWidth(4f);
+            LimitLine ll2 = new LimitLine(150f, "Warning");
+            ll2.setLineWidth(2f);
             ll2.enableDashedLine(10f, 10f, 0f);
             ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-            ll2.setTextSize(10f);
+            ll2.setTextSize(5f);
+            ll2.setLineColor(Color.YELLOW);
 
             // draw limit lines behind data instead of on top
             yAxis.setDrawLimitLinesBehindData(true);
@@ -211,7 +216,7 @@ public class PreviousUsage extends AppCompatActivity {
 
             // add limit lines
             yAxis.addLimitLine(ll1);
-            //  yAxis.addLimitLine(ll2);
+            yAxis.addLimitLine(ll2);
             //xAxis.addLimitLine(llXAxis);
         }
 
@@ -626,7 +631,7 @@ public class PreviousUsage extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(PreviousUsage.this, error.toString(), LENGTH_LONG).show();
+                Toast.makeText(PreviousUsage.this, error.toString()+ " PU", LENGTH_LONG).show();
             }
         }) {
 
@@ -638,6 +643,9 @@ public class PreviousUsage extends AppCompatActivity {
                 return headers;
             }
         };
+
+
+
         requestQueue.add(stringRequest);
     }
 

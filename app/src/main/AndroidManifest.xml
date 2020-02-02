@@ -15,16 +15,19 @@
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_electry_foreground"
         android:label="@string/app_name"
-        tools:replace="android:icon"
         android:roundIcon="@drawable/electric"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Adminactivity"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:icon">
+        <activity android:name=".falcon"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Adminactivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"> </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Charts.Previousdate"
             android:configChanges="orientation"

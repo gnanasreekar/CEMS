@@ -1,5 +1,14 @@
 package com.rgs.cems;
 
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
+
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -53,6 +62,7 @@ import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Charts.Comparechart;
 import com.rgs.cems.Charts.PreviousUsage;
 import com.rgs.cems.Charts.Previousdate;
+import com.rgs.cems.Charts.Ptot_graph;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
 import com.rgs.cems.NormalStuff.About;
@@ -65,7 +75,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -89,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Menu menuList;
     MenuItem item;
     DatabaseReference databaseReference;
+    CharSequence s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 @Override
                 public void onClick(View view) {
                     new Getdata(getApplicationContext());
+                    Toasty.info(instance, "Refreshing", Toast.LENGTH_SHORT, true).show();
                     Snackbar.make(view, "Refreshing", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
@@ -171,12 +186,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 flag = 1;
-                Toast.makeText(MainActivity.this, "Please Wait..", Toast.LENGTH_SHORT).show();
+                Toasty.info(instance, "Please Wait..", Toast.LENGTH_SHORT, true).show();
                 warningcheck();
             }
         });
 
-        databaseReference.child("Version").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("Version").addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
@@ -207,8 +222,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-
+        Date d = new Date();
+        s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Last_used_on/" + sharedPreferences.getString("uid","Not aval"));
+        databaseReference.child("Name").setValue(sharedPreferences.getString("name","Not aval"));
+        databaseReference.child("Email").setValue(sharedPreferences.getString("email","Not aval"));
+        databaseReference.child("Date").setValue(s);
 
     }
 
@@ -219,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setAction("Download", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Uri uri = Uri.parse("https://drive.google.com/open?id=1oBPYNUW_p_LufNtp1FFYE29VtsOlG1i2"); // missing 'http://' will cause crashed
+                            Uri uri = Uri.parse("https://appdistribution.firebase.dev/app_distro/auth/sign_in");
                             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                             startActivity(intent);
                         }
@@ -304,8 +323,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         date_tv.setText(date);
 
         if (!date.equals(getFormattedDateSimple(date_ship_millis))){
-            Toast.makeText(instance, "Please Refresh", Toast.LENGTH_SHORT).show();
+            Toasty.info(instance, "Please Refresh", Toast.LENGTH_SHORT, true).show();
         }
+        mCountDownTimer = new CountDownTimer(60000, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+            public void onFinish() {
+                new Getdata(getApplicationContext());
+                ;
+            }
+        }.start();
+
 
     }
 
@@ -408,13 +436,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.warningcheck) {
             flag = 1;
-            Toast.makeText(instance, "Please Wait..", Toast.LENGTH_SHORT).show();
+            Toasty.info(instance, "Please Wait..", Toast.LENGTH_SHORT, true).show();
             warningcheck();
             return true;
         } else if(id == R.id.updateaval){
-            Uri uri = Uri.parse("https://drive.google.com/open?id=1oBPYNUW_p_LufNtp1FFYE29VtsOlG1i2"); // missing 'http://' will cause crashed
+            Uri uri = Uri.parse("https://appdistribution.firebase.dev/app_distro/auth/sign_in"); 
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
+        } else if (id == R.id.share){
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "https://drive.google.com/open?id=1oBPYNUW_p_LufNtp1FFYE29VtsOlG1i2");
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -521,12 +557,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     static int i = 0;
 
+    public void falcon(View view){
+        i++;
+        if(i == 7)
+        {
+            startActivity(new Intent(MainActivity.this , falcon.class));
+        }
+    }
+
     public void onClick_nav(View view) {
         i++;
-        if (i == 3) {
+
+        if (i == 2) {
+            Toast.makeText(instance, "Your are one click away from entering Admin panel", Toast.LENGTH_SHORT).show();
+        } else if (i == 3) {
             if(sharedPreferences.getString("admin" , "0").equals("1")){
                 startActivity(new Intent(MainActivity.this , Adminactivity.class));
-            } else {notauthdialog();}
+            } else {
+                Toasty.error(instance, "You do not have admin rights", Toast.LENGTH_SHORT, true).show();
+                notauthdialog();}
             i = 0;
         }
     }
@@ -542,7 +591,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "You do not have admin rights", Toast.LENGTH_SHORT).show();
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AdminAccessRequest/" + sharedPreferences.getString("uid","Not aval"));
                 databaseReference.child("Name").setValue(sharedPreferences.getString("name", "NO data found"));
@@ -566,7 +614,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onResponse(String response) {
                         if (response.equals("[]")) {
-                            Toast.makeText(MainActivity.this, "Generator Data not available", Toast.LENGTH_SHORT).show();
+                            Toasty.warning(instance, "Generator Data not available", Toast.LENGTH_SHORT, true).show();
                         }
 
                         try {
@@ -588,11 +636,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                httpCall();
+                Toast.makeText(MainActivity.this, error.toString()+" Main 1", LENGTH_LONG).show();
             }
         });
         queue.add(stringRequest);
@@ -772,11 +817,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(MainActivity.this, error.toString()+" Main 2", LENGTH_LONG).show();
             }
         });
 
@@ -796,11 +837,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(MainActivity.this, error.toString()+" Main 3", LENGTH_LONG).show();
             }
         });
 
@@ -820,11 +857,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(MainActivity.this, error.toString()+" Main 4", LENGTH_LONG).show();
             }
         });
 
@@ -844,11 +877,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(MainActivity.this, error.toString()+" Main 5", LENGTH_LONG).show();
             }
         });
 
@@ -869,11 +898,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(MainActivity.this, error.toString()+" Main 6", LENGTH_LONG).show();
             }
         });
         queue.add(stringRequest1);

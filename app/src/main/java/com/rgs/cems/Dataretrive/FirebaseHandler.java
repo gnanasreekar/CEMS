@@ -1,5 +1,14 @@
 package com.rgs.cems.Dataretrive;
 
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
+
 import android.app.Application;
 import android.app.admin.DeviceAdminInfo;
 import android.content.SharedPreferences;
@@ -40,6 +49,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class FirebaseHandler extends Application {
 
@@ -129,32 +140,20 @@ public class FirebaseHandler extends Application {
                                     }
                                 }
                             }.start();
-
-
-
                         } catch (JSONException e) {
                             Log.d("Json exception fb" , e.getMessage());
                             e.printStackTrace();
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-
-                        // enjoy your response
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(FirebaseHandler.this, error.toString()+" Firebase Handler", LENGTH_LONG).show();
             }
         });
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                500,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(stringRequest);
 warningcheck();
     }
@@ -193,11 +192,7 @@ warningcheck();
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 1", LENGTH_LONG).show();
             }
         });
 
@@ -220,11 +215,7 @@ warningcheck();
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 2", LENGTH_LONG).show();
             }
         });
 
@@ -247,11 +238,7 @@ warningcheck();
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 3", LENGTH_LONG).show();
             }
         });
 
@@ -274,11 +261,7 @@ warningcheck();
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 4", LENGTH_LONG).show();
             }
         });
 
@@ -301,11 +284,7 @@ warningcheck();
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 5", LENGTH_LONG).show();
             }
         });
         queue.add(stringRequest1);
@@ -313,9 +292,6 @@ warningcheck();
         queue.add(stringRequest3);
         queue.add(stringRequest4);
         queue.add(stringRequest5);
-
-        Log.d("Checkwaring" , "compleer");
-
     }
 
 }

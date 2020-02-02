@@ -1,5 +1,14 @@
 package com.rgs.cems;
 
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
+
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,16 +22,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.rgs.cems.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class Getdata extends Application{
 
@@ -35,7 +40,6 @@ public class Getdata extends Application{
     @Override
     public void onCreate() {
         resources = getResources();
-        Toast.makeText(this, getString(R.string.URL), Toast.LENGTH_SHORT).show();
         super.onCreate();
     }
 
@@ -44,7 +48,6 @@ public class Getdata extends Application{
     int val = 0, gen =0;
     RequestQueue queue;
     StringRequest stringRequest;
-    NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
 
 
     Getdata(final Context context) {
@@ -83,10 +86,10 @@ public class Getdata extends Application{
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, error.toString() + " getdata", Toast.LENGTH_SHORT).show();
                  NetworkResponse networkResponse = error.networkResponse;
                 if (networkResponse != null) {
-                    Toast.makeText(context, String.valueOf(networkResponse.statusCode), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, String.valueOf(networkResponse.statusCode)+ " Getdata", Toast.LENGTH_SHORT).show();
                 }
             }
         });

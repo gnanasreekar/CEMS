@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "2.27"
+        versionName "2.29"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -25,7 +25,9 @@ android {
     }
 }
 repositories {
-    maven { url 'https://jitpack.io' }
+    maven {
+        url 'https://jitpack.io'
+    }
 
 }
 
@@ -36,7 +38,7 @@ dependencies {
     implementation "com.android.support:support-compat:28.0.0"
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-core:17.2.2'
     implementation 'com.google.firebase:firebase-database:19.2.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -50,9 +52,9 @@ dependencies {
     implementation 'com.github.mreram:ShowCaseView:1.0.5'               //Tutorial
     implementation 'com.wdullaer:materialdatetimepicker:3.2.0'          // date & time picker
     implementation 'com.whiteelephant:monthandyearpicker:1.3.0'         // Month and day picker
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'   // GIF player
-
-
-
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17' // GIF player
+    implementation 'com.roger.match.library:library:1.0.1'
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+    implementation 'com.github.glomadrian:Grav:1.1'
 
 }

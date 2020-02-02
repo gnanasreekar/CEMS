@@ -1,5 +1,14 @@
 package com.rgs.cems.Charts;
 
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.app.ActivityCompat;
@@ -224,11 +233,12 @@ int f1;
             ll1.setTextSize(10f);
 
 
-            LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-            ll2.setLineWidth(4f);
+            LimitLine ll2 = new LimitLine(150f, "Warning");
+            ll2.setLineWidth(2f);
             ll2.enableDashedLine(10f, 10f, 0f);
             ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-            ll2.setTextSize(10f);
+            ll2.setLineColor(Color.YELLOW);
+            ll2.setTextSize(5f);
 
             // draw limit lines behind data instead of on top
             yAxis.setDrawLimitLinesBehindData(true);
@@ -236,8 +246,8 @@ int f1;
 
             // add limit lines
             yAxis.addLimitLine(ll1);
-            //  yAxis.addLimitLine(ll2);
-            //xAxis.addLimitLine(llXAxis);
+            yAxis.addLimitLine(ll2);
+          //  xAxis.addLimitLine(llXAxis);
         }
 
 
@@ -519,7 +529,7 @@ int f1;
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Ptot_graph.this, error.toString(), LENGTH_LONG).show();
+                Toast.makeText(Ptot_graph.this, error.toString()+" Ptot", LENGTH_LONG).show();
             }
         }) {
 
@@ -531,6 +541,8 @@ int f1;
                 return headers;
             }
         };
+
+
         requestQueue.add(stringRequest);
     }
 

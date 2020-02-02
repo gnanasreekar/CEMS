@@ -14,4 +14,10 @@
         android:icon="@drawable/ic_system_update_black_24dp"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/share"
+        android:title="Share App"
+        app:showAsAction="never" />
+
+
 </menu>

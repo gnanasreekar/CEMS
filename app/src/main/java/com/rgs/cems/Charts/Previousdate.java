@@ -1,5 +1,14 @@
 package com.rgs.cems.Charts;
 
+/*
+  Developed by : R.Gnana Sreekar
+  Github : https://github.com/gnanasreekar
+  Linkdin : https://www.linkedin.com/in/gnana-sreekar/
+  Instagram : https://www.instagram.com/gnana_sreekar/
+  Website : https://gnanasreekar.com
+*/
+
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
@@ -46,6 +55,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class Previousdate extends AppCompatActivity {
 
@@ -317,11 +328,7 @@ public class Previousdate extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley Error", error.toString());
-                NetworkResponse networkResponse = error.networkResponse;
-                if (networkResponse != null) {
-                    Log.e("Volley Status code", String.valueOf(networkResponse.statusCode));
-                }
+                Toast.makeText(Previousdate.this, error.toString()+" PD 1", LENGTH_LONG).show();
             }
         });
         queue.add(stringRequest);
