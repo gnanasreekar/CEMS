@@ -115,6 +115,16 @@ public class FirebaseHandler extends Application {
                                 String MID = e.getString("Meter ID");
                                 gen = gen +  numberFormat.parse(EC).intValue();
 
+                                if (EC.equals("0.000")) {
+                                    editor.putInt("warning" + MID, 1);
+                                    editor.apply();
+                                    Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
+                                } else {
+                                    editor.putInt("warning" + MID, 0);
+                                    editor.apply();
+                                    Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                }
+
                                 editor.putInt("TEC" , gen);
                                 editor.putString("DATE" +val ,Date);
                                 editor.putString("Energy Consumed" + val, EC);
@@ -153,9 +163,8 @@ public class FirebaseHandler extends Application {
                 Toast.makeText(FirebaseHandler.this, error.toString()+" Firebase Handler", LENGTH_LONG).show();
             }
         });
-
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(1500,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
-warningcheck();
     }
 
     public static String getFormattedDateSimple(Long dateTime) {
@@ -164,134 +173,48 @@ warningcheck();
     }
 
     public void warningcheck(){
-
-               String URL_ptot1 = getString(R.string.URL) + "ptottoday2";
-                String URL_ptot2 = getString(R.string.URL) + "ptottoday3";
-                String URL_ptot3 = getString(R.string.URL) + "ptottoday4";
-                String URL_ptot4 = getString(R.string.URL) + "ptottoday5";
-                String URL_ptot5 = getString(R.string.URL) + "ptottoday6";
+        String usage = getString(R.string.URL) + "todaysusage";
         sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
 
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, URL_ptot1,
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, usage,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.contains("[]")){
-                            editor.putInt("warning1", 1);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 1 no data aval");
-                        }   else {
-                            editor.putInt("warning1", 0);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 1 data aval");
-                        }
-                        Log.d("warninig1" , response);
+                        JSONArray json = null;
+                        try {
+                            json = new JSONArray(response);
+                            for(int i=0;i<json.length();i++){
+                                JSONObject e = json.getJSONObject(i);
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                Date =  e.getString("DATE");
+                                String EC = e.getString("Energy Consumed");
+                                String MID = e.getString("Meter ID");
+
+                                if (EC.equals("0.000")) {
+                                    editor.putInt("warning" + MID, 1);
+                                    editor.apply();
+                                    Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
+                                } else {
+                                    editor.putInt("warning" + MID, 0);
+                                    editor.apply();
+                                    Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                }
 
                             }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 1", LENGTH_LONG).show();
-            }
-        });
 
-        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URL_ptot2,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.contains("[]")){
-                            editor.putInt("warning2", 1);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 2 no data aval");
-                        } else {
-                            editor.putInt("warning2", 0);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 2 data aval");
-                        }                        Log.d("warninig2" , response);
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 2", LENGTH_LONG).show();
-            }
-        });
-
-        StringRequest stringRequest3 = new StringRequest(Request.Method.GET, URL_ptot3,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.contains("[]")){
-                            editor.putInt("warning3", 1);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 3 no data aval");
-                        } else {
-                            editor.putInt("warning3", 0);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 3 data aval");
-                        }                        Log.d("warninig3" , response);
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 3", LENGTH_LONG).show();
-            }
-        });
-
-        StringRequest stringRequest4 = new StringRequest(Request.Method.GET, URL_ptot4,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.contains("[]")){
-                            editor.putInt("warning4", 1);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 4 no data aval");
-                        } else {
-                            editor.putInt("warning4", 0);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 4 data aval");
-                        }                        Log.d("warninig4" , response);
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 4", LENGTH_LONG).show();
-            }
-        });
-
-        StringRequest stringRequest5 = new StringRequest(Request.Method.GET, URL_ptot5,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.contains("[]")){
-                            editor.putInt("warning5", 1);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 5 no data aval");
-                        } else {
-                            editor.putInt("warning5", 0);
-                            editor.apply();
-                            Log.d("Warnings" , "Num 5 data aval");
+                        } catch (JSONException e) {
+                            Log.d("Json exception fb" , e.getMessage());
+                            e.printStackTrace();
                         }
-                        Log.d("warninig5" , response);
-                    }
-                }, new Response.ErrorListener() {
+
+                    }}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FirebaseHandler.this, error.toString()+" FH 5", LENGTH_LONG).show();
+                Toast.makeText(FirebaseHandler.this, error.toString()+" FH THEBSE", LENGTH_LONG).show();
             }
         });
         queue.add(stringRequest1);
-        queue.add(stringRequest2);
-        queue.add(stringRequest3);
-        queue.add(stringRequest4);
-        queue.add(stringRequest5);
-    }
 
-}
+    }
+    }

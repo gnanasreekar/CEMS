@@ -67,6 +67,10 @@ import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
 import com.rgs.cems.NormalStuff.About;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -731,7 +735,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final TextView meter5 = (TextView) dialog.findViewById(R.id.meter5);
         final TextView meter6 = (TextView) dialog.findViewById(R.id.meter6);
 
-        if (sharedPreferences.getInt("warning1", 0) == 1) {
+        if (sharedPreferences.getInt("warning2", 0) == 1) {
             meter2.setText("Data Not Available");
             meter2.setTextColor(Color.RED);
         } else {
@@ -739,7 +743,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             meter2.setTextColor(getResources().getColor(R.color.green_700));
         }
 
-        if (sharedPreferences.getInt("warning2", 0) == 1) {
+        if (sharedPreferences.getInt("warning3", 0) == 1) {
             meter3.setText("Data Not Available");
             meter3.setTextColor(Color.RED);
         } else {
@@ -747,7 +751,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             meter3.setTextColor(getResources().getColor(R.color.green_700));
         }
 
-        if (sharedPreferences.getInt("warning3", 0) == 1) {
+        if (sharedPreferences.getInt("warning4", 0) == 1) {
             meter4.setText("Data Not Available");
             meter4.setTextColor(Color.RED);
         } else {
@@ -755,7 +759,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             meter4.setTextColor(getResources().getColor(R.color.green_700));
         }
 
-        if (sharedPreferences.getInt("warning4", 0) == 1) {
+        if (sharedPreferences.getInt("warning5", 0) == 1) {
             meter5.setText("Data Not Available");
             meter5.setTextColor(Color.RED);
         } else {
@@ -763,7 +767,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             meter5.setTextColor(getResources().getColor(R.color.green_700));
         }
 
-        if (sharedPreferences.getInt("warning5", 0) == 1) {
+        if (sharedPreferences.getInt("warning6", 0) == 1) {
             meter6.setText("Data Not Available");
             meter6.setTextColor(Color.RED);
         } else {
@@ -790,29 +794,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void warningcheck() {
 
-        String URL_ptot1 = getString(R.string.URL) + "ptottoday2";
-        String URL_ptot2 = getString(R.string.URL) + "ptottoday3";
-        String URL_ptot3 = getString(R.string.URL) + "ptottoday4";
-        String URL_ptot4 = getString(R.string.URL) + "ptottoday5";
-        String URL_ptot5 = getString(R.string.URL) + "ptottoday6";
+        String warn = getString(R.string.URL) + "todaysusage";
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, URL_ptot1,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, warn,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")) {
-                            editor.putInt("warning1", 1);
-                            editor.apply();
-                        } else {
-                            editor.putInt("warning1", 0);
-                            editor.apply();
+                        JSONArray json = null;
+                        try {
+                            json = new JSONArray(response);
+                            for(int i=0;i<json.length();i++){
+                                JSONObject e = json.getJSONObject(i);
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                String EC = e.getString("Energy Consumed");
+                                String MID = e.getString("Meter ID");
+
+                                if (EC.equals("0.000")) {
+                                    editor.putInt("warning" + MID, 1);
+                                    editor.apply();
+                                    Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
+                                } else {
+                                    editor.putInt("warning" + MID, 0);
+                                    editor.apply();
+                                    Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                }
+
+                            }
+
+                        } catch (JSONException e) {
+                            Log.d("Json exception fb" , e.getMessage());
+                            e.printStackTrace();
                         }
-
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -820,92 +835,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(MainActivity.this, error.toString()+" Main 2", LENGTH_LONG).show();
             }
         });
-
-        StringRequest stringRequest2 = new StringRequest(Request.Method.GET, URL_ptot2,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")) {
-                            editor.putInt("warning2", 1);
-                            editor.apply();
-                        } else {
-                            editor.putInt("warning2", 0);
-                            editor.apply();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.toString()+" Main 3", LENGTH_LONG).show();
-            }
-        });
-
-        StringRequest stringRequest3 = new StringRequest(Request.Method.GET, URL_ptot3,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")) {
-                            editor.putInt("warning3", 1);
-                            editor.apply();
-                        } else {
-                            editor.putInt("warning3", 0);
-                            editor.apply();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.toString()+" Main 4", LENGTH_LONG).show();
-            }
-        });
-
-        StringRequest stringRequest4 = new StringRequest(Request.Method.GET, URL_ptot4,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")) {
-                            editor.putInt("warning4", 1);
-                            editor.apply();
-                        } else {
-                            editor.putInt("warning4", 0);
-                            editor.apply();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.toString()+" Main 5", LENGTH_LONG).show();
-            }
-        });
-
-        StringRequest stringRequest5 = new StringRequest(Request.Method.GET, URL_ptot5,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        if (response.equals("[]")) {
-                            editor.putInt("warning5", 1);
-                            editor.apply();
-                        } else {
-                            editor.putInt("warning5", 0);
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.toString()+" Main 6", LENGTH_LONG).show();
-            }
-        });
-        queue.add(stringRequest1);
-        queue.add(stringRequest2);
-        queue.add(stringRequest3);
-        queue.add(stringRequest4);
-        queue.add(stringRequest5);
+        queue.add(stringRequest);
 
         mCountDownTimer = new CountDownTimer(2000, 1000) {
             public void onTick(long millisUntilFinished) {
