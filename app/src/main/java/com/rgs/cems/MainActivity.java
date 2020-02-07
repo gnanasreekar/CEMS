@@ -796,20 +796,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onResponse(String response) {
                         if (response.contains("[]")){
-
-                            mCountDownTimer = new CountDownTimer(2000, 1000) {
-                                public void onTick(long millisUntilFinished) {
-                                }
-
-                                public void onFinish() {
-                                    if(MainActivity.getInstance()!= null){
-                                        new Dialogs(MainActivity.this , 2);
-                                    } else {
-                                        Toast.makeText(MainActivity.this, "Today's data is  not available", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }.start();
-
+                            new Dialogs(MainActivity.this , 2);
                         } else {
                             JSONArray json = null;
                             try {
@@ -839,6 +826,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 e.printStackTrace();
                             }
                         }
+                        warninginfo();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -916,6 +904,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
