@@ -42,6 +42,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -63,8 +64,10 @@ import com.rgs.cems.Charts.Comparechart;
 import com.rgs.cems.Charts.PreviousUsage;
 import com.rgs.cems.Charts.Previousdate;
 import com.rgs.cems.Charts.Ptot_graph;
+import com.rgs.cems.Dataretrive.FirebaseHandler;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
+import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.NormalStuff.About;
 
 import org.json.JSONArray;
@@ -91,12 +94,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     LinearLayout warninglayout;
     TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings, generator_today,costfortodat;
-    int dpb, flag = 0;
+    int dpb, flag = 0, gen = 0, val =0;
     Integer TEC;
     float Todayscos, Version;
     SharedPreferences sharedPreferences;
     Toolbar toolbar;
-    String generatorusage;
+    String generatorusage, Date;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     static MainActivity instance;
     CountDownTimer mCountDownTimer;
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MenuItem item;
     DatabaseReference databaseReference;
     CharSequence s;
+    FirebaseHandler firebaseHandler = new FirebaseHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,10 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new Getdata(getApplicationContext());
+                    todaysusage();
                     Toasty.info(instance, "Refreshing", Toast.LENGTH_SHORT, true).show();
-                    Snackbar.make(view, "Refreshing", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
                 }
             });
         }
@@ -174,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showCustomDialog();
         }
 
-        httpCall();
+        generator_usage();
         TEC();
 
         mCountDownTimer = new CountDownTimer(2000, 1000) {
@@ -329,16 +331,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!date.equals(getFormattedDateSimple(date_ship_millis))){
             Toasty.info(instance, "Please Refresh", Toast.LENGTH_SHORT, true).show();
         }
-        mCountDownTimer = new CountDownTimer(60000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
-            public void onFinish() {
-                new Getdata(getApplicationContext());
-                ;
-            }
-        }.start();
-
-
     }
 
     public void Dpb() {
@@ -610,7 +602,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(new Intent(MainActivity.this, DetailsDisplay.class));
     }
 
-    public void httpCall() {
+    public void generator_usage() {
         generatorusage = getString(R.string.URL) + "generatortotal";
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, generatorusage,
@@ -640,10 +632,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                httpCall();
+                generator_usage();
                 Toast.makeText(MainActivity.this, error.toString()+" Main 1", LENGTH_LONG).show();
             }
         });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 
@@ -802,15 +795,89 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        if (response.contains("[]")){
+
+                            mCountDownTimer = new CountDownTimer(2000, 1000) {
+                                public void onTick(long millisUntilFinished) {
+                                }
+
+                                public void onFinish() {
+                                    if(MainActivity.getInstance()!= null){
+                                        new Dialogs(MainActivity.this , 2);
+                                    } else {
+                                        Toast.makeText(MainActivity.this, "Today's data is  not available", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }.start();
+
+                        } else {
+                            JSONArray json = null;
+                            try {
+                                json = new JSONArray(response);
+                                for(int i=0;i<json.length();i++){
+                                    JSONObject e = json.getJSONObject(i);
+
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Date =  e.getString("DATE");
+                                    String EC = e.getString("Energy Consumed");
+                                    String MID = e.getString("Meter ID");
+
+                                    if (EC.equals("0.000")) {
+                                        editor.putInt("warning" + MID, 1);
+                                        editor.apply();
+                                        Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
+                                    } else if (!EC.equals("0.000")){
+                                        editor.putInt("warning" + MID, 0);
+                                        editor.apply();
+                                        Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                    }
+
+                                }
+
+                            } catch (JSONException e) {
+                                Log.d("Json exception fb" , e.getMessage());
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, error.toString()+" Main 2", LENGTH_LONG).show();
+            }
+        });
+        queue.add(stringRequest);
+
+    }
+
+    public static String getFormattedDateSimple(Long dateTime) {
+        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return newFormat.format(new Date(dateTime));
+    }
+
+    public void todaysusage(){
+        RequestQueue queue;
+        String url =  getString(R.string.URL) + "todaysusage";
+        queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("dateVolley" , response);
+                        Calendar calendar = Calendar.getInstance();
+                        date_ship_millis = calendar.getTimeInMillis();
                         JSONArray json = null;
                         try {
                             json = new JSONArray(response);
                             for(int i=0;i<json.length();i++){
                                 JSONObject e = json.getJSONObject(i);
 
+                                sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                                Date =  e.getString("DATE");
                                 String EC = e.getString("Energy Consumed");
                                 String MID = e.getString("Meter ID");
+                                gen = gen +  numberFormat.parse(EC).intValue();
 
                                 if (EC.equals("0.000")) {
                                     editor.putInt("warning" + MID, 1);
@@ -822,35 +889,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
                                 }
 
+                                editor.putInt("TEC" , gen);
+                                editor.putString("DATE" +val ,Date);
+                                editor.putString("Energy Consumed" + val, EC);
+                                editor.putString("Meter ID" + val , MID);
+                                editor.putInt("Jsonlength" , json.length());
+                                editor.apply();
+                                val++;
                             }
 
+                            if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
+                                new Dialogs(MainActivity.getInstance(), 1);
+                            }
+
+                            mCountDownTimer = new CountDownTimer(2000, 1000) {
+                                public void onTick(long millisUntilFinished) {
+                                }
+
+                                public void onFinish() {
+                                    TEC();
+                                }
+                            }.start();
                         } catch (JSONException e) {
                             Log.d("Json exception fb" , e.getMessage());
+                            e.printStackTrace();
+                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.toString()+" Main 2", LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, error.toString()+" Main Handler", LENGTH_LONG).show();
             }
         });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
-
-        mCountDownTimer = new CountDownTimer(2000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
-
-            public void onFinish() {
-                warning();
-            }
-        }.start();
     }
-
-    public static String getFormattedDateSimple(Long dateTime) {
-        SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return newFormat.format(new Date(dateTime));
-    }
-
 }
 

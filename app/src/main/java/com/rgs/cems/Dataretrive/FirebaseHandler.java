@@ -9,11 +9,16 @@ package com.rgs.cems.Dataretrive;
 */
 
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.admin.DeviceAdminInfo;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.rgs.cems.Charts.Previousdate;
 import com.rgs.cems.Justclasses.Dialogs;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
@@ -60,7 +66,7 @@ public class FirebaseHandler extends Application {
     String url,URL_ptot;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     DatabaseReference databaseReference;
-
+    static FirebaseHandler instance;
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private String Date;
@@ -92,70 +98,93 @@ public class FirebaseHandler extends Application {
             }
         });
 
+        todaysusage();
+    }
 
+    public void todaysusage(){
         String url =  getString(R.string.URL) + "todaysusage";
         queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("dateVolley" , response);
-                        Calendar calendar = Calendar.getInstance();
-                        date_ship_millis = calendar.getTimeInMillis();
-                        JSONArray json = null;
-                        try {
-                            json = new JSONArray(response);
-                            for(int i=0;i<json.length();i++){
-                                JSONObject e = json.getJSONObject(i);
+                        if (response.contains("[]")){
 
-                                sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                Date =  e.getString("DATE");
-                                String EC = e.getString("Energy Consumed");
-                                String MID = e.getString("Meter ID");
-                                gen = gen +  numberFormat.parse(EC).intValue();
-
-                                if (EC.equals("0.000")) {
-                                    editor.putInt("warning" + MID, 1);
-                                    editor.apply();
-                                    Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
-                                } else {
-                                    editor.putInt("warning" + MID, 0);
-                                    editor.apply();
-                                    Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
-                                }
-
-                                editor.putInt("TEC" , gen);
-                                editor.putString("DATE" +val ,Date);
-                                editor.putString("Energy Consumed" + val, EC);
-                                editor.putString("Meter ID" + val , MID);
-                                editor.putInt("Jsonlength" , json.length());
-                                editor.apply();
-                                val++;
-                            }
-
-                            if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
-                                new Dialogs(MainActivity.getInstance(), 1);
-                            }
-
-                            mCountDownTimer = new CountDownTimer(2000, 1000) {
+                            mCountDownTimer = new CountDownTimer(5000, 1000) {
                                 public void onTick(long millisUntilFinished) {
                                 }
 
                                 public void onFinish() {
                                     if(MainActivity.getInstance()!= null){
-                                        MainActivity.getInstance().TEC();
+                                        nodata();
                                     } else {
-                                        Toast.makeText(FirebaseHandler.this, "New data might be available", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(FirebaseHandler.this, "Today's data is  not available", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }.start();
-                        } catch (JSONException e) {
-                            Log.d("Json exception fb" , e.getMessage());
-                            e.printStackTrace();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+
+                        } else {
+                            Log.d("dateVolley" , response);
+                            Calendar calendar = Calendar.getInstance();
+                            date_ship_millis = calendar.getTimeInMillis();
+                            JSONArray json = null;
+                            try {
+                                json = new JSONArray(response);
+                                for(int i=0;i<json.length();i++){
+                                    JSONObject e = json.getJSONObject(i);
+
+                                    sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Date =  e.getString("DATE");
+                                    String EC = e.getString("Energy Consumed");
+                                    String MID = e.getString("Meter ID");
+                                    gen = gen +  numberFormat.parse(EC).intValue();
+
+                                    if (EC.equals("0.000")) {
+                                        editor.putInt("warning" + MID, 1);
+                                        editor.apply();
+                                        Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
+                                    } else {
+                                        editor.putInt("warning" + MID, 0);
+                                        editor.apply();
+                                        Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                    }
+
+                                    editor.putInt("TEC" , gen);
+                                    editor.putString("DATE" +val ,Date);
+                                    editor.putString("Energy Consumed" + val, EC);
+                                    editor.putString("Meter ID" + val , MID);
+                                    editor.putInt("Jsonlength" , json.length());
+                                    editor.apply();
+                                    val++;
+                                }
+
+                                if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
+                                    new Dialogs(MainActivity.getInstance(), 1);
+                                }
+
+                                mCountDownTimer = new CountDownTimer(2000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+                                    }
+
+                                    public void onFinish() {
+                                        if(MainActivity.getInstance()!= null){
+                                            MainActivity.getInstance().TEC();
+                                        } else {
+                                            Toast.makeText(FirebaseHandler.this, "New data might be available", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }.start();
+                            } catch (JSONException e) {
+                                Log.d("Json exception fb" , e.getMessage());
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         }
+
+                        warningcheck();
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -163,7 +192,7 @@ public class FirebaseHandler extends Application {
                 Toast.makeText(FirebaseHandler.this, error.toString()+" Firebase Handler", LENGTH_LONG).show();
             }
         });
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(1500,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 
@@ -180,32 +209,49 @@ public class FirebaseHandler extends Application {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        JSONArray json = null;
-                        try {
-                            json = new JSONArray(response);
-                            for(int i=0;i<json.length();i++){
-                                JSONObject e = json.getJSONObject(i);
+                        if (response.contains("[]")){
 
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                Date =  e.getString("DATE");
-                                String EC = e.getString("Energy Consumed");
-                                String MID = e.getString("Meter ID");
-
-                                if (EC.equals("0.000")) {
-                                    editor.putInt("warning" + MID, 1);
-                                    editor.apply();
-                                    Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
-                                } else {
-                                    editor.putInt("warning" + MID, 0);
-                                    editor.apply();
-                                    Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                            mCountDownTimer = new CountDownTimer(2000, 1000) {
+                                public void onTick(long millisUntilFinished) {
                                 }
 
-                            }
+                                public void onFinish() {
+                                    if(MainActivity.getInstance()!= null){
+                                        nodata();
+                                    } else {
+                                        Toast.makeText(FirebaseHandler.this, "Today's data is  not available", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }.start();
 
-                        } catch (JSONException e) {
-                            Log.d("Json exception fb" , e.getMessage());
-                            e.printStackTrace();
+                        } else {
+                            JSONArray json = null;
+                            try {
+                                json = new JSONArray(response);
+                                for(int i=0;i<json.length();i++){
+                                    JSONObject e = json.getJSONObject(i);
+
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Date =  e.getString("DATE");
+                                    String EC = e.getString("Energy Consumed");
+                                    String MID = e.getString("Meter ID");
+
+                                    if (EC.equals("0.000")) {
+                                        editor.putInt("warning" + MID, 1);
+                                        editor.apply();
+                                        Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
+                                    } else if (!EC.equals("0.000")){
+                                        editor.putInt("warning" + MID, 0);
+                                        editor.apply();
+                                        Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                    }
+
+                                }
+
+                            } catch (JSONException e) {
+                                Log.d("Json exception fb" , e.getMessage());
+                                e.printStackTrace();
+                            }
                         }
 
                     }}, new Response.ErrorListener() {
@@ -214,7 +260,31 @@ public class FirebaseHandler extends Application {
                 Toast.makeText(FirebaseHandler.this, error.toString()+" FH THEBSE", LENGTH_LONG).show();
             }
         });
+        stringRequest1.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest1);
 
     }
+
+    public void nodata(){
+        final Dialog dialog = new Dialog(MainActivity.getInstance());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.no_data_aval);
+        dialog.setCancelable(true);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+
+        dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
+}

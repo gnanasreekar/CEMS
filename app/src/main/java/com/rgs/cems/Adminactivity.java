@@ -51,12 +51,10 @@ public class Adminactivity extends AppCompatActivity {
     CharSequence s;
     float rs;
     String TAG = " asdfg",Email,Pass;
-    List list;
     ArrayList<String> users = new ArrayList<String>();
     ArrayList<String> uid = new ArrayList<String>();
     ArrayList<String> usersar = new ArrayList<String>();
     ArrayList<String> uidar = new ArrayList<String>();
-    Users users2;
 
 
 
@@ -311,12 +309,12 @@ public class Adminactivity extends AppCompatActivity {
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        final EditText editName = (EditText) dialog.findViewById(R.id.edit_name);
+        final EditText editName =  dialog.findViewById(R.id.edit_name);
         final TextView editEmail = dialog.findViewById(R.id.textv_email);
-        final TextView textvDate = (TextView) dialog.findViewById(R.id.textv_date);
-        final TextView textvUid = (TextView) dialog.findViewById(R.id.textv_uid);
-        final EditText editV1 = (EditText) dialog.findViewById(R.id.edit_v1);
-        final EditText editV2 = (EditText) dialog.findViewById(R.id.edit_v2);
+        final TextView textvDate =  dialog.findViewById(R.id.textv_date);
+        final TextView textvUid =  dialog.findViewById(R.id.textv_uid);
+        final EditText editV1 =  dialog.findViewById(R.id.edit_v1);
+        final EditText editV2 =  dialog.findViewById(R.id.edit_v2);
 
 
         databaseReference.child("Users/"+uid.get(position)).addValueEventListener(new ValueEventListener() {
@@ -344,13 +342,13 @@ public class Adminactivity extends AppCompatActivity {
             }
         });
 
-        ((ImageButton) dialog.findViewById(R.id.bt_close_setchange)).setOnClickListener(new View.OnClickListener() {
+        ( dialog.findViewById(R.id.bt_close_setchange)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-        ((Button) dialog.findViewById(R.id.bt_save_setchange)).setOnClickListener(new View.OnClickListener() {
+        ( dialog.findViewById(R.id.bt_save_setchange)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!Email.equals(editEmail.getText().toString())){
