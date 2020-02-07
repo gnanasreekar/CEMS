@@ -58,7 +58,6 @@ public class Dialogs {
             dialog.findViewById(R.id.bt_close).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((Activity)mcontext).finish();
                     dialog.dismiss();
                 }
             });

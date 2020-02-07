@@ -56,6 +56,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import es.dmoral.toasty.Toasty;
+
 import static android.widget.Toast.LENGTH_LONG;
 
 public class FirebaseHandler extends Application {
@@ -66,7 +68,6 @@ public class FirebaseHandler extends Application {
     String url,URL_ptot;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     DatabaseReference databaseReference;
-    static FirebaseHandler instance;
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private String Date;
@@ -118,7 +119,7 @@ public class FirebaseHandler extends Application {
                                     if(MainActivity.getInstance()!= null){
                                         nodata();
                                     } else {
-                                        Toast.makeText(FirebaseHandler.this, "Today's data is  not available", Toast.LENGTH_SHORT).show();
+                                        Toasty.error(FirebaseHandler.this, "Today's data is  not available", Toast.LENGTH_SHORT, true).show();
                                     }
                                 }
                             }.start();
@@ -171,7 +172,7 @@ public class FirebaseHandler extends Application {
                                         if(MainActivity.getInstance()!= null){
                                             MainActivity.getInstance().TEC();
                                         } else {
-                                            Toast.makeText(FirebaseHandler.this, "New data might be available", Toast.LENGTH_SHORT).show();
+                                            Toasty.info(FirebaseHandler.this, "New data might be available", Toast.LENGTH_LONG, true).show();
                                         }
                                     }
                                 }.start();
@@ -219,7 +220,7 @@ public class FirebaseHandler extends Application {
                                     if(MainActivity.getInstance()!= null){
                                         nodata();
                                     } else {
-                                        Toast.makeText(FirebaseHandler.this, "Today's data is  not available", Toast.LENGTH_SHORT).show();
+                                        Toasty.error(FirebaseHandler.this, "Today's data is  not available", Toast.LENGTH_SHORT, true).show();
                                     }
                                 }
                             }.start();

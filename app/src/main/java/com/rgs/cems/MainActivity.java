@@ -851,61 +851,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("dateVolley" , response);
-                        Calendar calendar = Calendar.getInstance();
-                        date_ship_millis = calendar.getTimeInMillis();
-                        JSONArray json = null;
-                        try {
-                            json = new JSONArray(response);
-                            for(int i=0;i<json.length();i++){
-                                JSONObject e = json.getJSONObject(i);
+                        if (response.contains("[]")) {
 
-                                sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                Date =  e.getString("DATE");
-                                String EC = e.getString("Energy Consumed");
-                                String MID = e.getString("Meter ID");
-                                gen = gen +  numberFormat.parse(EC).intValue();
+                            new Dialogs(MainActivity.this , 2);
 
-                                if (EC.equals("0.000")) {
-                                    editor.putInt("warning" + MID, 1);
+                        } else {
+                            Log.d("dateVolley" , response);
+                            Calendar calendar = Calendar.getInstance();
+                            date_ship_millis = calendar.getTimeInMillis();
+                            JSONArray json = null;
+                            try {
+                                json = new JSONArray(response);
+                                for(int i=0;i<json.length();i++){
+                                    JSONObject e = json.getJSONObject(i);
+
+                                    sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Date =  e.getString("DATE");
+                                    String EC = e.getString("Energy Consumed");
+                                    String MID = e.getString("Meter ID");
+                                    gen = gen +  numberFormat.parse(EC).intValue();
+
+                                    if (EC.equals("0.000")) {
+                                        editor.putInt("warning" + MID, 1);
+                                        editor.apply();
+                                        Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
+                                    } else {
+                                        editor.putInt("warning" + MID, 0);
+                                        editor.apply();
+                                        Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                    }
+
+                                    editor.putInt("TEC" , gen);
+                                    editor.putString("DATE" +val ,Date);
+                                    editor.putString("Energy Consumed" + val, EC);
+                                    editor.putString("Meter ID" + val , MID);
+                                    editor.putInt("Jsonlength" , json.length());
                                     editor.apply();
-                                    Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
-                                } else {
-                                    editor.putInt("warning" + MID, 0);
-                                    editor.apply();
-                                    Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                    val++;
                                 }
 
-                                editor.putInt("TEC" , gen);
-                                editor.putString("DATE" +val ,Date);
-                                editor.putString("Energy Consumed" + val, EC);
-                                editor.putString("Meter ID" + val , MID);
-                                editor.putInt("Jsonlength" , json.length());
-                                editor.apply();
-                                val++;
+                                if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
+                                    new Dialogs(MainActivity.getInstance(), 1);
+                                }
+
+                                mCountDownTimer = new CountDownTimer(2000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+                                    }
+
+                                    public void onFinish() {
+                                        TEC();
+                                    }
+                                }.start();
+                            } catch (JSONException e) {
+                                Log.d("Json exception fb" , e.getMessage());
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
                             }
 
-                            if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
-                                new Dialogs(MainActivity.getInstance(), 1);
-                            }
-
-                            mCountDownTimer = new CountDownTimer(2000, 1000) {
-                                public void onTick(long millisUntilFinished) {
-                                }
-
-                                public void onFinish() {
-                                    TEC();
-                                }
-                            }.start();
-                        } catch (JSONException e) {
-                            Log.d("Json exception fb" , e.getMessage());
-                            e.printStackTrace();
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        }
                         }
 
-                    }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
