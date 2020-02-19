@@ -43,7 +43,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -63,8 +62,6 @@ import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Charts.Comparechart;
 import com.rgs.cems.Charts.PreviousUsage;
 import com.rgs.cems.Charts.Previousdate;
-import com.rgs.cems.Charts.Ptot_graph;
-import com.rgs.cems.Dataretrive.FirebaseHandler;
 import com.rgs.cems.Dataretrive.Report;
 import com.rgs.cems.Dataretrive.feedback;
 import com.rgs.cems.Justclasses.Dialogs;
@@ -110,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MenuItem item;
     DatabaseReference databaseReference;
     CharSequence s;
-    FirebaseHandler firebaseHandler = new FirebaseHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -266,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new GuideView.Builder(this)
                 .setTitle(title)
                 .setContentText(text)
-                .setTargetView((LinearLayout) findViewById(viewId))
+                .setTargetView(findViewById(viewId))
                 .setContentTextSize(12)//optional
                 .setTitleTextSize(14)//optional
                 .setDismissType(GuideView.DismissType.anywhere) //optional - default dismissible by TargetView
@@ -722,11 +718,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
 
-        final TextView meter2 = (TextView) dialog.findViewById(R.id.meter2);
-        final TextView meter3 = (TextView) dialog.findViewById(R.id.meter3);
-        final TextView meter4 = (TextView) dialog.findViewById(R.id.meter4);
-        final TextView meter5 = (TextView) dialog.findViewById(R.id.meter5);
-        final TextView meter6 = (TextView) dialog.findViewById(R.id.meter6);
+        final TextView meter2 =  dialog.findViewById(R.id.meter2);
+        final TextView meter3 =  dialog.findViewById(R.id.meter3);
+        final TextView meter4 =  dialog.findViewById(R.id.meter4);
+        final TextView meter5 =  dialog.findViewById(R.id.meter5);
+        final TextView meter6 =  dialog.findViewById(R.id.meter6);
 
         if (sharedPreferences.getInt("warning2", 0) == 1) {
             meter2.setText("Data Not Available");
