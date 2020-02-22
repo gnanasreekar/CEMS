@@ -206,88 +206,49 @@ public class Previousdate extends AppCompatActivity {
     }
 
     private void Basedialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
-        dialog.setContentView(R.layout.dialog_dateprevious);
-        dialog.setCancelable(true);
-        dialog.setCanceledOnTouchOutside(false);
-
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-
-        final TextView date1 = dialog.findViewById(R.id.date1);
-
-        date1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cur_calender = Calendar.getInstance();
-                DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                int m = monthOfYear + 1;
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.set(Calendar.YEAR, year);
-                                calendar.set(Calendar.MONTH, monthOfYear);
-                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                date_ship_millis = calendar.getTimeInMillis();
-                                datedialog = getFormattedDateSimple(date_ship_millis);
-                                URL_ptot = getString(R.string.URL) + "dateprevious?date=" + datedialog;
-                                date1.setText(datedialog);
-                                collapsingToolbarLayout.setTitle("Usage on " + datedialog);
-                                dateDateactivity.setText(datedialog + "'s Activity");
-                            }
-                        },
-                        cur_calender.get(Calendar.YEAR),
-                        cur_calender.get(Calendar.MONTH),
-                        cur_calender.get(Calendar.DAY_OF_MONTH)
-
-                );
-                //set dark theme
-                datePicker.setMaxDate(Calendar.getInstance());
-                datePicker.setThemeDark(true);
-                datePicker.vibrate(true);
-                datePicker.setOkColor(Color.WHITE);
-                datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
-                datePicker.show(getFragmentManager(), "Datepickerdialog");
-                datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        Calendar cur_calender = Calendar.getInstance();
+        DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onCancel(DialogInterface dialog) {
-                        finish();
+                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        int m = monthOfYear + 1;
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, monthOfYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        date_ship_millis = calendar.getTimeInMillis();
+                        datedialog = getFormattedDateSimple(date_ship_millis);
+                        URL_ptot = getString(R.string.URL) + "dateprevious?date=" + datedialog;
+                        collapsingToolbarLayout.setTitle("Usage on " + datedialog);
+                        dateDateactivity.setText(datedialog + "'s Activity");
+                        if (URL_ptot != null) {
+                            lyt_progress.setVisibility(View.VISIBLE);
+                            lyt_progress.setAlpha(1.0f);
+                            nestedScrollView.setVisibility(View.GONE);
+                            getdate(URL_ptot);
+                        } else {
+                            Toast.makeText(Previousdate.this, "Select date", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                });
-            }
-        });
+                },
+                cur_calender.get(Calendar.YEAR),
+                cur_calender.get(Calendar.MONTH),
+                cur_calender.get(Calendar.DAY_OF_MONTH)
 
-
-        ((ImageButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+        );
+        //set dark theme
+        datePicker.setMaxDate(Calendar.getInstance());
+        datePicker.setThemeDark(true);
+        datePicker.vibrate(true);
+        datePicker.setOkColor(Color.WHITE);
+        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePicker.show(getFragmentManager(), "Datepickerdialog");
+        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
-            public void onClick(View v) {
+            public void onCancel(DialogInterface dialog) {
                 finish();
-                dialog.dismiss();
             }
         });
-        ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (URL_ptot != null) {
-                    lyt_progress.setVisibility(View.VISIBLE);
-                    lyt_progress.setAlpha(1.0f);
-                    nestedScrollView.setVisibility(View.GONE);
-                    getdate(URL_ptot);
-                    dialog.dismiss();
-                } else {
-                    Toast.makeText(Previousdate.this, "Select date", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-
-        dialog.show();
-        dialog.getWindow().setAttributes(lp);
     }
 
     public void getdate(String url) {
