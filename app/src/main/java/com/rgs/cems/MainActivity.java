@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         instance = this;
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         {

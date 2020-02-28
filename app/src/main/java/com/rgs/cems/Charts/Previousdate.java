@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -206,16 +207,14 @@ public class Previousdate extends AppCompatActivity {
     }
 
     private void Basedialog() {
-        Calendar cur_calender = Calendar.getInstance();
-        DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                new DatePickerDialog.OnDateSetListener() {
+
+                final android.icu.util.Calendar calendar = android.icu.util.Calendar.getInstance();
+                android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(Previousdate.this,R.style.datepicker, new android.app.DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        int m = monthOfYear + 1;
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, monthOfYear);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        calendar.set(java.util.Calendar.YEAR, year);
+                        calendar.set(java.util.Calendar.MONTH, monthOfYear);
+                        calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
                         date_ship_millis = calendar.getTimeInMillis();
                         datedialog = getFormattedDateSimple(date_ship_millis);
                         URL_ptot = getString(R.string.URL) + "dateprevious?date=" + datedialog;
@@ -230,26 +229,15 @@ public class Previousdate extends AppCompatActivity {
                             Toast.makeText(Previousdate.this, "Select date", Toast.LENGTH_SHORT).show();
                         }
                     }
-                },
-                cur_calender.get(Calendar.YEAR),
-                cur_calender.get(Calendar.MONTH),
-                cur_calender.get(Calendar.DAY_OF_MONTH)
-
-        );
-        //set dark theme
-        datePicker.setMaxDate(Calendar.getInstance());
-        datePicker.setThemeDark(true);
-        datePicker.vibrate(true);
-        datePicker.setOkColor(Color.WHITE);
-        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
-        datePicker.show(getFragmentManager(), "Datepickerdialog");
-        datePicker.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                finish();
+                }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH));
+                datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        finish();
+                    }
+                });
+                datePickerDialog.show();
             }
-        });
-    }
 
     public void getdate(String url) {
         queue = Volley.newRequestQueue(this);

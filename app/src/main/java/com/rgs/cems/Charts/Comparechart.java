@@ -28,6 +28,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -135,65 +136,40 @@ public class Comparechart extends AppCompatActivity {
         date1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar cur_calender = Calendar.getInstance();
-                DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                int m = monthOfYear + 1;
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.set(Calendar.YEAR, year);
-                                calendar.set(Calendar.MONTH, monthOfYear);
-                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                date_ship_millis1 = calendar.getTimeInMillis();
-                                URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis1);
-                                date1.setText(getFormattedDateSimple(date_ship_millis1));
-                            }
-                        },
-                        cur_calender.get(Calendar.YEAR),
-                        cur_calender.get(Calendar.MONTH),
-                        cur_calender.get(Calendar.DAY_OF_MONTH)
 
-                );
-                //set dark theme
-                datePicker.setThemeDark(true);
-                datePicker.setOkColor(Color.WHITE);
-                datePicker.setMaxDate(Calendar.getInstance());
-                datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
-                datePicker.show(getFragmentManager(), "Datepickerdialog");
+                final android.icu.util.Calendar calendar = android.icu.util.Calendar.getInstance();
+                android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(Comparechart.this,R.style.datepicker, new android.app.DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        calendar.set(java.util.Calendar.YEAR, year);
+                        calendar.set(java.util.Calendar.MONTH, monthOfYear);
+                        calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
+                        date_ship_millis1 = calendar.getTimeInMillis();
+                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis1);
+                        date1.setText(getFormattedDateSimple(date_ship_millis1));
+                    }
+                }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
             }
         });
 
         date2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar cur_calender = Calendar.getInstance();
-                DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                int m = monthOfYear + 1;
-                                Calendar calendar = Calendar.getInstance();
-                                calendar.set(Calendar.YEAR, year);
-                                calendar.set(Calendar.MONTH, monthOfYear);
-                                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                                date_ship_millis2 = calendar.getTimeInMillis();
-                                URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis2);
-                                date2.setText(getFormattedDateSimple(date_ship_millis2));
 
-
-                            }
-                        },
-                        cur_calender.get(Calendar.YEAR),
-                        cur_calender.get(Calendar.MONTH),
-                        cur_calender.get(Calendar.DAY_OF_MONTH)
-
-                );
-                //set dark theme
-                datePicker.setThemeDark(true);
-                datePicker.setMaxDate(Calendar.getInstance());
-                datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
-                datePicker.show(getFragmentManager(), "Datepickerdialog");
+                final android.icu.util.Calendar calendar = android.icu.util.Calendar.getInstance();
+                android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(Comparechart.this,R.style.datepicker, new android.app.DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        calendar.set(java.util.Calendar.YEAR, year);
+                        calendar.set(java.util.Calendar.MONTH, monthOfYear);
+                        calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
+                        date_ship_millis2 = calendar.getTimeInMillis();
+                        URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis2);
+                        date2.setText(getFormattedDateSimple(date_ship_millis2));
+                    }
+                }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
             }
         });
 
