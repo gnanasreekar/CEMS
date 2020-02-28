@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -83,7 +84,7 @@ public class PreviousUsage extends AppCompatActivity {
 
     LineChart lineChart;
     String URL_ptot;
-    String access_token, Block, Date;
+    String access_token, Block, URL;
     private static final int PERMISSION_STORAGE = 0;
     ArrayList<Entry> entries = new ArrayList<>();
     ArrayList<String> labels = new ArrayList<>();
@@ -110,6 +111,10 @@ public class PreviousUsage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_previous_usage);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+
+        URL = sharedPreferences.getString("URL" , "");
+
         lineChart = findViewById(R.id.previous_chart);
 
         lyt_progress = (LinearLayout) findViewById(R.id.prevusage_loading);
@@ -385,7 +390,7 @@ public class PreviousUsage extends AppCompatActivity {
                         calendar.set(java.util.Calendar.MONTH, monthOfYear);
                         calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
                         date_ship_millis = calendar.getTimeInMillis();
-                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
+                        URL_ptot = URL + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis);
                         date1.setText(getFormattedDateSimple(date_ship_millis));
                     }
                 }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH));

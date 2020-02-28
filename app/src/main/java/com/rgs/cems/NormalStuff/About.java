@@ -35,6 +35,9 @@ public class About extends AppCompatActivity {
         setTitle("About");
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
 
+        TextView url = findViewById(R.id.url_about);
+        url.setText(sharedPreferences.getString("URL" , ""));
+
 
         {
 

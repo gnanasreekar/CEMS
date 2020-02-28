@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MenuItem item;
     DatabaseReference databaseReference;
     CharSequence s;
+    String URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+        URL = sharedPreferences.getString("URL" , "");
         if (!sharedPreferences.getBoolean("firstTime", false)) {
             showintroDialog();
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -642,7 +644,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void generator_usage() {
-        generatorusage = getString(R.string.URL) + "generatortotal";
+        generatorusage = URL + "generatortotal";
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, generatorusage,
                 new Response.Listener<String>() {
@@ -826,7 +828,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void warningcheck() {
 
-        String warn = getString(R.string.URL) + "todaysusage";
+        String warn = URL + "todaysusage";
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -884,7 +886,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void todaysusage(){
         RequestQueue queue;
-        String url =  getString(R.string.URL) + "todaysusage";
+        String url =  URL + "todaysusage";
         queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {

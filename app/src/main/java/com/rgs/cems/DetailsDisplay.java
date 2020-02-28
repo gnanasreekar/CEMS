@@ -79,7 +79,7 @@ public class DetailsDisplay extends AppCompatActivity {
     BarChart barChart, genusagebar;
     ProgressBar progressBar;
     View view;
-    String second;
+    String second,URL;
     String[] parts;
     CountDownTimer mCountDownTimer;
 
@@ -87,6 +87,9 @@ public class DetailsDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_display);
+         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+
+        URL = sharedPreferences.getString("URL" , "");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,9 +118,6 @@ public class DetailsDisplay extends AppCompatActivity {
         }
 
         progressBar.getIndeterminateDrawable().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-
-
-        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
 
         try {
             a1 = numberFormat.parse(sharedPreferences.getString("Energy Consumed" + 0, "1")).intValue();
@@ -320,7 +320,7 @@ public class DetailsDisplay extends AppCompatActivity {
 
         setDataBar();
         //GendataBar();
-        makeJsonObjectRequestGraph(getString(R.string.URL) + "genusagemonth?m=1&y=2020");
+        makeJsonObjectRequestGraph(URL + "genusagemonth?m=1&y=2020");
 
     }
 
@@ -354,7 +354,7 @@ public class DetailsDisplay extends AppCompatActivity {
             @Override
             public void onDateSet(int selectedMonth, int selectedYear) {
                 int mon = selectedMonth + 1;
-                String URL_ptot = getString(R.string.URL) + "genusagemonth?m=" + mon + "&y=" + selectedYear;
+                String URL_ptot =URL + "genusagemonth?m=" + mon + "&y=" + selectedYear;
                 makeJsonObjectRequestGraph(URL_ptot);
                 Toast.makeText(DetailsDisplay.this, "Loading...", Toast.LENGTH_SHORT).show();
 

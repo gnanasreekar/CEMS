@@ -16,6 +16,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -76,6 +77,7 @@ public class Comparechart extends AppCompatActivity {
     ListView lv;
     TinyDB tinydb;
     LinearLayout lyt_progress;
+    String URL;
     //ProgressBar progressBar;
 
     @Override
@@ -83,6 +85,9 @@ public class Comparechart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comparechart);
         setTitle("Comparing");
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+
+        URL = sharedPreferences.getString("URL" , "");
         lv = findViewById(R.id.listView1);
 
         lyt_progress = (LinearLayout) findViewById(R.id.compare_loading);
@@ -145,7 +150,7 @@ public class Comparechart extends AppCompatActivity {
                         calendar.set(java.util.Calendar.MONTH, monthOfYear);
                         calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
                         date_ship_millis1 = calendar.getTimeInMillis();
-                        URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis1);
+                        URL_ptot = URL + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis1);
                         date1.setText(getFormattedDateSimple(date_ship_millis1));
                     }
                 }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH));
@@ -165,7 +170,7 @@ public class Comparechart extends AppCompatActivity {
                         calendar.set(java.util.Calendar.MONTH, monthOfYear);
                         calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
                         date_ship_millis2 = calendar.getTimeInMillis();
-                        URL_ptot2 = getString(R.string.URL) + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis2);
+                        URL_ptot2 = URL + "previoususageptot?date=" + getFormattedDateSimple(date_ship_millis2);
                         date2.setText(getFormattedDateSimple(date_ship_millis2));
                     }
                 }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH));

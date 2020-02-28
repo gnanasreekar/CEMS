@@ -77,6 +77,7 @@ public class Previousdate extends AppCompatActivity {
     RequestQueue queue;
     long date_ship_millis, val;
     String URL_ptot, Date, datedialog;
+    String URL;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
     CollapsingToolbarLayout collapsingToolbarLayout;
     SharedPreferences.Editor editor;
@@ -95,6 +96,9 @@ public class Previousdate extends AppCompatActivity {
         setSupportActionBar(toolbar);
         collapsingToolbarLayout = findViewById(R.id.date_collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Previous Usage");
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+
+        URL = sharedPreferences.getString("URL" , "");
 
 
         nestedScrollView = findViewById(R.id.nested_scroll_view);
@@ -125,7 +129,6 @@ public class Previousdate extends AppCompatActivity {
             datePtotGirlshostel = (LinearLayout) findViewById(R.id.date_ptot_girlshostel);
             datePtotAudi = (LinearLayout) findViewById(R.id.date_ptot_audi);
         }
-        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         editor = sharedPreferences.edit();
         {
 
@@ -134,7 +137,7 @@ public class Previousdate extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                     intent.putExtra("value", 7);
-                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 2;
+                    URL_ptot = URL + "previoususageptot?date=" + datedialog + "&mid=" + 2;
                     editor.putString("date_block", "School on " + datedialog);
                     editor.putString("date_url", URL_ptot);
                     editor.apply();
@@ -147,7 +150,7 @@ public class Previousdate extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                     intent.putExtra("value", 7);
-                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 3;
+                    URL_ptot = URL + "previoususageptot?date=" + datedialog + "&mid=" + 3;
                     editor.putString("date_block", "School Academic Block on " + datedialog);
                     editor.putString("date_url", URL_ptot);
                     editor.apply();
@@ -160,7 +163,7 @@ public class Previousdate extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                     intent.putExtra("value", 7);
-                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 4;
+                    URL_ptot = URL + "previoususageptot?date=" + datedialog + "&mid=" + 4;
                     editor.putString("date_block", "School Admin Block on " + datedialog);
                     editor.putString("date_url", URL_ptot);
                     editor.apply();
@@ -173,7 +176,7 @@ public class Previousdate extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                     intent.putExtra("value", 7);
-                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 5;
+                    URL_ptot = URL + "previoususageptot?date=" + datedialog + "&mid=" + 5;
                     editor.putString("date_block", "Girls Hostel on " + datedialog);
                     editor.putString("date_url", URL_ptot);
                     editor.apply();
@@ -186,7 +189,7 @@ public class Previousdate extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(Previousdate.this, Ptot_graph.class);
                     intent.putExtra("value", 7);
-                    URL_ptot = getString(R.string.URL) + "previoususageptot?date=" + datedialog + "&mid=" + 6;
+                    URL_ptot = URL + "previoususageptot?date=" + datedialog + "&mid=" + 6;
                     editor.putString("date_block", "Auditorium on " + datedialog);
                     editor.putString("date_url", URL_ptot);
                     editor.apply();
@@ -217,7 +220,7 @@ public class Previousdate extends AppCompatActivity {
                         calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
                         date_ship_millis = calendar.getTimeInMillis();
                         datedialog = getFormattedDateSimple(date_ship_millis);
-                        URL_ptot = getString(R.string.URL) + "dateprevious?date=" + datedialog;
+                        URL_ptot = URL + "dateprevious?date=" + datedialog;
                         collapsingToolbarLayout.setTitle("Usage on " + datedialog);
                         dateDateactivity.setText(datedialog + "'s Activity");
                         if (URL_ptot != null) {

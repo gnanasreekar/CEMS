@@ -76,7 +76,7 @@ public class Ptot_graph extends AppCompatActivity {
 
     String URL_ptot, Block;
     LineChart chart;
-    String access_token;
+    String access_token,URL;
     private static final int PERMISSION_STORAGE = 0;
     ArrayList<Entry> entries = new ArrayList<>();
     ArrayList<String> labels = new ArrayList<>();
@@ -102,8 +102,12 @@ int f1;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ptot_graph);
         getSupportActionBar().hide();
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+
+        URL = sharedPreferences.getString("URL" , "");
+
         chart = findViewById(R.id.chart1);
-        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         back_drop = findViewById(R.id.back_drop);
         lyt_progress = (LinearLayout) findViewById(R.id.ptot_loading);
        // progressBar = findViewById(R.id.progress_ptot);
@@ -133,27 +137,27 @@ int f1;
                 break;
             case 2:
                 Block = "School";
-                URL_ptot = getString(R.string.URL) + "ptottoday2";
+                URL_ptot =URL + "ptottoday2";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 3:
                 Block = "School Academic Block";
-                URL_ptot = getString(R.string.URL) + "ptottoday3";
+                URL_ptot = URL + "ptottoday3";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 4:
                 Block = "School Admin Block";
-                URL_ptot = getString(R.string.URL) + "ptottoday4";
+                URL_ptot = URL+ "ptottoday4";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 5:
                 Block = "Girls Hostel";
-                URL_ptot = getString(R.string.URL) + "ptottoday5";
+                URL_ptot = URL + "ptottoday5";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 6:
                 Block = "Auditorium";
-                URL_ptot = getString(R.string.URL) + "ptottoday6";
+                URL_ptot = URL + "ptottoday6";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 7:

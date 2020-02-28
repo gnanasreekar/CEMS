@@ -65,20 +65,38 @@ public class FirebaseHandler extends Application {
     SharedPreferences sharedPreferences;
     int val = 0 , gen = 0;
     RequestQueue queue;
-    String url,URL_ptot;
     NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
-    DatabaseReference databaseReference;
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
+    DatabaseReference databaseReference,urlfb;
     private String Date;
     long date_ship_millis;
     CountDownTimer mCountDownTimer;
+    SharedPreferences.Editor editor;
+    String URL;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+        editor = sharedPreferences.edit();
+
+        urlfb = FirebaseDatabase.getInstance().getReference("URL");
+
+        urlfb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String URL = dataSnapshot.getValue().toString();
+                editor.putString("URL", URL);
+                editor.apply();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Cost");
 
@@ -87,8 +105,7 @@ public class FirebaseHandler extends Application {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String rupee = dataSnapshot.getValue().toString();
                 float rs = Float.parseFloat(rupee);
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+
                 editor.putFloat("cost", rs);
                 editor.apply();
             }
@@ -103,7 +120,7 @@ public class FirebaseHandler extends Application {
     }
 
     public void todaysusage(){
-        String url =  getString(R.string.URL) + "todaysusage";
+        String url =  sharedPreferences.getString("URL" , "") + "todaysusage";
         queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -190,7 +207,7 @@ public class FirebaseHandler extends Application {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FirebaseHandler.this, error.toString()+" Firebase Handler", LENGTH_LONG).show();
+                Toast.makeText(FirebaseHandler.this, error.toString()+" SERVER SLOW FBH", LENGTH_LONG).show();
             }
         });
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -203,7 +220,7 @@ public class FirebaseHandler extends Application {
     }
 
     public void warningcheck(){
-        String usage = getString(R.string.URL) + "todaysusage";
+        String usage = sharedPreferences.getString("URL" , "") + "todaysusage";
         sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
 
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, usage,
@@ -258,7 +275,7 @@ public class FirebaseHandler extends Application {
                     }}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(FirebaseHandler.this, error.toString()+" FH THEBSE", LENGTH_LONG).show();
+                Toast.makeText(FirebaseHandler.this, error.toString()+" SLOW SERVER FBH2", LENGTH_LONG).show();
             }
         });
         stringRequest1.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));

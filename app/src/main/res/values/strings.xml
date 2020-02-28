@@ -43,7 +43,6 @@
     <string name="user_nameaaa">User Name</string>
     <string name="create_an_account">Create an Account</string>
     <string name="school">Total School</string>
-    <string name="URL">http://3.6.41.81/</string>
     <string name="android_developer_backend">Android Developer, Backend</string>
 
     <string-array name="blocks">
