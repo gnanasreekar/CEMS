@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -42,6 +43,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
+
+import java.util.Date;
 
 
 public class Login extends AppCompatActivity {
@@ -162,6 +165,7 @@ public class Login extends AppCompatActivity {
                         fb_uid = dataSnapshot.child("UID").getValue().toString();
                         auth = dataSnapshot.child("V1").getValue().toString();
                         admin = dataSnapshot.child("V2").getValue().toString();
+                        logintext.setText("Welcome " + fb_name);
 
                     } else {
                         fb_name = "NO data found";
@@ -189,7 +193,7 @@ public class Login extends AppCompatActivity {
 
                     mCountDownTimer = new CountDownTimer(4000, 1000) {
                         public void onTick(long millisUntilFinished) {
-                            if ((millisUntilFinished / 1000) == 1){
+                            if ((millisUntilFinished / 500) == 1){
                                 logintext.setText("Getting Data..");
                             }
                         }
@@ -200,7 +204,6 @@ public class Login extends AppCompatActivity {
                                 finish();
                             } else if (auth.equals("0")) {
                                 notauthdialog();
-                            } else {
                             }
 
                         }
@@ -213,6 +216,7 @@ public class Login extends AppCompatActivity {
                     databaseError.toException();
                 }
             });
+
 
             return null;
         }

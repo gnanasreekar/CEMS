@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Date d = new Date();
         s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Last_used_on/" + sharedPreferences.getString("uid","Not aval"));
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Last_used_on/" + sharedPreferences.getString("uid","Not aval") );
         databaseReference.child("Name").setValue(sharedPreferences.getString("name","Not aval"));
         databaseReference.child("Email").setValue(sharedPreferences.getString("email","Not aval"));
         databaseReference.child("Date").setValue(s);

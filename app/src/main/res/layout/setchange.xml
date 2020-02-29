@@ -63,6 +63,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/grey_10"
             android:orientation="vertical">
 
 
@@ -212,7 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing_xsmall"
-                    android:text="Authentication Login"
+                    android:text="Last Used On"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="@color/grey_60" />
 
@@ -220,9 +221,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/edit_v1"
+                    <TextView
+                        android:id="@+id/textv_luo"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -246,6 +246,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing_xsmall"
+                    android:text="Authentication Login"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textColor="@color/grey_60" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Switch
+                        android:id="@+id/loginauth_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:shadowColor="@color/dark"
+                        android:layout_height="wrap_content"
+                        android:checked="false"/>
+
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/spacing_large" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_xsmall"
                     android:text="Authentication Admin"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textColor="@color/grey_60" />
@@ -255,18 +285,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/edit_v2"
-                        android:layout_width="0dp"
+                    <Switch
+                        android:id="@+id/auth_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        android:layout_marginTop="7dp"
-                        android:text="Please Wait..."
-                        android:spinnerMode="dialog"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:background="@null"
-                        android:textColor="@color/green_700" />
+                        android:checked="false"/>
 
 
 

@@ -42,6 +42,10 @@
         <item name="colorAccent">@color/dark</item>
     </style>
 
+    <style name="ALertdialogmee" parent="Theme.AppCompat.Dialog">
+        <item name="android:textColorAlertDialogListItem">@android:color/holo_orange_dark</item>
+    </style>
+
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">6sp</item>
     </style>

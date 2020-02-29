@@ -47,8 +47,13 @@
         <activity android:name=".NormalStuff.About" />
         <activity
             android:name=".Dataretrive.Report"
-            android:label="@string/title_activity_report"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_report">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".Dataretrive.feedback"
             android:label="@string/title_activity_feedback"
@@ -67,11 +72,7 @@
             android:name=".Auth.Login"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
@@ -80,12 +81,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <service android:name=".Justclasses.Notifications">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

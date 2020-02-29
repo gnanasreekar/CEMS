@@ -21,9 +21,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -41,7 +43,7 @@ public class Adminactivity extends AppCompatActivity {
 
     DatabaseReference databaseReference;
     float costperunuit;
-    TextView rupeeunit,costhange,versionchange;
+    TextView rupeeunit,costhange,versionchange,urlchang;
     View parentview;
     SharedPreferences sharedPreferences;
     CharSequence s;
@@ -66,7 +68,20 @@ public class Adminactivity extends AppCompatActivity {
         rupeeunit = findViewById(R.id.rupeeperunit);
         versionchange = findViewById(R.id.Version_change);
         parentview = findViewById(R.id.adminmain);
+        urlchang = findViewById(R.id.url_change);
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        databaseReference.child("URL").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                urlchang.setText(dataSnapshot.getValue().toString());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         databaseReference.child("AuthRequest").addValueEventListener(new ValueEventListener() {
             @Override
@@ -185,7 +200,6 @@ public class Adminactivity extends AppCompatActivity {
         ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 databaseReference.child("Pass").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -214,6 +228,97 @@ public class Adminactivity extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
 
+    }
+
+    public void urlsec(final View view){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.password);
+        dialog.setCancelable(true);
+
+        final EditText vers_pass = dialog.findViewById(R.id.version_change_edit_password);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                databaseReference.child("Pass").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Pass = dataSnapshot.getValue().toString();
+                        if (vers_pass.getText().toString().equals(Pass)){
+                            urlchangedialog();
+                        }else {
+                            Snackbar.make(parentview, "Wrong Password", Snackbar.LENGTH_LONG)
+                                    .setAction("Retry", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            urlsec(view);
+                                        }
+                                    }).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+
+    }
+
+    public void urlchangedialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.urlchange);
+        dialog.setCancelable(true);
+
+        final EditText vers = dialog.findViewById(R.id.version_change_edit);
+
+       DatabaseReference urlfb = FirebaseDatabase.getInstance().getReference("URL");
+
+        urlfb.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String URL = dataSnapshot.getValue().toString();
+                vers.setText(URL);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        ((AppCompatButton) dialog.findViewById(R.id.bt_close)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!vers.getText().toString().isEmpty()) {
+                    String ver = vers.getText().toString();
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("URL");
+                    databaseReference.setValue(ver);
+                } else {
+                    Snackbar.make(parentview, "Please Enter a valid number", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
     }
 
     public void costchangedialog(View view) {
@@ -309,9 +414,23 @@ public class Adminactivity extends AppCompatActivity {
         final TextView editEmail = dialog.findViewById(R.id.textv_email);
         final TextView textvDate =  dialog.findViewById(R.id.textv_date);
         final TextView textvUid =  dialog.findViewById(R.id.textv_uid);
-        final EditText editV1 =  dialog.findViewById(R.id.edit_v1);
-        final EditText editV2 =  dialog.findViewById(R.id.edit_v2);
+        final TextView luotv =  dialog.findViewById(R.id.textv_luo);
+        final Switch authswitch = (Switch) dialog.findViewById(R.id.auth_switch);
+        final Switch loginswitch = (Switch) dialog.findViewById(R.id.loginauth_switch);
 
+        databaseReference.child("Last_used_on/"+uid.get(position)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String luo;
+                if (dataSnapshot.hasChild("Date")){luo = dataSnapshot.child("Date").getValue().toString();} else {luo = "Not Aval..";}
+                luotv.setText(luo);
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         databaseReference.child("Users/"+uid.get(position)).addValueEventListener(new ValueEventListener() {
             @Override
@@ -323,14 +442,19 @@ public class Adminactivity extends AppCompatActivity {
                      String V1 = dataSnapshot.child("V1").getValue().toString();
                      String V2 = dataSnapshot.child("V2").getValue().toString();
 
-                     editName.setText(Name);
+                if (V1.equals("1")){
+                    loginswitch.setChecked(true);
+                }
+
+                if (V2.equals("1")){
+                    authswitch.setChecked(true);
+                }
+
+                editName.setText(Name);
                      editEmail.setText(Email);
                      textvDate.setText(Date);
                      textvUid.setText(UID);
-                     editV1.setText(V1);
-                     editV2.setText(V2);
-                    Log.v(TAG,""+ users.size()); //displays the key for the node
-                    Log.v(TAG,""+ dataSnapshot.child("Name").getValue());   //gives the value for given keyname
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -352,8 +476,17 @@ public class Adminactivity extends AppCompatActivity {
                 }
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users/" + uid.get(position));
                 databaseReference.child("Name").setValue(editName.getText().toString());
-                databaseReference.child("V1").setValue(editV1.getText().toString());
-                databaseReference.child("V2").setValue(editV2.getText().toString());
+                if (loginswitch.isChecked()){
+                    databaseReference.child("V1").setValue(1);
+                } else {
+                    databaseReference.child("V1").setValue(0);
+                }
+
+                if (authswitch.isChecked()){
+                    databaseReference.child("V2").setValue(1);
+                } else {
+                    databaseReference.child("V2").setValue(0);
+                }
                 dialog.dismiss();
             }
         });

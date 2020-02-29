@@ -202,7 +202,6 @@ public class Signup extends AppCompatActivity {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AuthRequest/" + firebaseAuth.getUid());
                 databaseReference.child("Name").setValue(name);
                 databaseReference.child("Date").setValue(s);
-                finish();
                 dialog.dismiss();
             }
         });
