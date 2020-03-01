@@ -79,7 +79,7 @@ public class DetailsDisplay extends AppCompatActivity {
     BarChart barChart, genusagebar;
     ProgressBar progressBar;
     View view;
-    String second,URL;
+    String second, URL, Month;
     String[] parts;
     CountDownTimer mCountDownTimer;
 
@@ -87,9 +87,9 @@ public class DetailsDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_display);
-         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
+        sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
 
-        URL = sharedPreferences.getString("URL" , "");
+        URL = sharedPreferences.getString("URL", "");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -316,11 +316,19 @@ public class DetailsDisplay extends AppCompatActivity {
             editor.putBoolean("firstTime2", true);
             editor.apply();
         }
+        Calendar cal = Calendar.getInstance();
 
+        String[] monthName = {"January", "February", "March", "April", "May", "June", "July",
+                "August", "September", "October", "November",
+                "December"};
+
+        Month = monthName[cal.get(Calendar.MONTH)];
+
+        int month = cal.get(Calendar.MONTH) + 1;
 
         setDataBar();
         //GendataBar();
-        makeJsonObjectRequestGraph(URL + "genusagemonth?m=1&y=2020");
+        makeJsonObjectRequestGraph(URL + "genusagemonth?m=" + month + "&y=" + cal.get(Calendar.YEAR));
 
     }
 
@@ -354,7 +362,7 @@ public class DetailsDisplay extends AppCompatActivity {
             @Override
             public void onDateSet(int selectedMonth, int selectedYear) {
                 int mon = selectedMonth + 1;
-                String URL_ptot =URL + "genusagemonth?m=" + mon + "&y=" + selectedYear;
+                String URL_ptot = URL + "genusagemonth?m=" + mon + "&y=" + selectedYear;
                 makeJsonObjectRequestGraph(URL_ptot);
                 Toast.makeText(DetailsDisplay.this, "Loading...", Toast.LENGTH_SHORT).show();
 
@@ -422,7 +430,7 @@ public class DetailsDisplay extends AppCompatActivity {
                                 lyt_progress.setVisibility(View.GONE);
 
                             } else {
-                                set1 = new BarDataSet(values, "Generator usage by month");
+                                set1 = new BarDataSet(values, "Generator usage in " + Month+ " in Units");
 
                                 set1.setDrawIcons(false);
 
@@ -523,7 +531,7 @@ public class DetailsDisplay extends AppCompatActivity {
             barChart.notifyDataSetChanged();
 
         } else {
-            set1 = new BarDataSet(values, "Today's Power Usage");
+            set1 = new BarDataSet(values, "Today's Power Usage in Units");
 
             set1.setDrawIcons(false);
 

@@ -94,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navView;
     DrawerLayout drawerLayout;
     LinearLayout warninglayout;
-    TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings, generator_today,costfortodat;
-    int dpb, flag = 0, gen = 0, val =0;
+    TextView nav_namec, nav_emailc, today_powerusage_tv, months_powerusage_tv, today_cost, month_cost, generator_usagetv, date_tv, warnings, generator_today, costfortodat;
+    int dpb, flag = 0, gen = 0, val = 0;
     Integer TEC;
     float Todayscos, Version;
     SharedPreferences sharedPreferences;
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
-        URL = sharedPreferences.getString("URL" , "");
+        URL = sharedPreferences.getString("URL", "");
         if (!sharedPreferences.getBoolean("firstTime", false)) {
             showintroDialog();
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        databaseReference.child("Version").addValueEventListener(new ValueEventListener(){
+        databaseReference.child("Version").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     e.printStackTrace();
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -232,10 +233,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         Date d = new Date();
-        s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Last_used_on/" + sharedPreferences.getString("uid","Not aval") );
-        databaseReference.child("Name").setValue(sharedPreferences.getString("name","Not aval"));
-        databaseReference.child("Email").setValue(sharedPreferences.getString("email","Not aval"));
+        s = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Last_used_on/" + sharedPreferences.getString("uid", "Not aval"));
+        databaseReference.child("Name").setValue(sharedPreferences.getString("name", "Not aval"));
+        databaseReference.child("Email").setValue(sharedPreferences.getString("email", "Not aval"));
         databaseReference.child("Date").setValue(s);
 
     }
@@ -309,8 +310,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        Todayscos = TEC * sharedPreferences.getFloat("cost" , (float) 7.65);
-        costfortodat.setText("Rs. "+ sharedPreferences.getFloat("cost" , 7) +"/Unit");
+        Todayscos = TEC * sharedPreferences.getFloat("cost", (float) 7.65);
+        costfortodat.setText("Rs. " + sharedPreferences.getFloat("cost", 7) + "/Unit");
 
         ValueAnimator animator = ValueAnimator.ofInt(0, TEC);
         animator.setDuration(1500);
@@ -331,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String date = sharedPreferences.getString("DATE" + 1, "Please refresh");
         date_tv.setText(date);
 
-        if (!date.equals(getFormattedDateSimple(date_ship_millis))){
+        if (!date.equals(getFormattedDateSimple(date_ship_millis))) {
             Toasty.info(instance, "Please Refresh", Toast.LENGTH_SHORT, true).show();
         }
     }
@@ -438,11 +439,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toasty.info(instance, "Please Wait..", Toast.LENGTH_SHORT, true).show();
             warningcheck();
             return true;
-        } else if(id == R.id.updateaval){
-            Uri uri = Uri.parse("https://appdistribution.firebase.dev/app_distro/auth/sign_in"); 
+        } else if (id == R.id.updateaval) {
+            Uri uri = Uri.parse("https://appdistribution.firebase.dev/app_distro/auth/sign_in");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        } else if (id == R.id.share){
+        } else if (id == R.id.share) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, "https://drive.google.com/open?id=1oBPYNUW_p_LufNtp1FFYE29VtsOlG1i2");
@@ -461,9 +462,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_compare) {
+         if (id == R.id.nav_compare) {
             startActivity(new Intent(MainActivity.this, Comparechart.class));
         } else if (id == R.id.nav_previous) {
             startActivity(new Intent(MainActivity.this, PreviousUsage.class));
@@ -477,7 +476,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showsignoutDialog();
         } else if (id == R.id.nav_compare_entire) {
             startActivity(new Intent(MainActivity.this, Previousdate.class));
-        } else if (id == R.id.nav_changepass){
+        } else if (id == R.id.nav_changepass) {
             changepass();
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -492,7 +491,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dialog.setCancelable(true);
 
         final EditText email = dialog.findViewById(R.id.passemail);
-        email.setText(sharedPreferences.getString("email","Not aval"));
+        email.setText(sharedPreferences.getString("email", "Not aval"));
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         lp.copyFrom(dialog.getWindow().getAttributes());
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -594,11 +593,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     static int i = 0;
 
-    public void falcon(View view){
+    public void falcon(View view) {
         i++;
-        if(i == 7)
-        {
-            startActivity(new Intent(MainActivity.this , falcon.class));
+        if (i == 7) {
+            startActivity(new Intent(MainActivity.this, falcon.class));
         }
     }
 
@@ -608,11 +606,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (i == 2) {
             Toast.makeText(instance, "Your are one click away from entering Admin panel", Toast.LENGTH_SHORT).show();
         } else if (i == 3) {
-            if(sharedPreferences.getString("admin" , "0").equals("1")){
-                startActivity(new Intent(MainActivity.this , Adminactivity.class));
+            if (sharedPreferences.getString("admin", "0").equals("1")) {
+                startActivity(new Intent(MainActivity.this, Adminactivity.class));
             } else {
                 Toasty.error(instance, "You do not have admin rights", Toast.LENGTH_SHORT, true).show();
-                notauthdialog();}
+                notauthdialog();
+            }
             i = 0;
         }
     }
@@ -629,7 +628,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AdminAccessRequest/" + sharedPreferences.getString("uid","Not aval"));
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("AdminAccessRequest/" + sharedPreferences.getString("uid", "Not aval"));
                 databaseReference.child("Name").setValue(sharedPreferences.getString("name", "NO data found"));
                 dialog.dismiss();
             }
@@ -674,10 +673,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onErrorResponse(VolleyError error) {
                 generator_usage();
-                Toast.makeText(MainActivity.this, error.toString()+" Main 1", LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, error.toString() + " Main 1", LENGTH_LONG).show();
             }
         });
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 
@@ -763,11 +762,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
 
 
-        final TextView meter2 =  dialog.findViewById(R.id.meter2);
-        final TextView meter3 =  dialog.findViewById(R.id.meter3);
-        final TextView meter4 =  dialog.findViewById(R.id.meter4);
-        final TextView meter5 =  dialog.findViewById(R.id.meter5);
-        final TextView meter6 =  dialog.findViewById(R.id.meter6);
+        final TextView meter2 = dialog.findViewById(R.id.meter2);
+        final TextView meter3 = dialog.findViewById(R.id.meter3);
+        final TextView meter4 = dialog.findViewById(R.id.meter4);
+        final TextView meter5 = dialog.findViewById(R.id.meter5);
+        final TextView meter6 = dialog.findViewById(R.id.meter6);
 
         if (sharedPreferences.getInt("warning2", 0) == 1) {
             meter2.setText("Data Not Available");
@@ -836,34 +835,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        if (response.contains("[]")){
-                            new Dialogs(MainActivity.this , 2);
+                        if (response.contains("[]")) {
+                            new Dialogs(MainActivity.this, 2);
                         } else {
                             JSONArray json = null;
                             try {
                                 json = new JSONArray(response);
-                                for(int i=0;i<json.length();i++){
+                                for (int i = 0; i < json.length(); i++) {
                                     JSONObject e = json.getJSONObject(i);
 
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    Date =  e.getString("DATE");
+                                    Date = e.getString("DATE");
                                     String EC = e.getString("Energy Consumed");
                                     String MID = e.getString("Meter ID");
 
                                     if (EC.equals("0.000")) {
                                         editor.putInt("warning" + MID, 1);
                                         editor.apply();
-                                        Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
-                                    } else if (!EC.equals("0.000")){
+                                        Log.d("Warningshss" + MID, MID + "data not aval    warning" + MID);
+                                    } else if (!EC.equals("0.000")) {
                                         editor.putInt("warning" + MID, 0);
                                         editor.apply();
-                                        Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                        Log.d("Warningshss" + MID, MID + "data aval    warning" + MID);
                                     }
 
                                 }
 
                             } catch (JSONException e) {
-                                Log.d("Json exception fb" , e.getMessage());
+                                Log.d("Json exception fb", e.getMessage());
                                 e.printStackTrace();
                             }
                         }
@@ -872,7 +871,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.toString()+" Main 2", LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, error.toString() + " Main 2", LENGTH_LONG).show();
             }
         });
         queue.add(stringRequest);
@@ -884,9 +883,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return newFormat.format(new Date(dateTime));
     }
 
-    public void todaysusage(){
+    public void todaysusage() {
         RequestQueue queue;
-        String url =  URL + "todaysusage";
+        String url = URL + "todaysusage";
         queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -894,45 +893,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onResponse(String response) {
                         if (response.contains("[]")) {
 
-                            new Dialogs(MainActivity.this , 2);
+                            new Dialogs(MainActivity.this, 2);
 
                         } else {
-                            Log.d("dateVolley" , response);
+                            Log.d("dateVolley", response);
                             Calendar calendar = Calendar.getInstance();
                             date_ship_millis = calendar.getTimeInMillis();
                             JSONArray json = null;
                             try {
                                 json = new JSONArray(response);
-                                for(int i=0;i<json.length();i++){
+                                for (int i = 0; i < json.length(); i++) {
                                     JSONObject e = json.getJSONObject(i);
 
-                                    sharedPreferences = getApplicationContext().getSharedPreferences("sp",0);
+                                    sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    Date =  e.getString("DATE");
+                                    Date = e.getString("DATE");
                                     String EC = e.getString("Energy Consumed");
                                     String MID = e.getString("Meter ID");
-                                    gen = gen +  numberFormat.parse(EC).intValue();
+                                    gen = gen + numberFormat.parse(EC).intValue();
 
                                     if (EC.equals("0.000")) {
                                         editor.putInt("warning" + MID, 1);
                                         editor.apply();
-                                        Log.d("Warningshss" + MID , MID + "data not aval    warning"+MID);
+                                        Log.d("Warningshss" + MID, MID + "data not aval    warning" + MID);
                                     } else {
                                         editor.putInt("warning" + MID, 0);
                                         editor.apply();
-                                        Log.d("Warningshss" + MID , MID + "data aval    warning"+MID);
+                                        Log.d("Warningshss" + MID, MID + "data aval    warning" + MID);
                                     }
 
-                                    editor.putInt("TEC" , gen);
-                                    editor.putString("DATE" +val ,Date);
+                                    editor.putInt("TEC", gen);
+                                    editor.putString("DATE" + val, Date);
                                     editor.putString("Energy Consumed" + val, EC);
-                                    editor.putString("Meter ID" + val , MID);
-                                    editor.putInt("Jsonlength" , json.length());
+                                    editor.putString("Meter ID" + val, MID);
+                                    editor.putInt("Jsonlength", json.length());
                                     editor.apply();
                                     val++;
                                 }
 
-                                if (!Date.equals(getFormattedDateSimple(date_ship_millis))){
+                                if (!Date.equals(getFormattedDateSimple(date_ship_millis))) {
                                     new Dialogs(MainActivity.getInstance(), 1);
                                 }
 
@@ -945,22 +944,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     }
                                 }.start();
                             } catch (JSONException e) {
-                                Log.d("Json exception fb" , e.getMessage());
+                                Log.d("Json exception fb", e.getMessage());
                                 e.printStackTrace();
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
 
                         }
-                        }
+                    }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, error.toString()+" Main Handler", LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, error.toString() + " Main Handler", LENGTH_LONG).show();
             }
         });
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 }
