@@ -38,7 +38,7 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:gravity="center_vertical"
                 android:id="@+id/addrep_time"
-                android:text="Customer services"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/grey_40" />
 

@@ -133,7 +133,6 @@ public class Report extends AppCompatActivity {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     if (childDataSnapshot.hasChild("Name")) {
                         String key = childDataSnapshot.getKey();
-                        Toast.makeText(Report.this, key, Toast.LENGTH_SHORT).show();
                         String Name = childDataSnapshot.child("Name").getValue().toString();
                         String Date = childDataSnapshot.child("Dateh").getValue().toString();
                         String Block = childDataSnapshot.child("Block").getValue().toString();

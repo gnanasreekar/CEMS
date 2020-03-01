@@ -76,14 +76,14 @@ public class Ptot_graph extends AppCompatActivity {
 
     String URL_ptot, Block;
     LineChart chart;
-    String access_token,URL;
+    String access_token, URL;
     private static final int PERMISSION_STORAGE = 0;
     ArrayList<Entry> entries = new ArrayList<>();
     ArrayList<String> labels = new ArrayList<>();
     LineDataSet set;
     LineData data;
     SharedPreferences sharedPreferences;
-int f1;
+    int f1;
     private View back_drop;
     private boolean rotate = false;
 
@@ -94,7 +94,7 @@ int f1;
     private View tooglePinchLayout;
     private View saveGraphLayout;
     LinearLayout lyt_progress;
-   // ProgressBar progressBar;
+    // ProgressBar progressBar;
 
 
     @Override
@@ -105,13 +105,13 @@ int f1;
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
 
-        URL = sharedPreferences.getString("URL" , "");
+        URL = sharedPreferences.getString("URL", "");
 
         chart = findViewById(R.id.chart1);
         back_drop = findViewById(R.id.back_drop);
         lyt_progress = (LinearLayout) findViewById(R.id.ptot_loading);
-       // progressBar = findViewById(R.id.progress_ptot);
-       // progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        // progressBar = findViewById(R.id.progress_ptot);
+        // progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         lyt_progress.setVisibility(View.VISIBLE);
         lyt_progress.setAlpha(1.0f);
         chart.setVisibility(View.GONE);
@@ -137,7 +137,7 @@ int f1;
                 break;
             case 2:
                 Block = "School";
-                URL_ptot =URL + "ptottoday2";
+                URL_ptot = URL + "ptottoday2";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 3:
@@ -147,7 +147,7 @@ int f1;
                 break;
             case 4:
                 Block = "School Admin Block";
-                URL_ptot = URL+ "ptottoday4";
+                URL_ptot = URL + "ptottoday4";
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 5:
@@ -161,8 +161,8 @@ int f1;
                 makeJsonObjectRequestGraph(URL_ptot);
                 break;
             case 7:
-                Block = sharedPreferences.getString("date_block" , "Not aval");
-                URL_ptot = sharedPreferences.getString("date_url" , "Nodata");
+                Block = sharedPreferences.getString("date_block", "Not aval");
+                URL_ptot = sharedPreferences.getString("date_url", "Nodata");
                 makeJsonObjectRequestGraph(URL_ptot);
             default:
                 nodataaval();
@@ -252,7 +252,7 @@ int f1;
             // add limit lines
             yAxis.addLimitLine(ll1);
             yAxis.addLimitLine(ll2);
-          //  xAxis.addLimitLine(llXAxis);
+            //  xAxis.addLimitLine(llXAxis);
         }
 
 
@@ -436,7 +436,7 @@ int f1;
                     @Override
                     public void onResponse(String response) {
 
-                        if (response.equals("[]")){
+                        if (response.equals("[]")) {
                             nodataaval();
                             Toast.makeText(Ptot_graph.this, "No Data Available", Toast.LENGTH_SHORT).show();
 
@@ -468,7 +468,7 @@ int f1;
                             }
 
                             if (f1 > 1) {
-                                new Dialogs(Ptot_graph.this , 1);
+                                new Dialogs(Ptot_graph.this, 1);
                                 f1 = 0;
                             }
 
@@ -534,7 +534,7 @@ int f1;
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Ptot_graph.this, error.toString()+" Ptot", LENGTH_LONG).show();
+                Toast.makeText(Ptot_graph.this, error.toString() + " Ptot", LENGTH_LONG).show();
             }
         }) {
 
@@ -546,7 +546,7 @@ int f1;
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(2000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
     }
 

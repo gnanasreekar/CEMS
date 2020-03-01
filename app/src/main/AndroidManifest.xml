@@ -48,11 +48,7 @@
         <activity
             android:name=".Dataretrive.Report"
             android:label="@string/title_activity_report">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".Dataretrive.feedback"
@@ -72,6 +68,11 @@
             android:name=".Auth.Login"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
