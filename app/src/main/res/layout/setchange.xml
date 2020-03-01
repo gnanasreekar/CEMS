@@ -260,6 +260,7 @@
                         android:layout_width="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
+                        android:theme="@style/AdminSwitch"
                         android:shadowColor="@color/dark"
                         android:layout_height="wrap_content"
                         android:checked="false"/>
@@ -289,6 +290,7 @@
                         android:id="@+id/auth_switch"
                         android:layout_width="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:theme="@style/AdminSwitch"
                         android:layout_marginLeft="10dp"
                         android:layout_height="wrap_content"
                         android:checked="false"/>

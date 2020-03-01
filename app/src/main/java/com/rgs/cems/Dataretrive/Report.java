@@ -15,18 +15,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -37,16 +44,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.rgs.cems.Auth.Login;
+import com.rgs.cems.Charts.Previousdate;
 import com.rgs.cems.Justclasses.Model;
 import com.rgs.cems.Justclasses.MyAdapter;
 import com.rgs.cems.MainActivity;
 import com.rgs.cems.R;
+
+import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,51 +71,78 @@ public class Report extends AppCompatActivity {
     private MyAdapter adapter;
     SharedPreferences sharedPreferences;
     int size;
+    String date = "Not selected";
+    TextView date_tv;
 
     private static final String[] Block = new String[]{
-            "School", "School Admin" , "School Aced Block" , "Girls Hostel" , "Auditorium"
+            "School", "School Admin", "School Aced Block", "Girls Hostel", "Auditorium"
     };
 
     private static final String[] phase = new String[]{
-            "A", "B" , "C"
+            "A", "B", "C"
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        setTitle("Events");
+        setTitle("Reports");
         databaseReference = FirebaseDatabase.getInstance().getReference();
         adapter = new MyAdapter(Report.this);
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
-        rv=(RecyclerView)findViewById(R.id.rec_view);
+        rv = (RecyclerView) findViewById(R.id.rec_view);
+        date_tv = findViewById(R.id.tv_date);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        listData=new ArrayList<>();
+        listData = new ArrayList<>();
 
         getreports();
     }
 
-    public void getreports(){
+    public void Datedialog(View view) {
+
+        final android.icu.util.Calendar calendar = android.icu.util.Calendar.getInstance();
+        android.app.DatePickerDialog datePickerDialog = new android.app.DatePickerDialog(Report.this, R.style.datepicker, new android.app.DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(java.util.Calendar.YEAR, year);
+                calendar.set(java.util.Calendar.MONTH, monthOfYear);
+                calendar.set(java.util.Calendar.DAY_OF_MONTH, dayOfMonth);
+                date = java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(calendar.getTime());
+                date_tv.setText(date);
+            }
+        }, calendar.get(java.util.Calendar.YEAR), calendar.get(java.util.Calendar.MONTH), calendar.get(java.util.Calendar.DAY_OF_MONTH));
+        datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                finish();
+            }
+        });
+        datePickerDialog.show();
+    }
+
+    public void getreports() {
+
+
         databaseReference.child("Report").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
 
                 size = (int) dataSnapshot.getChildrenCount();
-                Toast.makeText(Report.this, "" + size, Toast.LENGTH_SHORT).show();
-
-
                 listData.clear();
-
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    if (childDataSnapshot.hasChild("Name")){}
-                    String Name = childDataSnapshot.child("Name").getValue().toString();
-                    String Date = childDataSnapshot.child("Date").getValue().toString();
-                    String Block = childDataSnapshot.child("Block").getValue().toString();
-                    String Phase = childDataSnapshot.child("Phase").getValue().toString();
-                    String Report = childDataSnapshot.child("Report").getValue().toString();
-                    String Urg = childDataSnapshot.child("Urg").getValue().toString();
-                    listData.add(new Model(Name , Date , Block , Phase , Report , Urg));
+                    if (childDataSnapshot.hasChild("Name")) {
+                        String key = childDataSnapshot.getKey();
+                        Toast.makeText(Report.this, key, Toast.LENGTH_SHORT).show();
+                        String Name = childDataSnapshot.child("Name").getValue().toString();
+                        String Date = childDataSnapshot.child("Dateh").getValue().toString();
+                        String Block = childDataSnapshot.child("Block").getValue().toString();
+                        String Phase = childDataSnapshot.child("Phase").getValue().toString();
+                        String Report = childDataSnapshot.child("Report").getValue().toString();
+                        String Urg = childDataSnapshot.child("Urg").getValue().toString();
+                        listData.add(new Model(Name, Date, Block, Phase, Report, Urg, key));
+                    }
+
                 }
                 adapter.setlist(listData);
                 rv.setAdapter(adapter);
@@ -113,8 +151,9 @@ public class Report extends AppCompatActivity {
                 // get total available quest
                 //   int size = (int) dataSnapshot.getChildrenCount();
 //                TextView usercount = findViewById(R.id.admin_usercount);
-//                usercount.setText(size+"");
+//                usercount.setText(size+"");s
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -122,7 +161,7 @@ public class Report extends AppCompatActivity {
         });
     }
 
-    private void showCustomDialog() {
+    private void addreport() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_add_review);
@@ -133,24 +172,26 @@ public class Report extends AppCompatActivity {
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         Date d = new Date();
-        final CharSequence s  = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
-        final EditText et_report =  dialog.findViewById(R.id.addrep_report);
-        final EditText et_block =  dialog.findViewById(R.id.edit_block);
-        final EditText et_phase =  dialog.findViewById(R.id.edit_phase);
-        final TextView tv_name =  dialog.findViewById(R.id.addrep_name);
-        final TextView tv_time =  dialog.findViewById(R.id.addrep_time);
+        final CharSequence s = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
+        final EditText et_report = dialog.findViewById(R.id.addrep_report);
+        final EditText et_block = dialog.findViewById(R.id.edit_block);
+        final EditText et_phase = dialog.findViewById(R.id.edit_phase);
+        final TextView tv_name = dialog.findViewById(R.id.addrep_name);
+        final TextView tv_time = dialog.findViewById(R.id.addrep_time);
+        date_tv = dialog.findViewById(R.id.tv_date);
+
 
         final Switch imp = dialog.findViewById(R.id.report_imp);
         tv_time.setText(s);
-        tv_name.setText(sharedPreferences.getString("name","Not aval"));
-        ( dialog.findViewById(R.id.bt_cancel)).setOnClickListener(new View.OnClickListener() {
+        tv_name.setText(sharedPreferences.getString("name", "Not aval"));
+        (dialog.findViewById(R.id.bt_cancel)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
-        ( dialog.findViewById(R.id.bt_submit)).setOnClickListener(new View.OnClickListener() {
+        (dialog.findViewById(R.id.bt_submit)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String report = et_report.getText().toString().trim();
@@ -159,14 +200,18 @@ public class Report extends AppCompatActivity {
                 }
 
                 ++size;
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Report/" + sharedPreferences.getString("name","Not aval") + size);
-        databaseReference.child("Report").setValue(et_report.getText().toString());
-        databaseReference.child("Name").setValue(sharedPreferences.getString("name","Not aval"));
-        databaseReference.child("Date").setValue(s);
-                databaseReference.child("Uid").setValue(sharedPreferences.getString("uid","Not aval"));
-        databaseReference.child("Block").setValue(et_block.getText().toString());
-        databaseReference.child("Phase").setValue(et_phase.getText().toString());
-                if (imp.isChecked()){
+                DatabaseReference reportdb = FirebaseDatabase.getInstance().getReference("Report");
+                String key = reportdb.push().getKey();
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Report/" + key);
+
+                databaseReference.child("Report").setValue(et_report.getText().toString());
+                databaseReference.child("Name").setValue(sharedPreferences.getString("name", "Not aval"));
+                databaseReference.child("Date").setValue(s);
+                databaseReference.child("Uid").setValue(sharedPreferences.getString("uid", "Not aval"));
+                databaseReference.child("Block").setValue(et_block.getText().toString());
+                databaseReference.child("Phase").setValue(et_phase.getText().toString());
+                databaseReference.child("Dateh").setValue(date);
+                if (imp.isChecked()) {
                     databaseReference.child("Urg").setValue(1);
                 } else {
                     databaseReference.child("Urg").setValue(0);
@@ -192,7 +237,6 @@ public class Report extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.report, menu);
         return true;
     }
@@ -203,13 +247,10 @@ public class Report extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.createrepote) {
-            showCustomDialog();
+            addreport();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -333,7 +374,5 @@ public class Report extends AppCompatActivity {
 //        databaseReference.child("Phase").setValue(Phase);
 //        Toast.makeText(this, "Report has been Taken"  , Toast.LENGTH_SHORT).show();
 //    }
-
-
 
 }

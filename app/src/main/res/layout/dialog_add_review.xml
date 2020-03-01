@@ -48,6 +48,7 @@
             android:id="@+id/report_imp"
             android:layout_width="wrap_content"
             android:text="Important?  "
+            android:theme="@style/SCBSwitch"
             android:layout_height="wrap_content"
             android:checked="false"/>
 
@@ -93,6 +94,7 @@
             android:background="@color/grey_3"
             android:gravity="top"
             android:hint="Write Block ..."
+            android:layout_marginBottom="10dp"
             android:lines="1"
             android:padding="@dimen/spacing_middle" />
 
@@ -104,8 +106,20 @@
             android:layout_height="wrap_content"
             android:background="@color/grey_3"
             android:gravity="top"
+            android:layout_marginBottom="10dp"
             android:hint="Write Phase ..."
             android:lines="1"
+            android:padding="@dimen/spacing_middle" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grey_3"
+            android:onClick="Datedialog"
+            android:text="Select Date.."
+            android:textSize="17sp"
+            android:layout_marginBottom="10dp"
             android:padding="@dimen/spacing_middle" />
 
     </LinearLayout>

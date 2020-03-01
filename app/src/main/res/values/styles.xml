@@ -46,6 +46,14 @@
         <item name="android:textColorAlertDialogListItem">@android:color/holo_orange_dark</item>
     </style>
 
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@color/red_400</item>
+    </style>
+
+    <style name="AdminSwitch" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">#148E13</item>
+    </style>
+
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">6sp</item>
     </style>
