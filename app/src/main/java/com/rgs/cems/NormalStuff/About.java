@@ -277,4 +277,10 @@ Dpb();
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void urlweb(View view) {
+        String url = sharedPreferences.getString("URL" , "");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url + "cems"));
+        startActivity(browserIntent);
+    }
 }

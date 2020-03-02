@@ -29,7 +29,6 @@
         <item name="monthFontColorNormal">@color/colorAccent</item>
         <item name="monthFontColorDisabled">@color/colorAccent</item>
 
-        <item name="headerBgColor">@color/grey_300</item>
         <item name="headerFontColorSelected">@color/dark</item>
         <item name="headerFontColorNormal">@color/dark</item>
         <item name="headerTitleColor">@color/dark</item>
@@ -40,10 +39,6 @@
         <item name="colorPrimary">@color/dark</item>
         <item name="colorPrimaryDark">@color/dark</item>
         <item name="colorAccent">@color/dark</item>
-    </style>
-
-    <style name="ALertdialogmee" parent="Theme.AppCompat.Dialog">
-        <item name="android:textColorAlertDialogListItem">@android:color/holo_orange_dark</item>
     </style>
 
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">

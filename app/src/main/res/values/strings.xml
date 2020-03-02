@@ -4,7 +4,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">CEMS</string>
 
-    <string name="menu_home">Home</string>
     <string name="user_name">Email</string>
     <string name="password">Password</string>
     <string name="log_in">Log In</string>
@@ -28,9 +27,7 @@
     <string name="campus_energy_monitoring_system_cems">Campus Energy Monitoring System (CEMS)</string>
     <string name="email">Email</string>
     <string name="title_activity_report">Report</string>
-    <string name="enter_report_here">Enter Report Here</string>
     <string name="gopi">Gopi</string>
-    <string name="android_developer">Android Developer</string>
     <string name="web_developer_backend">Web Developer, Backend </string>
     <string name="web_developer">Web Developer</string>
     <string name="sai_sumanth">Sai Sumanth</string>

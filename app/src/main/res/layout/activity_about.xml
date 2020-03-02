@@ -240,6 +240,7 @@
                         android:gravity="center_vertical"
                         android:minHeight="@dimen/spacing_xxlarge"
                         android:orientation="horizontal"
+                        android:onClick="urlweb"
                         android:paddingLeft="@dimen/spacing_medium"
                         android:paddingRight="@dimen/spacing_medium">
 

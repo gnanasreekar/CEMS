@@ -77,7 +77,7 @@ public class FirebaseHandler extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+      //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         sharedPreferences = getApplicationContext().getSharedPreferences("sp", 0);
         editor = sharedPreferences.edit();
