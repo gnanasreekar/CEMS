@@ -19,6 +19,7 @@ import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,6 @@ public class Signup extends AppCompatActivity {
     TextView signIn;
     FirebaseAuth firebaseAuth;
     LinearLayout lyt_progress,signup;
-    ProgressBar progressBar;
     String name;
     CharSequence s;
 
@@ -75,11 +75,9 @@ public class Signup extends AppCompatActivity {
         buttom_signup = findViewById(R.id.button_signup);
         signIn = findViewById(R.id.signin_signup);
         lyt_progress = (LinearLayout) findViewById(R.id.signup_loading);
-        progressBar = findViewById(R.id.progress_signup);
         signup = findViewById(R.id.signup_layout);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         lyt_progress.setVisibility(View.GONE);
-
+        
     }
 
         buttom_signup.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +129,15 @@ public class Signup extends AppCompatActivity {
                                 databaseReference.child("Date").setValue(s);
                                 databaseReference.child("V1").setValue(0);
                                 databaseReference.child("V2").setValue(0);
-                                showaccountcreatedDialog();
+
+                                CountDownTimer mCountDownTimer = new CountDownTimer(7000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+                                    }
+                                    public void onFinish() {
+                                        showaccountcreatedDialog();
+                                    }
+                                }.start();
+
 
                             }
                         }
@@ -203,6 +209,7 @@ public class Signup extends AppCompatActivity {
                 databaseReference.child("Name").setValue(name);
                 databaseReference.child("Date").setValue(s);
                 dialog.dismiss();
+                startActivity(new Intent(Signup.this, Login.class));
             }
         });
 

@@ -139,7 +139,9 @@ public class Report extends AppCompatActivity {
                         String Phase = childDataSnapshot.child("Phase").getValue().toString();
                         String Report = childDataSnapshot.child("Report").getValue().toString();
                         String Urg = childDataSnapshot.child("Urg").getValue().toString();
-                        listData.add(new Model(Name, Date, Block, Phase, Report, Urg, key));
+                        String Status = childDataSnapshot.child("Status").getValue().toString();
+                        String Reopened = childDataSnapshot.child("Date_solved").getValue().toString();
+                        listData.add(new Model(Name, Date, Block, Phase, Report, Urg, key, Status, Reopened));
                     }
 
                 }
@@ -189,7 +191,7 @@ public class Report extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String report = et_report.getText().toString().trim();
-                if (report.equals("")) {
+                if (report.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please fill report text", Toast.LENGTH_SHORT).show();
                 }
 
@@ -205,12 +207,10 @@ public class Report extends AppCompatActivity {
                 databaseReference.child("Block").setValue(et_block.getText().toString());
                 databaseReference.child("Phase").setValue(et_phase.getText().toString());
                 databaseReference.child("Dateh").setValue(date);
-                if (imp.isChecked()) {
-                    databaseReference.child("Urg").setValue(1);
-                } else {
-                    databaseReference.child("Urg").setValue(0);
+                databaseReference.child("Status").setValue(1);
+                databaseReference.child("Date_solved").setValue("");
 
-                }
+                if (imp.isChecked()) { databaseReference.child("Urg").setValue(1); } else { databaseReference.child("Urg").setValue(0); }
 
                 getreports();
                 dialog.dismiss();
@@ -221,7 +221,7 @@ public class Report extends AppCompatActivity {
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                Toast.makeText(Report.this, "NTg", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Report.this, "canceled", Toast.LENGTH_SHORT).show();
             }
         });
 

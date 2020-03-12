@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,8 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<Model> listData;
     Context context;
+    SharedPreferences sharedPreferences;
+
 
     public void setlist(List<Model> listData) {
         this.listData = listData;
@@ -43,6 +46,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public MyAdapter(Context context) {
         this.context = context;
+        sharedPreferences = context.getSharedPreferences("sp", 0);
     }
 
     @NonNull
@@ -53,7 +57,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
+    {
         final Model ld = listData.get(position);
         final String Name = ld.getName();
         final String Date = ld.getDate();
@@ -62,12 +67,20 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         final String Report = ld.getReport();
         final String Urg = ld.getUrg();
         final String Key = ld.getKey();
+        final String Status = ld.getStatus();
+        final String Reopened = ld.getReopned();
 
 
         holder.txtname.setText(Name);
         holder.txttime.setText(Date);
         if (Urg.equals("1")) {
             holder.relativeLayout.setBackgroundResource(R.drawable.shape_rounded_red);
+            holder.tv_urg.setText("Urgent");
+        }
+
+        if (Status.equals("0")){
+            holder.relativeLayout.setBackgroundResource(R.drawable.shape_rounded_green);
+            holder.tv_urg.setText("Solved");
         }
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +103,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 TextView date = dialog.findViewById(R.id.tvtime_virerep);
                 TextView block = dialog.findViewById(R.id.tvblock_virerep);
                 TextView phase = dialog.findViewById(R.id.tvphase_virerep);
+                TextView solved = dialog.findViewById(R.id.solvedon_tv);
                 name.setText(Name);
                 rep.setText(Report);
                 date.setText(Date);
                 block.setText(Block);
                 phase.setText(Phase);
+                solved.setText(Reopened);
+
+                if (Status.equals("0")){
+                    bt_solved.setText("Reopen?");
+                    imptv.setText("Solved!");
+                    implogo.setImageResource(R.drawable.ic_check_black_24dp);
+                }
 
                 if (Urg.equals("1")) {
                     imptv.setText(" Urgent!");
@@ -104,6 +125,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 bt_solved.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Report/" + Key);
+                        Date d = new Date();
+                        final CharSequence s = DateFormat.format("MMMM d, yyyy HH:mm:ss", d.getTime());
+                        if (Status.equals("1")){
+
+                            databaseReference.child("Status").setValue(0);
+                            databaseReference.child("Urg").setValue(0);
+                            databaseReference.child("Date_solved").setValue("Solved on: " + s + "\nby " + sharedPreferences.getString("name", "Not aval"));
+                        } else if (Status.equals("0")) {
+                            databaseReference.child("Status").setValue(1);
+                            databaseReference.child("Urg").setValue(1);
+                            databaseReference.child("Date_solved").setValue("Reopened on: " + s + "\nby " + sharedPreferences.getString("name", "Not aval"));
+
+                        }
+
+                        if(context instanceof Report){
+                            ((Report)context).getreports();
+                        }
+
                         dialog.dismiss();
                         Toast.makeText(context, "Post Submitted", Toast.LENGTH_SHORT).show();
                     }
@@ -195,7 +235,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         (dialog.findViewById(R.id.bt_submit)).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String report = et_report.getText().toString().trim();
 
                                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Report/" + Key);
 
@@ -215,16 +254,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                 if(context instanceof Report){
                                     ((Report)context).getreports();
                                 }
+                                Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show();
 
                                 dialog.dismiss();
-                                Toast.makeText(context, "Submitted", Toast.LENGTH_SHORT).show();
                             }
                         });
 
                         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialog) {
-                                Toast.makeText(context, "NTg", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Canceled", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -263,6 +302,5 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         }
     }
-
 
 }

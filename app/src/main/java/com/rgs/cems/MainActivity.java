@@ -16,12 +16,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.format.DateFormat;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +66,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.rgs.cems.Auth.Login;
 import com.rgs.cems.Charts.Comparechart;
 import com.rgs.cems.Charts.PreviousUsage;
@@ -423,6 +429,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.main, menu);
         this.menuList = menu;
         item = menuList.findItem(R.id.updateaval);
+        menu.add(0, 1, 2, menuIconWithText(getResources().getDrawable(R.drawable.ic_whatsapp), "Any Doubts?"));
+        menu.add(0, 2, 3, menuIconWithText(getResources().getDrawable(R.drawable.ic_share_black_24dp), "Share?"));
+        menu.add(0, 3, 1, menuIconWithText(getResources().getDrawable(R.drawable.ic_warning_black_24dp), "Warning check?"));
         return true;
     }
 
@@ -434,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.warningcheck) {
+        if (id == 3) {
             flag = 1;
             Toasty.info(instance, "Please Wait..", Toast.LENGTH_SHORT, true).show();
             warningcheck();
@@ -443,7 +452,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Uri uri = Uri.parse("https://appdistribution.firebase.dev/app_distro/auth/sign_in");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
-        } else if (id == R.id.share) {
+        }
+        else if (id == 2) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, "https://drive.google.com/open?id=1oBPYNUW_p_LufNtp1FFYE29VtsOlG1i2");
@@ -451,6 +461,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Intent shareIntent = Intent.createChooser(sendIntent, null);
             startActivity(shareIntent);
+        }
+        else if (id == 1){
+            Uri uri = Uri.parse("smsto:" + "+917673931021");
+            Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+            i.putExtra("sms_body", "Hello");
+            i.setPackage("com.whatsapp");
+            instance.startActivity(i);
         }
 
         return super.onOptionsItemSelected(item);
@@ -482,6 +499,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private CharSequence menuIconWithText(Drawable r, String title) {
+
+        r.setBounds(0, 0, r.getIntrinsicWidth(), r.getIntrinsicHeight());
+        SpannableString sb = new SpannableString("    " + title);
+        ImageSpan imageSpan = new ImageSpan(r, ImageSpan.ALIGN_BOTTOM);
+        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return sb;
     }
 
     public void changepass() {

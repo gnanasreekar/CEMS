@@ -4,19 +4,9 @@
 
 
     <item
-        android:id="@+id/warningcheck"
-        android:title="Warning Check"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/updateaval"
         android:title="Update"
         android:icon="@drawable/ic_system_update_black_24dp"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/share"
-        android:title="Share App"
         app:showAsAction="never" />
 
 

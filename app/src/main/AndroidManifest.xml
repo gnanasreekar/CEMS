@@ -22,7 +22,6 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:icon">
 
-
         <activity
             android:name=".falcon"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -73,7 +72,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".MainActivity"

@@ -86,6 +86,7 @@
             android:id="@+id/tvblock_virerep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:gravity="top"
             android:textSize="17dp"
             android:text="Block ..."
@@ -102,6 +103,7 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:text="Phase ..."
+            android:textColor="@color/black"
             android:padding="@dimen/spacing_large"
             android:textSize="17dp" />
 
@@ -114,6 +116,7 @@
             android:id="@+id/tvtime_virerep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:gravity="top"
             android:text="Time ..."
             android:padding="@dimen/spacing_large"
@@ -129,9 +132,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="top"
+            android:textColor="@color/black"
             android:text="Report ..."
             android:padding="@dimen/spacing_large"
             android:textSize="17dp" />
+
 
     </LinearLayout>
 
@@ -169,6 +174,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:text="Status:"
+            android:lines="2"
+            android:minLines="2"
+            android:id="@+id/solvedon_tv"
+            android:padding="5dp"/>
 
 <!--        <ImageButton-->
 <!--            android:id="@+id/bt_setting"-->

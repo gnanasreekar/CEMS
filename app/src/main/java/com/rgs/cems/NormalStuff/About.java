@@ -1,11 +1,14 @@
 package com.rgs.cems.NormalStuff;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +30,7 @@ import java.util.Date;
 public class About extends AppCompatActivity {
     int dpb;
     SharedPreferences sharedPreferences;
+    String number = "7673931021";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

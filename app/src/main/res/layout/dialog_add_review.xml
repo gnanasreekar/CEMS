@@ -73,8 +73,9 @@
             android:layout_height="match_parent"
             android:background="@color/grey_3"
             android:gravity="top"
-            android:hint="Write review ..."
-            android:lines="4"
+            android:hint="Write report ..."
+            android:scrollbars="vertical"
+            android:lines="6"
             android:padding="@dimen/spacing_middle" />
 
     </LinearLayout>
